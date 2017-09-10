@@ -1,0 +1,12 @@
+### Python ###
+# Byte-compiled / optimized / DLL files
+
+*.py[cod]
+
+# Translations
+*.mo
+*.pot
+
+### Django ###
+*.log
+.idea
