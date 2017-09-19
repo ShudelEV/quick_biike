@@ -8,17 +8,26 @@ class ContactInfo(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
 
+    def __str__(self):
+        return self.address
+
 
 class Profile(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     contact_info = models.ForeignKey(ContactInfo)
 
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
 
 class Company(models.Model):
     name = models.CharField(max_length=200)
     photo = models.URLField(verbose_name="company photo")
     contact_info = models.ForeignKey(ContactInfo)
+
+    def __str__(self):
+        return self.name
 
 
 class Shop(models.Model):
@@ -27,23 +36,29 @@ class Shop(models.Model):
     contact_info = models.ForeignKey(ContactInfo)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Price(models.Model):
-    one_hour = models.FloatField(verbose_name="price for an hour")
-    three_hours = models.FloatField(verbose_name="price for three hours")
-    day = models.FloatField(verbose_name="price for a day")
-    week = models.FloatField(verbose_name="price for a week")
+    workday_one_hour = models.FloatField(verbose_name="price for an hour (workday)", default=0)
+    workday_three_hours = models.FloatField(verbose_name="price for three hours (workday)", default=0)
+    work_day = models.FloatField(verbose_name="price for a day (workday)", default=0)
+    weekend_one_hour = models.FloatField(verbose_name="price for an hour (weekend)", default=0)
+    weekend_three_hours = models.FloatField(verbose_name="price for three hours (weekend)", default=0)
+    weekend_day = models.FloatField(verbose_name="price for a day (weekend)", default=0)
+    week = models.FloatField(verbose_name="price for a week", default=0)
 
 
 class Bike(models.Model):
     name = models.CharField(max_length=200)
     photo = models.URLField()
-    TYPE = (('1', 'male'), ('2', 'female'), ('3', 'children\'s'))
-    type = models.CharField(max_length=1, choices=TYPE)
+    type = models.CharField(max_length=1,
+                            choices=(('1', 'male'), ('2', 'female'), ('3', 'children\'s')),
+                            default='1')
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    workday_price = models.ForeignKey(Price)
-#    weekend_price = models.ForeignKey(Price)
-    state = models.BooleanField()
+    price = models.ForeignKey(Price)
+    state = models.BooleanField(verbose_name="busy")
 
     def __str__(self):
         return self.name
@@ -53,6 +68,9 @@ class Accessory(models.Model):
     name = models.CharField(max_length=200)
     price = models.ForeignKey(Price)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Order(models.Model):
