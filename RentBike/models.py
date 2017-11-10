@@ -1,4 +1,5 @@
 from django.db import models
+from Profile.models import User
 
 
 class ContactInfo(models.Model):
@@ -10,15 +11,6 @@ class ContactInfo(models.Model):
 
     def __str__(self):
         return self.address
-
-
-class Profile(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    contact_info = models.ForeignKey(ContactInfo)
-
-    def __str__(self):
-        return "{} {}".format(self.first_name, self.last_name)
 
 
 class Company(models.Model):
@@ -78,7 +70,7 @@ class Order(models.Model):
     def mount_invoice(self):
         pass
 
-    client = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    client = models.ForeignKey(User, on_delete=models.CASCADE)
     bikes = models.ManyToManyField(Bike)
     accessories = models.ManyToManyField(Accessory)
     time_from = models.DateTimeField(verbose_name="from")

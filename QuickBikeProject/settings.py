@@ -31,15 +31,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'RentBike.apps.RentBikeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
+    'Profile',
+    'RentBike.apps.RentBikeConfig',
 ]
+
+# Set our AUTH_USER_MODEL to a custom User model.
+# Doing this will give us the same functionality but allow us to easily customize our User model
+AUTH_USER_MODEL = 'Profile.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
