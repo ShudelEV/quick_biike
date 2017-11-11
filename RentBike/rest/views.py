@@ -5,7 +5,7 @@ from .serializers import ShopSerializer
 
 
 # ? May be to use ReadOnlyModelViewSet
-class ShopViewSet(viewsets.ReadOnlyModelViewSet):
+class ShopViewSet(viewsets.ModelViewSet):
     """
         API endpoint that return set of shops using filter:
     {

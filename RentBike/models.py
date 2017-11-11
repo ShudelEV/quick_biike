@@ -46,11 +46,12 @@ class Bike(models.Model):
     name = models.CharField(max_length=200)
     photo = models.URLField()
     type = models.CharField(max_length=1,
-                            choices=(('1', 'male'), ('2', 'female'), ('3', 'children\'s')),
+                            choices=(('1', 'male'), ('2', 'female'), ('3', 'kids')),
                             default='1')
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     price = models.ForeignKey(Price)
-    state = models.BooleanField(verbose_name="busy")
+    # state = models.BooleanField(verbose_name="busy")
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
