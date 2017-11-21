@@ -1,34 +1,32 @@
-from rest_framework import viewsets
-from rest_framework.decorators import list_route, detail_route
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from RentBike.models import Shop
 from .serializers import ShopSerializer
 
 
-# ? May be to use ReadOnlyModelViewSet
-class ShopViewSet(viewsets.ModelViewSet):
+@api_view(['POST'])
+def readShops(request):
     """
         API endpoint that return set of shops using filter:
     {
-         filter:{
-             order: {
-                 from: <str(date)>,
-                 to: <str(date),
+         "filter":{
+             "order": {
+                 "from": "<str(date)>",
+                 "to": "<str(date)"
              },
-             bike: {
-                 typeIds: <[int]>,
-                 count: <int>
+             "bike": {
+                 "typeIds": "<[int]>",
+                 "count": "<int>"
              }
          }
     }
     """
-    queryset = Shop.objects.all()
-    serializer_class = ShopSerializer
+    try:
+        filter_data = request.data['filter']
+    except KeyError as err:
+        return Response("detail: Not valid content!", status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(filter_data)
 
-    @list_route()
-    def readShops(self, request):
-        pass
-
-
-
-
-
+    shops = Shop.objects.all()
