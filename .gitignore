@@ -3,10 +3,12 @@
 
 *.py[cod]
 
-# Translations
+### Translations ###
 *.mo
 *.pot
 
 ### Django ###
 *.log
 .idea
+RentBike/migrations/*
+Profile/migrations/*

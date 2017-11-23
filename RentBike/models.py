@@ -15,16 +15,19 @@ class ContactInfo(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=200)
-    photo = models.URLField(verbose_name="company photo")
+    photo = models.ImageField(verbose_name="company photo", blank=True)
     contact_info = models.ForeignKey(ContactInfo)
 
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Companies"
+
 
 class Shop(models.Model):
     name = models.CharField(max_length=200)
-    photo = models.URLField(verbose_name="shop photo")
+    photo = models.ImageField(verbose_name="shop photo", blank=True)
     contact_info = models.ForeignKey(ContactInfo)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
@@ -33,24 +36,24 @@ class Shop(models.Model):
 
 
 class Price(models.Model):
-    workday_one_hour = models.FloatField(verbose_name="price for an hour (workday)", default=0)
-    workday_three_hours = models.FloatField(verbose_name="price for three hours (workday)", default=0)
-    work_day = models.FloatField(verbose_name="price for a day (workday)", default=0)
-    weekend_one_hour = models.FloatField(verbose_name="price for an hour (weekend)", default=0)
-    weekend_three_hours = models.FloatField(verbose_name="price for three hours (weekend)", default=0)
-    weekend_day = models.FloatField(verbose_name="price for a day (weekend)", default=0)
-    week = models.FloatField(verbose_name="price for a week", default=0)
+    one_hour = models.FloatField(verbose_name="price for an hour", default=0)
+    three_hours = models.FloatField(verbose_name="price for three hours", default=0)
+    day = models.FloatField(verbose_name="price for a day", default=0)
+
+    def __str__(self):
+        return '1h/3h/day: {}/{}/{}'.format(self.one_hour, self.three_hours, self.day)
 
 
 class Bike(models.Model):
     name = models.CharField(max_length=200)
-    photo = models.URLField()
+    photo = models.ImageField(verbose_name="bike photo", blank=True)
     type = models.CharField(max_length=1,
                             choices=(('1', 'male'), ('2', 'female'), ('3', 'kids')),
                             default='1')
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    price = models.ForeignKey(Price)
-    # state = models.BooleanField(verbose_name="busy")
+    workday_price = models.ForeignKey(Price, related_name='bike_workday_prices')
+    weekend_price = models.ForeignKey(Price, related_name='bike_weekend_prices')
+    week = models.FloatField(verbose_name="price for a week", default=0)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -65,15 +68,21 @@ class Accessory(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Accessories"
 
+
+# ! Add a field DateField (auto_now=True)
 class Order(models.Model):
-
-    def mount_invoice(self):
-        pass
 
     client = models.ForeignKey(User, on_delete=models.CASCADE)
     bikes = models.ManyToManyField(Bike)
-    accessories = models.ManyToManyField(Accessory)
+    accessories = models.ManyToManyField(Accessory, blank=True)
+    # ! Add validation for TimePeriod
     time_from = models.DateTimeField(verbose_name="from")
     time_to = models.DateTimeField(verbose_name="to")
-    invoice = models.FloatField()
+    # ? make "only visible" Invoice field
+    invoice = models.FloatField(default=0)
+
+    def __str__(self):
+        return "Order{}, {}".format(self.id, self.client)
