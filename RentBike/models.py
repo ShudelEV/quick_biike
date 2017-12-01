@@ -53,7 +53,7 @@ class Bike(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     workday_price = models.ForeignKey(Price, related_name='bike_workday_prices')
     weekend_price = models.ForeignKey(Price, related_name='bike_weekend_prices')
-    week = models.FloatField(verbose_name="price for a week", default=0)
+    week_price = models.FloatField(verbose_name="price for a week", default=0)
     description = models.TextField(blank=True)
 
     def __str__(self):
