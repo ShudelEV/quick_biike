@@ -72,9 +72,8 @@ class Accessory(models.Model):
         verbose_name_plural = "Accessories"
 
 
-# ! Add a field DateField (auto_now=True)
 class Order(models.Model):
-
+    created = models.DateTimeField(auto_now_add=True, null=True)
     client = models.ForeignKey(User, on_delete=models.CASCADE)
     bikes = models.ManyToManyField(Bike)
     accessories = models.ManyToManyField(Accessory, blank=True)
@@ -86,3 +85,6 @@ class Order(models.Model):
 
     def __str__(self):
         return "Order{}, {}".format(self.id, self.client)
+
+    class Meta:
+        ordering = ('-id',)
