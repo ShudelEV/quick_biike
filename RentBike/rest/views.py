@@ -29,54 +29,59 @@ class ShopViewSet(viewsets.ReadOnlyModelViewSet):
 def readShops(request):
     """
         API endpoint that return set of shops using filter:
-    {
-         "filter":{
-             "busy_bike": {
-                 "time_from": <str(date)>,
-                 "time_to": <str(date)>
-             },
+    { "filter":{
+             "bike_is_free": {
+                 "from": <str(date)>,
+                 "to": <str(date)> },
              "bike_count": {
                  "type1": <int>,
                  "type2": <int>,
-                 "type3": <int>
-                 }
-             }
-         }
-    }
+                 "type3": <int> }
+    } } }
     """
     try:
         filter_data = request.data['filter']
 
         logging.debug("REST.readShops: filter: {}".format(filter_data))
 
-        time_from = filter_data['busy_bike']['time_from']
-        time_to = filter_data['busy_bike']['time_to']
-        bike_count = filter_data['bike_count']
+        free_from = filter_data['bike_is_free']['from']
+        free_to = filter_data['bike_is_free']['to']
+        type1_count = filter_data['bike_count']['type1']
+        type2_count = filter_data['bike_count']['type2']
+        type3_count = filter_data['bike_count']['type3']
 
-    except KeyError as err:
+    except KeyError:
         return bad_request("detail: Not valid content!")
+
+    # using filter return the response
     else:
-        # using filter return the response
-        shops = Shop.objects.all()
-        bikes = Bike.objects.all()
-
         # to find out the busy bikes
-        busy_bike_order_ids = []
-        orders = Order.objects.exclude(time_from__lt=time_to, time_to__gt=time_from)
-        for order in orders:
-            order_bike_types = (bike.type for bike in order.bikes.all())
-            if '1' in order_bike_types:
-                pass
-            if '2' in order_bike_types:
-                pass
-            if '3' in order_bike_types:
-                pass
+        busy_bike_ids = []
+        for order in Order.objects.exclude(time_from__gte=free_to).exclude(time_to__lte=free_from):
+            busy_bike_ids += [bike.id for bike in order.bikes.all()]
+        busy_bike_ids = set(busy_bike_ids)
 
-        # logging.debug("REST.readShops: shops: {}".format(shops))
-        serializer = ShopSerializer(data=shops, many=True)
-        if serializer.is_valid():
-            return bad_request(serializer.errors)
-        return Response(serializer.data)
+        # to find out shops that have relevant bikes
+        shop_ids = []
+        for shop in Shop.objects.all():
+            # count of type bikes
+            type_count = {'1': 0, '2': 0, '3': 0}
+            for bike in shop.bike_set.exclude(pk__in=busy_bike_ids):
+                if bike.type == '1':
+                    type_count['1'] += 1
+                elif bike.type == '2':
+                    type_count['2'] += 1
+                elif bike.type == '3':
+                    type_count['3'] += 1
+            # to check: does the shop have relevant bikes?
+            if type_count['1'] >= type1_count \
+                    and type_count['2'] >= type2_count \
+                    and type_count['3'] >= type3_count:
+                shop_ids.append(shop.id)
+
+        # logging.debug("REST.readShops: Order.shops.ids: {}".format(shop_ids))
+
+        return Response({"shops": shop_ids})
 
 
 class OrderViewSet(viewsets.ReadOnlyModelViewSet):

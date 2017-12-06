@@ -57,7 +57,7 @@ class Bike(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name
+        return "{} /Shop: {}".format(self.name, self.shop)
 
 
 class Accessory(models.Model):
