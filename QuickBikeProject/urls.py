@@ -10,5 +10,6 @@ urlpatterns = [
     # automatically generated documentation
     url(r'^docs/', include_docs_urls(title='RentBike API', description='RESTful API for RentBike')),
     # ? why needs 'namespase'
+    url(r'^api/', include('Profile.urls', namespace='users')),
     url(r'^api/', include('RentBike.rest.urls', namespace='api_rentbike'))
 ]

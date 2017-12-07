@@ -34,6 +34,9 @@ class Shop(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ('name',)
+
 
 class Price(models.Model):
     one_hour = models.FloatField(verbose_name="price for an hour", default=0)

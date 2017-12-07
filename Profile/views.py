@@ -16,3 +16,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return User.objects.all().filter(username=self.request.user)
+
+
+class UserViewSet(UserList, UserDetail):
+    pass

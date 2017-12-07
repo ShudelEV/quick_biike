@@ -32,7 +32,6 @@ def mount_invoice(**kwargs):
         if (time_to.day - time_from.day) >= 7:
             week_count = int((time_to.day - time_from.day) / 7)
             for bike in bikes:
-                logging.debug("mount_invoice.bike.week_price: {}".format(bike.week_price))
                 mount += week_count * bike.week_price
             time_from += timedelta(days=7 * week_count)
             logging.debug(
@@ -57,7 +56,6 @@ def mount_invoice(**kwargs):
         while (time_to.hour - time_from.hour) >= 3:
             if time_from.isoweekday() in [1, 2, 3, 4, 5]:
                 for bike in bikes:
-
                     mount += bike.workday_price.three_hours
             else:
                 for bike in bikes:
