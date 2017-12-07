@@ -53,7 +53,7 @@ class Bike(models.Model):
     type = models.CharField(max_length=1,
                             choices=(('1', 'male'), ('2', 'female'), ('3', 'kids')),
                             default='1')
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    shop = models.ForeignKey(Shop, related_name='bikes', on_delete=models.CASCADE)
     workday_price = models.ForeignKey(Price, related_name='bike_workday_prices')
     weekend_price = models.ForeignKey(Price, related_name='bike_weekend_prices')
     week_price = models.FloatField(verbose_name="price for a week", default=0)
@@ -61,6 +61,9 @@ class Bike(models.Model):
 
     def __str__(self):
         return "{} /Shop: {}".format(self.name, self.shop)
+
+    class Meta:
+        ordering = ('name',)
 
 
 class Accessory(models.Model):

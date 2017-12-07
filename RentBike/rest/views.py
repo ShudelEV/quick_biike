@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, list_route, detail_route
 from rest_framework.response import Response
 from RentBike.models import Shop, Order, Bike
-from .serializers import ShopSerializer, OrderSerializer
+from .serializers import ShopSerializer, BikeSerializer, OrderSerializer
 
 import logging
 
@@ -23,6 +23,22 @@ class ShopViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Shop.objects.all()
     serializer_class = ShopSerializer
+
+
+class BikeViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that return set of bikes
+    """
+    queryset = Bike.objects.all()
+    serializer_class = BikeSerializer
+
+
+class OrderViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that return set of orders
+    """
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
 
 @api_view(['POST'])
@@ -82,14 +98,6 @@ def readShops(request):
         # logging.debug("REST.readShops: Order.shops.ids: {}".format(shop_ids))
 
         return Response({"shops": shop_ids})
-
-
-class OrderViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    API endpoint that return set of shops
-    """
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
 
 
 @api_view(['POST'])
