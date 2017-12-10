@@ -10,5 +10,5 @@
 ### Django ###
 *.log
 .idea
-RentBike/migrations/*
-Profile/migrations/*
+RentBike/migrations/
+Profile/migrations/
