@@ -10,16 +10,16 @@ class ShopSerializer(serializers.ModelSerializer):
     #     read_only=True
     # )
 
-    class Meta:
+     class Meta:
         model = Shop
-        fields = ('id', 'name', 'photo', 'contact_info', 'company', 'bikes')
+        fields = ('__all__')
 
 
 class BikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bike
-        fields = ('id', 'name', 'photo', 'type', 'shop',
-                  'workday_price', 'weekend_price', 'week_price', 'description')
+        fields = ('__all__')
+        depth = 2
 
 
 class OrderSerializer(serializers.ModelSerializer):
