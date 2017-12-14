@@ -9,7 +9,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '77epj25ja4piv8zvl6=nxi2abr53%q2jv3h6e4^&&#r()j2!l9'
 
@@ -54,7 +53,9 @@ ROOT_URLCONF = 'QuickBikeProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # REST API to only be accessible to admin users
-# To turn on pagination
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -136,3 +136,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+
+# STATIC_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )

@@ -1,6 +1,5 @@
 ### Python ###
 # Byte-compiled / optimized / DLL files
-
 *.py[cod]
 
 ### Translations ###
@@ -12,3 +11,5 @@
 .idea
 RentBike/migrations/
 Profile/migrations/
+.sass-cache
+static/static_root/
