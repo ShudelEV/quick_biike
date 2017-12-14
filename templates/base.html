@@ -65,12 +65,39 @@
         </header>
         </div>
 
-        {% block content %} {% endblock %}
+        <aside id="fh5co-hero" class="js-fullheight">
+        {% block page %} {% endblock %}
+        </aside>
 
         <footer id="footer" class="fh5co-bg-color">
         {% block footer %} {% endblock %}
         </footer>
     </div>
 </div>
+
+	<!-- Javascripts -->
+	<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+	<!-- Dropdown Menu -->
+	<script src="{% static 'js/hoverIntent.js' %}"></script>
+	<script src="{% static 'js/superfish.js' %}"></script>
+	<!-- Bootstrap -->
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+	<!-- Counters -->
+	<script src="{% static 'js/jquery.countTo.js' %}"></script>
+	<!-- Stellar Parallax -->
+	<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+	<!-- Owl Slider -->
+	<!-- // <script src="js/owl.carousel.min.js"></script> -->
+	<!-- Date Picker -->
+	<script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+	<!-- CS Select -->
+	<script src="{% static 'js/classie.js' %}"></script>
+	<script src="{% static 'js/selectFx.js' %}"></script>
+	<!-- Flexslider -->
+	<script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+
+	<script src="{% static 'js/custom.js' %}"></script>
 </body>
 </html>
