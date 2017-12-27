@@ -1,0 +1,28 @@
+html{
+    font-family:sans-serif;
+    -webkit-text-size-adjust:100%;
+    -ms-text-size-adjust:100%
+}
+
+body{margin:0}
+
+.map-order__container {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    align-items: center;
+}
+
+.map-order-box {
+    padding:1em 2em 2em;
+    background-color:#fff;
+    box-shadow:0 0 5px;
+    position:relative;
+    z-index:1;
+    width:23em;
+    max-width:100%;
+    min-width: 420px;
+    cursor: default;
+    box-sizing: inherit;
+}
