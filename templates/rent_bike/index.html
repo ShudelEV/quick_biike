@@ -26,9 +26,10 @@
 {% endblock %}
 
 {% block page %}
-
+<section class="map-order">
 <!-- Add Google Maps -->
-<div id="googleMap" style="height: 90%; width: 100%; position:absolute; z-index: 0;"></div>
+<div id="googleMap" style="height: 80%; width: 100%; top: 50px;
+	left: 0; position: absolute; z-index: 0;"></div>
 
     <!-- Add the window of order -->
     <div class="map-order-container">
@@ -36,6 +37,7 @@
             <p>TEST-Order-BOX</p>
         </div>
     </div>
+</section>
 
 <script>
 function myMap() {
