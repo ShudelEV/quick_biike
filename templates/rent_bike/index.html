@@ -28,7 +28,14 @@
 {% block page %}
 
 <!-- Add Google Maps -->
-<div id="googleMap" style="height:600px;width:100%;"></div>
+<div id="googleMap" style="height: 90%; width: 100%; position:absolute; z-index: 0;"></div>
+
+    <!-- Add the window of order -->
+    <div class="map-order-container">
+        <div class="map-order-box">
+            <p>TEST-Order-BOX</p>
+        </div>
+    </div>
 
 <script>
 function myMap() {
@@ -39,15 +46,9 @@ function myMap() {
     marker.setMap(map);
 }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q&callback=myMap"></script>
 
-<div class="map-order__container">
-<div class="map-order-box">
-        <p>TEST-Order-BOX</p>
-</div>
-</div>
 {% endblock %}
-
 
 {% block footer %}
 {% endblock %}

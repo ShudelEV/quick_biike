@@ -6,22 +6,28 @@ html{
 
 body{margin:0}
 
-.map-order__container {
+.map-order-container {
+    position: relative;
     display: flex;
     justify-content: flex-end;
-    padding-top: 4em;
-    padding-bottom: 4em;
+    padding-top: 6em;
+    padding-bottom: 6em;
     align-items: center;
+    /*  На передний план */
+    z-index: 5;
+    /* Прозрачность */
+    opacity: 0.8;
 }
 
 .map-order-box {
-    padding:1em 2em 2em;
-    background-color:#fff;
-    box-shadow:0 0 5px;
-    position:relative;
-    z-index:1;
-    width:23em;
-    max-width:100%;
+    margin: 8px 8px 0 auto;
+    padding: 1em 2em 2em;
+    background-color: #fff;
+    box-shadow: 0 0 8px;
+    position: relative;
+    z-index: 6;
+    width: 20em;
+    max-width: 100%;
     min-width: 420px;
     cursor: default;
     box-sizing: inherit;
