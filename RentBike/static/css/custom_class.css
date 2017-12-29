@@ -15,10 +15,11 @@ body{margin:0}
 
     .map-order-container {
         position: absolute;
+        left: 60%;
         display: flex;
         justify-content: flex-end;
         padding-top: 6em;
-        padding-bottom: 6em;
+        padding-bottom: 1em;
         align-items: center;
         /*  На передний план */
         z-index: 1;
@@ -27,7 +28,8 @@ body{margin:0}
     }
 
     .map-order-box {
-        margin: 8px 10px 0 auto;
+        left: 60px;
+        margin: 8px 8px 8px 8px;
         padding: 1em 2em 2em;
         background-color: #fff;
         box-shadow: 0 0 8px;

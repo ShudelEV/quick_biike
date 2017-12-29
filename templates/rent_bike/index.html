@@ -34,7 +34,13 @@
     <!-- Add the window of order -->
     <div class="map-order-container">
         <div class="map-order-box">
-            <p>TEST-Order-BOX</p>
+            <form method="post" action="">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                </table>
+                <p><input type="submit" value="Submit"></p>
+            </form>
         </div>
     </div>
 </section>
