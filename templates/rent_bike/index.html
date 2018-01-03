@@ -34,7 +34,7 @@
     <!-- Add the window of order -->
     <div class="map-order-container">
         <div class="map-order-box">
-            <form method="post" action="">
+            <form method="post" action="{% url 'rent_bike:prev_order' %}">
                 {% csrf_token %}
                 <table>
                     {{ form.as_table }}
