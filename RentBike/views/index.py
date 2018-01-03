@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+import json
 from RentBike.forms import PrevOrderForm
 
 import logging
@@ -14,10 +14,6 @@ logging.basicConfig(
 
 # View for index page.
 def page(request):
-    return render(request, 'rent_bike/index.html', {'form': PrevOrderForm()})
-
-
-def prev_order(request):
     if request.POST:
         form = PrevOrderForm(request.POST)
         if form.is_valid():
@@ -27,5 +23,9 @@ def prev_order(request):
             logging.debug("valid data: {}".format(request.POST))
             return HttpResponse('Not valid data!')
     else:
-        form = PrevOrderForm()
-        return render(request, '/', {'form': form})
+        return render(request, 'rent_bike/index.html', {'form': PrevOrderForm()})
+
+
+def prev_order(request):
+    logging.debug("prev_order: {}".format(request.POST))
+    return HttpResponse(json.dumps('1'), content_type="application/json")

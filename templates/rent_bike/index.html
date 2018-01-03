@@ -33,19 +33,21 @@
 <script src="{% static 'js/google_map.js' %}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q&callback=initMap"></script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+
     <!-- Add the window of order -->
     <div class="map-order-container">
         <div class="map-order-box">
-            <form method="post" action="{% url 'rent_bike:prev_order' %}">
+            <form method="post" action="{% url 'rent_bike:index' %}">
                 {% csrf_token %}
                 <table>
                     {{ form.as_table }}
                 </table>
 
-                <p><input type="submit" value="Submit"></p>
+                <button onclick="prev_order('{{ form.time_from.value }}', '{% url "rent_bike:prev_order" %}')">Submit</button>
             </form>
         </div>
     </div>
+    <script src="{% static 'js/order.js' %}"></script>
 </section>
 
 {% endblock %}
