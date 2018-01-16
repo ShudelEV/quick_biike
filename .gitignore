@@ -13,3 +13,15 @@ RentBike/migrations/
 Profile/migrations/
 .sass-cache
 static/static_root/
+
+### Vue ###
+VueProject/.DS_Store
+VueProject/node_modules/
+VueProject/dist/
+package-lock.json
+
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
