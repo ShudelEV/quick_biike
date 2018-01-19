@@ -17,7 +17,7 @@ static/static_root/
 ### Vue ###
 VueProject/.DS_Store
 VueProject/node_modules/
-VueProject/dist/
+static/js/build.js
 package-lock.json
 
 # Editor directories and files

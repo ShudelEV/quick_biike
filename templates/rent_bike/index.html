@@ -2,27 +2,7 @@
 {% load staticfiles %}
 
 {% block navbar %}
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">QuickBike</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#about">ABOUT</a></li>
-                <li><a href="#services">SERVICES</a></li>
-                <li><a href="#portfolio">PORTFOLIO</a></li>
-                <li><a href="#pricing">PRICING</a></li>
-                <li><a href="#contact">CONTACT</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div id="app"></div>
 {% endblock %}
 
 {% block page %}
@@ -32,21 +12,20 @@
 <div id="googleMap"></div>
 <script src="{% static 'js/google_map.js' %}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q&callback=initMap"></script>
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 
     <!-- Add the window of order -->
-    <div class="map-order-container">
-        <div class="map-order-box">
-            <form method="post" action="{% url 'rent_bike:index' %}">
-                {% csrf_token %}
-                <table>
-                    {{ form.as_table }}
-                </table>
-
-                <button onclick="prev_order('{{ form.time_from.value }}', '{% url "rent_bike:prev_order" %}')">Submit</button>
-            </form>
-        </div>
-    </div>
+{#    <div class="map-order-container">#}
+{#        <div class="map-order-box">#}
+{#            <form method="post" action="{% url 'rent_bike:index' %}">#}
+{#                {% csrf_token%}#}
+{#                <table>#}
+{#                    {{ form.as_table }}#}
+{#                </table>#}
+{##}
+{#                <button onclick="prev_order('{{ form.time_from.value }}', '{% url "rent_bike:prev_order" %}')">Submit</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
 </section>
 
 {% endblock %}
