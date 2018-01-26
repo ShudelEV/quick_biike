@@ -2,16 +2,13 @@
 {% load staticfiles %}
 
 {% block navbar %}
-<div id="app"></div>
 {% endblock %}
 
 {% block page %}
-<section class="map-order">
-
 <!-- Add Google Maps -->
-<div id="googleMap"></div>
-<script src="{% static 'js/google_map.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q&callback=initMap"></script>
+{#<div id="googleMap"></div>#}
+{#<script src="{% static 'js/google_map.js' %}"></script>#}
+{#<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q&callback=initMap"></script>#}
 
     <!-- Add the window of order -->
 {#    <div class="map-order-container">#}
@@ -26,7 +23,7 @@
 {#            </form>#}
 {#        </div>#}
 {#    </div>#}
-</section>
+{#</section>#}
 
 {% endblock %}
 

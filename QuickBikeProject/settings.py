@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'webpack_loader',
+
     'django_extensions',
     'rest_framework',
     'Profile',
@@ -138,6 +140,13 @@ STATIC_URL = '/static/'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
-# STATIC_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}

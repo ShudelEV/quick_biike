@@ -1,12 +1,23 @@
 var path = require('path')
 var webpack = require('webpack')
+var BundleTracker = require('webpack-bundle-tracker');
+
+// Directory for deployed assets. It should be within our static files path.
+// Backslash at the end is not required.
+var dist_dir = '/RentBike/static/js';
+// Controls use of hot-reload devserver. When this is used you must also run `node server.js`
+var use_hot_reload = process.env.NODE_ENV !== 'production';
+// Dev server address specified in server.js
+var dev_server_addr = 'localhost';
+// Dev server port specified in server.js
+var dev_server_port = 8001;
 
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, '../RentBike/static/js/'),
-    publicPath: '/dist/',
-    filename: 'build.js'
+    path: path.resolve(__dirname, '.' + dist_dir + '/'),
+    publicPath: dist_dir + '/',
+    filename: '[name]-[hash].js'
   },
   resolve: {
     extensions: ['.js', '.vue'],
@@ -15,6 +26,9 @@ module.exports = {
       'public': path.resolve(__dirname, './public')
     }
   },
+  plugins: [
+        new BundleTracker({filename: './webpack-stats.json'}),
+    ],
   module: {
     rules: [
       {
@@ -82,4 +96,12 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
+}
+else if (use_hot_reload)
+{
+    module.exports.entry.push('webpack-dev-server/client?http://' + dev_server_addr + ':' + dev_server_port);
+    module.exports.entry.push('webpack/hot/only-dev-server');
+    module.exports.output['publicPath'] = 'http://' + dev_server_addr + ':' + dev_server_port + dist_dir + '/';
+    module.exports.plugins.push(new webpack.HotModuleReplacementPlugin());
+    module.exports.plugins.push(new webpack.NoEmitOnErrorsPlugin()); // don't reload if there is an error
 }

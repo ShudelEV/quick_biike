@@ -17,8 +17,9 @@ static/static_root/
 ### Vue ###
 VueProject/.DS_Store
 VueProject/node_modules/
-static/js/build.js
-package-lock.json
+RentBike/static/js/build.js
+VueProject/package-lock.json
+webpack-stats.json
 
 # Editor directories and files
 *.suo
