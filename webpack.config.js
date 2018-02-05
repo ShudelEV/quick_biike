@@ -1,10 +1,10 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 
 // Directory for deployed assets. It should be within our static files path.
 // Backslash at the end is not required.
-var dist_dir = '/RentBike/static/js';
+var dist_dir = 'RentBike/static/dist';
 // Controls use of hot-reload devserver. When this is used you must also run `node server.js`
 var use_hot_reload = process.env.NODE_ENV !== 'production';
 // Dev server address specified in server.js
@@ -13,11 +13,11 @@ var dev_server_addr = 'localhost';
 var dev_server_port = 8001;
 
 module.exports = {
-  entry: './src/main.js',
+  entry: ['./VueProject/src/main.js'],
   output: {
     path: path.resolve(__dirname, '.' + dist_dir + '/'),
-    publicPath: dist_dir + '/',
-    filename: '[name]-[hash].js'
+        filename: '[name]-[hash].js',
+        publicPath: dist_dir + '/',
   },
   resolve: {
     extensions: ['.js', '.vue'],
@@ -54,7 +54,7 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          objectAssign: 'Object.assign'
+          name: '[name].[ext]?[hash]'
         }
       },
       {
@@ -75,7 +75,7 @@ module.exports = {
     hints: false
   },
   devtool: '#eval-source-map'
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'

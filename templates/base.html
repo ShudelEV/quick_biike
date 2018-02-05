@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load render_bundle from webpack_loader %}
 
 <!DOCTYPE html>
 
@@ -25,10 +24,6 @@
 <body>
 <div >
 	<div >
-
-        <div id="app"></div>
-        {% render_bundle 'main' %}
-
 	    <div >
         {% block navbar %} {% endblock %}
         </div>
@@ -42,7 +37,6 @@
 </div>
 
 	<!-- Javascripts -->
-{#    <script src="{% static "js/build.js" %}"></script>#}
 
 </body>
 </html>
