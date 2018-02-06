@@ -2,78 +2,76 @@
   <v-app>
     <v-navigation-drawer
       fixed
-      v-model="drawerRight"
-      :stateless="right"
-      right
-      clipped
-      app
-    >
-      <v-list dense>
-        <v-list-tile @click.stop="right = !right">
-          <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar
-      color="blue-grey"
-      dark
-      fixed
-      app
-      clipped-right
-    >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Toolbar</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
-    </v-toolbar>
-    <v-navigation-drawer
-      fixed
+      :mini-variant="miniVariant"
+      :clipped="clipped"
       v-model="drawer"
-      :stateless="left"
       app
     >
-      <v-list dense>
-        <v-list-tile @click.stop="left = !left">
+      <v-list>
+        <v-list-tile
+          value="true"
+          v-for="(item, i) in items"
+          :key="i"
+        >
           <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
+            <v-icon v-html="item.icon"></v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer</v-list-tile-title>
+            <v-list-tile-title v-text="item.title"></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-navigation-drawer
-      temporary
-      v-model="left"
-      fixed
-    ></v-navigation-drawer>
+    <v-toolbar fixed app :clipped-left="clipped">
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-btn icon @click.stop="miniVariant = !miniVariant">
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+      </v-btn>
+      <v-btn icon @click.stop="clipped = !clipped">
+        <v-icon>web</v-icon>
+      </v-btn>
+      <v-btn icon @click.stop="fixed = !fixed">
+        <v-icon>remove</v-icon>
+      </v-btn>
+      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
+        <v-icon>menu</v-icon>
+      </v-btn>
+    </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-          <v-tooltip right>
-            <v-btn icon large :href="source" target="_blank" slot="activator">
-              <v-icon large>code</v-icon>
-            </v-btn>
-            <span>Source</span>
-          </v-tooltip>
-        </v-layout>
+      <v-container fluid>
+        <v-slide-y-transition mode="out-in">
+          <v-layout column align-center>
+            <img src="/public/v.png" alt="Vuetify.js" class="mb-5" />
+            <blockquote>
+              &#8220;First, solve the problem. Then, write the code.&#8221;
+              <footer>
+                <small>
+                  <em>&mdash;John Johnson</em>
+                </small>
+              </footer>
+            </blockquote>
+          </v-layout>
+        </v-slide-y-transition>
       </v-container>
     </v-content>
     <v-navigation-drawer
-      right
       temporary
-      v-model="right"
+      :right="right"
+      v-model="rightDrawer"
       fixed
-    ></v-navigation-drawer>
-    <v-footer color="blue-grey" class="white--text" app>
-      <span>Vuetify</span>
-      <v-spacer></v-spacer>
+    >
+      <v-list>
+        <v-list-tile @click.native="right = !right">
+          <v-list-tile-action>
+            <v-icon>compare_arrows</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-footer :fixed="fixed" app>
       <span>&copy; 2017</span>
     </v-footer>
   </v-app>
@@ -81,14 +79,19 @@
 
 <script>
   export default {
-      data: () => ({
-          drawer: null,
-          drawerRight: null,
-          right: null,
-          left: null
-      }),
-      props: {
-          source: String
+    data () {
+      return {
+        clipped: false,
+        drawer: true,
+        fixed: false,
+        items: [
+          { icon: 'bubble_chart', title: 'Inspire' }
+        ],
+        miniVariant: false,
+        right: true,
+        rightDrawer: false,
+        title: 'Vuetify.js'
       }
+    }
   }
 </script>

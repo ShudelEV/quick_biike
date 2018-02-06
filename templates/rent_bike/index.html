@@ -1,17 +1,37 @@
-{% extends "base.html" %}
-{% load staticfiles %}
+<!DOCTYPE html>
+
 {% load render_bundle from webpack_loader %}
+{% load staticfiles %}
 
-{% block navbar %}
-<div id="app"></div>
-{% render_bundle 'main' %}
-{% endblock %}
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Rent Bike with QUICKBIKE.CO" />
+	<meta name="keywords" content="rent bike, free bike, quick bike" />
+	<meta name="author" content="QUICKBIKE.CO" />
 
-{% block page %}
-<!-- Add Google Maps -->
-<div id="googleMap"></div>
-<script src="{% static 'js/google_map.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q&callback=initMap"></script>
+   	<title>QuickBike</title>
+
+	<!-- Place favicon.ico -->
+	<link rel="shortcut icon" href="{% static "images/bikecuny_favicon.ico" %}">
+
+	<!-- Stylesheets -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+
+</head>
+
+<body>
+
+    <div id="app"></div>
+{#    <script src="{% static 'main-409b09e84bcf4d59995e.js' %}"></script>#}
+    {% render_bundle 'main' %}
+
+    <!-- Add Google Maps -->
+{#    <div id="googleMap"></div>#}
+{#    <script src="{% static 'js/google_map.js' %}"></script>#}
+{#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q&callback=initMap"></script>#}
 
     <!-- Add the window of order -->
 {#    <div class="map-order-container">#}
@@ -26,4 +46,6 @@
 {#            </form>#}
 {#        </div>#}
 {#    </div>#}
-{% endblock %}
+
+</body>
+</html>

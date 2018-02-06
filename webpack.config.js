@@ -4,7 +4,7 @@ var BundleTracker = require('webpack-bundle-tracker');
 
 // Directory for deployed assets. It should be within our static files path.
 // Backslash at the end is not required.
-var dist_dir = 'RentBike/static/dist';
+var dist_dir = '/RentBike/static/dist';
 // Controls use of hot-reload devserver. When this is used you must also run `node server.js`
 var use_hot_reload = process.env.NODE_ENV !== 'production';
 // Dev server address specified in server.js

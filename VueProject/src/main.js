@@ -3,16 +3,9 @@ import App from './App.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css'
 
-Vue.use(Vuetify, {
-    theme: {
-        primary: '#ed582f',
-        secondary: '#f7c183',
-        accent: '#ff7700',
-        error: '#b71c1c'
-    }
-})
+Vue.use(Vuetify)
 
-Vue({
-    el: '#app',
-    render: h => h(App)
+new Vue({
+  el: '#app',
+  render: h => h(App)
 })

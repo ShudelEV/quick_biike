@@ -1,4 +1,4 @@
-root = true
+cdroot = true
 
 [*]
 charset = utf-8

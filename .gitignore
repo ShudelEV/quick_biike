@@ -9,16 +9,15 @@
 ### Django ###
 *.log
 .idea
-RentBike/migrations/
-Profile/migrations/
+**/migrations/
 .sass-cache
-static/dist/
 
 ### Vue ###
 .DS_Store
 node_modules/
 package-lock.json
 webpack-stats.json
+VueProject/dist/
 
 # Editor directories and files
 *.suo
