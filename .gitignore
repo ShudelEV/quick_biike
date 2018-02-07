@@ -1,5 +1,4 @@
 ### Python ###
-# Byte-compiled / optimized / DLL files
 *.py[cod]
 
 ### Translations ###
@@ -17,7 +16,7 @@
 node_modules/
 package-lock.json
 webpack-stats.json
-VueProject/dist/
+**/static/dist/
 
 # Editor directories and files
 *.suo
