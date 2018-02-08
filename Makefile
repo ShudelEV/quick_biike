@@ -1,5 +1,5 @@
 # Use development settings for running django dev server.
-export DJANGO_SETTINGS_MODULE=backend.settingsdev
+export DJANGO_SETTINGS_MODULE=QuickBikeProject.settingsdev
 
 # Initializes virtual environment with basic requirements.
 prod:
@@ -15,13 +15,13 @@ dev:
 # Runs development server.
 # This step depends on `make dev`, however dependency is excluded to speed up dev server startup.
 run:
-	python ./manage runserver & cd VueProject/ & npm run dev & cd .. 
+	python manage.py runserver & npm run dev
 
 # Creates migrations and migrates database.
 # This step depends on `make dev`, however dependency is excluded to speed up dev server startup.
 migrate:
-	python ./manage makemigrations
-	python ./manage migrate
+	python ./manage.py makemigrations
+	python ./manage.py migrate
 
 # Builds files for distribution which will be placed in /static/dist
 build: prod migrate
