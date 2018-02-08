@@ -8,10 +8,11 @@
         app
     >
 
-        <LeftMenu/>
+        <left-menu></left-menu>
 
     </v-navigation-drawer>
-    <v-toolbar fixed app :clipped-left="clipped">
+
+    <v-toolbar fixed app :clipped-left="clipped" color="lime accent-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-btn icon @click.stop="miniVariant = !miniVariant">
             <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
@@ -26,48 +27,43 @@
         </v-btn>
     </v-toolbar>
 
-    <Content/>
+    <content-map></content-map>
 
     <v-navigation-drawer
         temporary
-        :right="right"
+        :right="true"
         v-model="rightDrawer"
         fixed
     >
-        <v-list>
-            <v-list-tile @click.native="right = !right">
 
-                <Order/>
+        <right-menu></right-menu>
 
-            </v-list-tile>
-        </v-list>
     </v-navigation-drawer>
 
-    <Footer/>
+    <base-footer></base-footer>
 
 </v-app>
 </template>
 
 <script>
-import Content from './components/Content.vue'
+import ContentMap from './components/ContentMap.vue'
 import LeftMenu from './components/LeftMenu.vue'
-import Order from './components/Order.vue'
-import Footer from './components/Footer.vue'
+import RightMenu from './components/Order.vue'
+import BaseFooter from './components/Footer.vue'
 
 export default {
     components: {
-        Content, LeftMenu, Order, Footer
+        ContentMap, LeftMenu, RightMenu, BaseFooter
     },
-  data () {
-    return {
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+    data () {
+        return {
+            clipped: false,
+            drawer: true,
+            fixed: false,
+            miniVariant: false,
+            rightDrawer: false,
+            title: 'QuickBike'
+        }
     }
-  }
 }
 </script>
