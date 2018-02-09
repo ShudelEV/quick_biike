@@ -1,6 +1,6 @@
 <template>
     <v-content>
-        <v-container fluid fill-height>
+        <v-container fluid fill-height pa-0>
             <v-layout justify-center align-center>
                 <gmap-map
                   :center="center"
@@ -52,7 +52,5 @@
 </script>
 
 <style>
-    .fill-height {
-        padding: unset;
-    }
+
 </style>

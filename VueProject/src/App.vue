@@ -14,33 +14,32 @@
 
     <v-toolbar fixed app :clipped-left="clipped" color="lime accent-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-btn icon @click.stop="miniVariant = !miniVariant">
-            <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-        </v-btn>
-        <v-btn icon @click.stop="clipped = !clipped">
-            <v-icon>web</v-icon>
-        </v-btn>
+        <!--<v-btn icon @click.stop="clipped = !clipped">-->
+            <!--<v-icon>web</v-icon>-->
+        <!--</v-btn>-->
         <v-toolbar-title v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-            <v-icon>menu</v-icon>
+            <v-icon v-html="rightDrawer ? 'chevron_right' : 'chevron_left'"></v-icon>
         </v-btn>
     </v-toolbar>
 
     <content-map></content-map>
 
     <v-navigation-drawer
-        temporary
-        :right="true"
-        v-model="rightDrawer"
         fixed
+        :clipped="!clipped"
+        right
+        v-model="rightDrawer"
+        app
+        class="yellow accent-1"
     >
 
         <right-menu></right-menu>
 
     </v-navigation-drawer>
 
-    <base-footer></base-footer>
+    <!--<base-footer></base-footer>-->
 
 </v-app>
 </template>
@@ -57,11 +56,11 @@ export default {
     },
     data () {
         return {
-            clipped: false,
-            drawer: true,
+            clipped: true,
+            drawer: false,
             fixed: false,
-            miniVariant: false,
-            rightDrawer: false,
+            miniVariant: true,
+            rightDrawer: true,
             title: 'QuickBike'
         }
     }
