@@ -8,6 +8,7 @@
         <v-layout row wrap>
             <date-time-picker-from></date-time-picker-from>
             <date-time-picker-to></date-time-picker-to>
+            <order-check-box></order-check-box>
         </v-layout>
     </v-container>
 
@@ -21,10 +22,11 @@
 <script>
 import DateTimePickerFrom from './DateTimePickerFrom.vue'
 import DateTimePickerTo from './DateTimePickerTo.vue'
+import OrderCheckBox from './OrderCheckBox.vue'
 
 export default {
     components: {
-        DateTimePickerFrom, DateTimePickerTo
+        DateTimePickerFrom, DateTimePickerTo, OrderCheckBox
     }
 }
 </script>
