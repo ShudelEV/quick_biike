@@ -1,6 +1,6 @@
 <template>
     <v-container fluid pa-0>
-    <v-layout raw>
+    <v-layout raw wrap>
     <v-flex xs6>
         <v-menu
             lazy
@@ -15,6 +15,8 @@
         >
 
             <v-text-field
+                v-bind:value="value"
+                v-on:input="updateValue($event.target.value)"
               slot="activator"
               label="Time From:"
               v-model="date"
@@ -79,13 +81,23 @@
             menu: false,
             time: null,
             menu2: false,
-            modal2: false,
             allowedTimes: {
                 hours: null,
                 minutes: null
             },
             allowedDates: null
-        })
+        }),
+        props: {
+            value: {
+                type: String,
+                default: '',
+            }
+        },
+        methods: {
+            updateValue: function () {
+                this.$emit('input', this.date)
+            }
+        }
     }
 
 </script>

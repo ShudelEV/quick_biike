@@ -1,6 +1,7 @@
 <template>
     <v-container fluid pa-0>
-    <v-layout raw>
+    <v-layout raw wrap>
+        <!--Date Picker-->
     <v-flex xs6>
         <v-menu
             lazy
@@ -34,6 +35,7 @@
         </v-menu>
     </v-flex>
 
+        <!--Time Picker-->
     <v-flex xs6>
         <v-menu
             lazy
@@ -61,13 +63,12 @@
 
 <script>
     export default {
-        name: 'DateTimePickerFrom',
+        name: 'DateTimePickerTo',
         data: () => ({
             date: null,
             menu: false,
             time: null,
             menu2: false,
-            modal2: false,
         })
     }
 </script>
