@@ -16,11 +16,13 @@
         >
 
             <v-text-field
+                ref="date"
               slot="activator"
-              label="Time From:"
+              label="From:"
               v-model="date"
               prepend-icon="event"
               readonly
+              required
             ></v-text-field>
 
             <v-date-picker
@@ -56,6 +58,7 @@
             min-width="285px"
         >
             <v-text-field
+                ref="time"
                 slot="activator"
                 v-model="time"
                 prepend-icon="access_time"
@@ -64,6 +67,7 @@
             <v-time-picker
                 v-model="time"
                 autosave
+                @input="updateValue()"
                 format="24hr"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"
@@ -98,10 +102,11 @@
         },
 
         methods: {
-            updateDate: function (date) {
+            updateValue: function () {
+//                to ISO 8601
+                var res = this.$refs.date.value + 'T' + this.$refs.time.value;
 //                Emit event "input" for Parent component and update 'value' in Parent
-                console.log(date);
-                this.$emit('input', date)
+                this.$emit('input', res)
             },
         }
     }
