@@ -9,7 +9,10 @@
 
     <v-container fluid>
         <v-layout row wrap>
-            <date-time-picker-from v-model="form.bike_is_free.date_time_from"></date-time-picker-from>
+            <!-- V-model is value for the children component, that will be updated $emit('input', value) -->
+            <date-time-picker-from
+                v-model="form.bike_is_free.date_time_from"
+            ></date-time-picker-from>
             <date-time-picker-to></date-time-picker-to>
             <order-check-box></order-check-box>
         </v-layout>

@@ -1,10 +1,11 @@
 <template>
     <v-container fluid pa-0>
     <v-layout raw wrap>
+        <!--Date Picker-->
     <v-flex xs6>
         <v-menu
             lazy
-            :close-on-content-click="true"
+            :close-on-content-click="false"
             v-model="menu"
             transition="scale-transition"
             offset-y
@@ -15,8 +16,6 @@
         >
 
             <v-text-field
-                v-bind:value="value"
-                v-on:input="updateValue($event.target.value)"
               slot="activator"
               label="Time From:"
               v-model="date"
@@ -35,14 +34,16 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                        <v-btn flat color="primary" @click="save">OK</v-btn>
+                        <!--Raise a TimeMenu after the Ok button clicking-->
+                        <v-btn flat color="primary" @click="save" @click.stop="menu2 = !menu2">OK</v-btn>
                     </v-card-actions>
                 </template>
             </v-date-picker>
         </v-menu>
     </v-flex>
-
-    <v-flex xs6>
+    <v-flex xs1></v-flex>
+        <!--Time Picker-->
+    <v-flex xs4>
         <v-menu
             lazy
             :close-on-content-click="false"
@@ -76,6 +77,7 @@
 <script>
     export default {
         name: 'DateTimePickerFrom',
+
         data: () => ({
             date: null,
             menu: false,
@@ -87,17 +89,20 @@
             },
             allowedDates: null
         }),
+
         props: {
             value: {
                 type: String,
-                default: '',
+                default: ''
             }
         },
+
         methods: {
-            updateValue: function () {
-                this.$emit('input', this.date)
-            }
+            updateDate: function (date) {
+//                Emit event "input" for Parent component and update 'value' in Parent
+                console.log(date);
+                this.$emit('input', date)
+            },
         }
     }
-
 </script>

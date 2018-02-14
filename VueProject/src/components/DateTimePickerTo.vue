@@ -5,7 +5,7 @@
     <v-flex xs6>
         <v-menu
             lazy
-            :close-on-content-click="true"
+            :close-on-content-click="false"
             v-model="menu"
             transition="scale-transition"
             offset-y
@@ -28,15 +28,16 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                        <v-btn flat color="primary" @click="save">OK</v-btn>
+                        <!--Raise a TimeMenu after the Ok button clicking-->
+                        <v-btn flat color="primary" @click="save" @click.stop="menu2 = !menu2">OK</v-btn>
                     </v-card-actions>
                 </template>
             </v-date-picker>
         </v-menu>
     </v-flex>
-
+    <v-flex xs1></v-flex>
         <!--Time Picker-->
-    <v-flex xs6>
+    <v-flex xs4>
         <v-menu
             lazy
             :close-on-content-click="false"
