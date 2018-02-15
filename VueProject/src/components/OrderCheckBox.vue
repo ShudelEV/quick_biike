@@ -1,42 +1,64 @@
 <template>
-    <v-container fluid pa-0>
-    <v-subheader> BikeTypes </v-subheader>
-    <v-layout raw wrap>
-    <v-flex xs4>
-        <v-checkbox v-model="man" label="Man" hide-details></v-checkbox>
-    </v-flex>
-    <v-flex xs4>
-        <v-checkbox v-model="woman" label="Woman" hide-details></v-checkbox>
-    </v-flex>
-    <v-flex xs4>
-        <v-checkbox v-model="child" label="Child" hide-details></v-checkbox>
-    </v-flex>
-    </v-layout>
-
-    <v-layout raw wrap>
-        <v-flex xs4 pl-2 pr-4>
-            <v-text-field type="number" v-if="man" v-model.number="man_qty"></v-text-field>
-        </v-flex>
-        <v-flex xs4 pl-2 pr-4>
-            <v-text-field type="number" v-if="woman" v-model.number="woman_qty"></v-text-field>
-        </v-flex>
-        <v-flex xs4 pl-2 pr-4>
-            <v-text-field type="number" v-if="child" v-model.number="child_qty"></v-text-field>
-        </v-flex>
-    </v-layout>
-    </v-container>
+    <v-card flat>
+        <v-checkbox ref="checkbox"
+            :input-value="checked_default" @change="updateValue()"
+            :prepend-icon="icon" hide-details></v-checkbox>
+        <v-card-text>
+            <v-text-field
+                type="number" v-if="checked_default"
+                :value="quantity"
+                @input="updateValue($event.target.value)"
+            ></v-text-field>
+        </v-card-text>
+    </v-card>
 </template>
 
 <script>
   export default {
       name: 'OrderCheckBox',
       data: () => ({
-          man: true,
-          woman: false,
-          child: false,
-          man_qty: 1,
-          woman_qty: 1,
-          child_qty: 1
-      })
+          qty: 0,
+//          checked: false
+      }),
+//      computed: {
+//          qty: () => {this.value},
+//          checked: () => {this.checked_default}
+//      },
+
+      props:
+      {
+          checked_default: {
+              type: Boolean,
+              default: true
+          },
+          quantity: {
+              type: Number,
+              default: 1
+          },
+          icon: {
+              type: String,
+              default: ''
+          },
+          type: {
+              type: String,
+              default: ''
+          },
+      },
+
+      methods: {
+          updateValue: function () {
+              console.log(this.type);
+              this.$emit('input', {
+                  checked_default: !this.$refs.checkbox.inputValue,
+                  quantity: 22,
+                  icon: this.icon,
+                  type: this.type
+              })
+          },
+          updateCheckbox: function (val) {
+              console.log(val);
+//              this.$emit('input', val)
+          }
+      }
   }
 </script>

@@ -10,9 +10,20 @@
     <v-container fluid>
         <v-layout row wrap>
             <!-- V-model is value for the children component, that will be updated $emit('input', value) -->
-            <date-time-picker-from v-model="form.bike_is_free.date_time_from"></date-time-picker-from>
-            <date-time-picker-to v-model="form.bike_is_free.date_time_to"></date-time-picker-to>
-            <order-check-box></order-check-box>
+            <date-time-picker-from v-model="date_time_from"></date-time-picker-from>
+            <date-time-picker-to v-model="date_time_to"></date-time-picker-to>
+
+            <v-container fluid pa-0>
+                <v-subheader> BikeQuantity </v-subheader>
+                <v-layout raw wrap>
+                    <v-flex xs4
+                        v-for="bike in bikes" :key="bike.type"
+                    >
+                        <!--Transfer all args of bike to child component-->
+                        <order-check-box v-bind="bike"></order-check-box>
+                    </v-flex>
+                </v-layout>
+            </v-container>
         </v-layout>
     </v-container>
 
@@ -35,18 +46,32 @@ export default {
     },
 
     data: () => ({
-        form: {
-            bike_is_free: {
-                date_time_from: null,
-                date_time_to: null
-            },
-            bikes: []
-        }
+        date_time_from: null,
+        date_time_to: null,
+        bikes: [
+            //            Type: Man
+            { checked_default: true, quantity: 1, icon: 'face', type: 'man' },
+            //            Type: Woman
+            { checked_default: false, quantity: 0, icon: 'pregnant_woman', type: 'woman' },
+            //            Type: Child
+            { checked_default: false, quantity: 0, icon: 'child_care', type: 'child' }
+        ]
+//        form: {
+//            bike_is_free: {
+//                date_time_from: null,
+//                date_time_to: null
+//            },
+//            bikes: [
+//                { type: 'man', quantity: 1 },
+//                { type: 'woman', quantity: 0 },
+//                { type: 'child', quantity: 0 }
+//            ]
+//        }
     }),
 
     methods: {
         getShops: function () {
-            console.log('bike is free = ', this.form.bike_is_free)
+            console.log('bike is free = ', this.bikes)
         }
     }
 }
