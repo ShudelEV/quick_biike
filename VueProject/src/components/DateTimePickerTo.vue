@@ -15,7 +15,6 @@
             min-width="285px"
         >
             <v-text-field
-                ref="date"
                 slot="activator"
                 label="To:"
                 v-model="date"
@@ -58,18 +57,15 @@
             min-width="285px"
         >
             <v-text-field
-                ref="time"
                 slot="activator"
                 v-model="time"
                 prepend-icon="access_time"
                 readonly
             ></v-text-field>
             <!--Change action: save time in text-field after picking-->
-            <!--Input action: update value in parent component-->
             <v-time-picker
                 v-model="time"
                 @change="$refs.menu2.save(time)"
-                @input="updateValue($refs.date.value, time)"
                 format="24hr"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"
@@ -83,6 +79,7 @@
 <script>
     export default {
         name: 'DateTimePickerTo',
+
         data: () => ({
             date: null,
             menu: false,
@@ -93,23 +90,6 @@
                 minutes: null
             },
             allowedDates: null
-        }),
-
-        props: {
-            value: {
-                type: String,
-                default: ''
-            }
-        },
-
-        methods: {
-            updateValue: function (date, time) {
-//                to ISO 8601
-                var res = date + 'T' + time;
-//                console.log(res);
-//                Emit event "input" for Parent component and update 'value' in Parent
-                this.$emit('input', res)
-            },
-        }
+        })
     }
 </script>

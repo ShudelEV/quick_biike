@@ -21,12 +21,10 @@
                 <v-subheader> BikeQuantity </v-subheader>
                 <v-layout raw wrap>
                     <v-flex xs4 v-for="bike in bikes" :key="bike.type">
-                        <!--Transfer all args of bike to child component-->
+                        <!--Transfer default args of bike to child component-->
                         <order-check-box
-                            :value="bike.checked_default"
-                            :icon="bike.icon"
-                            :quantity="bike.quantity"
-                            @input="value => {bike.checked_default = value}"
+                            v-bind="bike"
+                            @input="checked_default => {bike.checked_default = checked_default}"
                         ></order-check-box>
                     </v-flex>
                 </v-layout>
@@ -36,7 +34,7 @@
 
     <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="clear">clear</v-btn>
+        <!--<v-btn @click="clear">clear</v-btn>-->
         <v-btn @click="submit" :disabled="!valid">submit</v-btn>
     </v-card-actions>
 </v-card>
@@ -59,11 +57,11 @@ export default {
         date_time_to: null,
         bikes: [
             //            Type: Man
-            { checked_default: true, quantity: 1, icon: 'face' },
+            { type: 'man', checked_default: true, quantity: 1, icon: 'face' },
             //            Type: Woman
-            { checked_default: false, quantity: 0, icon: 'pregnant_woman' },
+            { type: 'woman', checked_default: false, quantity: 0, icon: 'pregnant_woman' },
             //            Type: Child
-            { checked_default: false, quantity: 0, icon: 'child_care' }
+            { type: 'child', checked_default: false, quantity: 0, icon: 'child_care' }
         ]
 //        form: {
 //            bike_is_free: {
@@ -89,7 +87,7 @@ export default {
             }
         },
 
-        getShops: function () {
+        getShops () {
             console.log()
         }
     }

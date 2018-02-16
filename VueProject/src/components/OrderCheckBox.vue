@@ -1,13 +1,13 @@
 <template>
     <v-card flat>
         <v-checkbox ref="checkbox"
-            :input-value="value" @change="updateValue($refs.checkbox.inputValue)"
+            :id="type"
+            :input-value="checked_default" @change="updateCheckbox($refs.checkbox.inputValue)"
             :prepend-icon="icon" hide-details></v-checkbox>
         <v-card-text>
             <v-text-field
-                type="number" v-if="value"
+                type="number" v-if="checked_default"
                 :value="quantity"
-                @input="updateValue($event.target.value)"
             ></v-text-field>
         </v-card-text>
     </v-card>
@@ -18,14 +18,10 @@
       name: 'OrderCheckBox',
       data: () => ({
       }),
-//      computed: {
-//          qty: () => {this.value},
-//          checked: () => {this.checked_default}
-//      },
 
       props:
       {
-          value: {
+          checked_default: {
               type: Boolean,
               default: true
           },
@@ -36,17 +32,17 @@
           quantity: {
               type: Number,
               default: 1
+          },
+          type: {
+              type: String,
+              default: ''
           }
       },
 
       methods: {
-          updateValue: function (val) {
-              console.log(val);
+          updateCheckbox (val) {
+//              console.log(val);
               this.$emit('input', !val)
-          },
-          updateCheckbox: function (val) {
-              console.log(val);
-//              this.$emit('input', val)
           }
       }
   }
