@@ -1,7 +1,11 @@
 <template>
     <!--Create a form-->
     <!--Evoke getShops() method when button "Confirm" is clicked-->
-<form @submit.prevent="getShops">
+<v-form
+    v-model="valid"
+    ref="form"
+    lazy-validation
+>
 <v-card>
     <v-card-title
     class="yellow accent-1 pa-4 title"
@@ -16,11 +20,14 @@
             <v-container fluid pa-0>
                 <v-subheader> BikeQuantity </v-subheader>
                 <v-layout raw wrap>
-                    <v-flex xs4
-                        v-for="bike in bikes" :key="bike.type"
-                    >
+                    <v-flex xs4 v-for="bike in bikes" :key="bike.type">
                         <!--Transfer all args of bike to child component-->
-                        <order-check-box v-bind="bike"></order-check-box>
+                        <order-check-box
+                            :value="bike.checked_default"
+                            :icon="bike.icon"
+                            :quantity="bike.quantity"
+                            @input="value => {bike.checked_default = value}"
+                        ></order-check-box>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -29,10 +36,11 @@
 
     <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn flat color="primary" type="submit">Confirm</v-btn>
+        <v-btn @click="clear">clear</v-btn>
+        <v-btn @click="submit" :disabled="!valid">submit</v-btn>
     </v-card-actions>
 </v-card>
-</form>
+</v-form>
 </template>
 
 <script>
@@ -46,15 +54,16 @@ export default {
     },
 
     data: () => ({
+        valid: true,
         date_time_from: null,
         date_time_to: null,
         bikes: [
             //            Type: Man
-            { checked_default: true, quantity: 1, icon: 'face', type: 'man' },
+            { checked_default: true, quantity: 1, icon: 'face' },
             //            Type: Woman
-            { checked_default: false, quantity: 0, icon: 'pregnant_woman', type: 'woman' },
+            { checked_default: false, quantity: 0, icon: 'pregnant_woman' },
             //            Type: Child
-            { checked_default: false, quantity: 0, icon: 'child_care', type: 'child' }
+            { checked_default: false, quantity: 0, icon: 'child_care' }
         ]
 //        form: {
 //            bike_is_free: {
@@ -70,8 +79,18 @@ export default {
     }),
 
     methods: {
+        clear () {
+            this.$refs.form.reset()
+        },
+
+        submit () {
+            if (this.$refs.form.validate()) {
+                console.log('bike is free = ', this.bikes)
+            }
+        },
+
         getShops: function () {
-            console.log('bike is free = ', this.bikes)
+            console.log()
         }
     }
 }
