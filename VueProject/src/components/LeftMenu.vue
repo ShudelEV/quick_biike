@@ -25,6 +25,6 @@ export default {
                 {icon: 'bubble_chart', title: 'Inspire'}
             ]
         }
-    },
+    }
 }
 </script>

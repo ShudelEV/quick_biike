@@ -26,27 +26,27 @@
   import Vue from 'vue';
 
   Vue.use(VueGoogleMaps, {
-    load: {
-      key: 'AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q',
-      // libraries: 'places', //// If you need to use place input
-    }
+      load: {
+          key: 'AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q'
+          // libraries: 'places', //// If you need to use place input
+      }
   });
 
   var markers = [{
-          position: {lat: 53.870899, lng: 27.517329}
-        }, {
-          position: {lat: 53.893001, lng: 27.603587}
-        }, {
-          position: {lat: 53.930904, lng: 27.519106}
-        }]
+      position: {lat: 53.870899, lng: 27.517329}
+  }, {
+      position: {lat: 53.893001, lng: 27.603587}
+  }, {
+      position: {lat: 53.930904, lng: 27.519106}
+  }];
 
   export default {
-    data () {
-      return {
-        center: {lat: 53.9023238, lng: 27.5618025},
-        markers: markers
+      data () {
+          return {
+              center: {lat: 53.9023238, lng: 27.5618025},
+              markers: markers
+          }
       }
-    }
   }
 
 </script>

@@ -6,6 +6,6 @@ import 'vuetify/dist/vuetify.css'
 Vue.use(Vuetify)
 
 new Vue({
-  el: '#app',
-  render: h => h(App)
+    el: '#app',
+    render: h => h(App)
 })
