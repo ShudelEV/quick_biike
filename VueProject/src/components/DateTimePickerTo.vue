@@ -5,7 +5,7 @@
     <v-flex xs6>
         <v-menu
             lazy
-            :close-on-content-click="false"
+            :close-on-content-click="true"
             v-model="menu"
             transition="scale-transition"
             offset-y
@@ -14,26 +14,31 @@
             max-width="285px"
             min-width="285px"
         >
-
             <v-text-field
                 ref="date"
-              slot="activator"
-              label="To:"
-              v-model="date"
-              prepend-icon="event"
-              readonly
-              required
+                slot="activator"
+                label="To:"
+                v-model="date"
+                prepend-icon="event"
+                readonly
+                required
             ></v-text-field>
-
-            <v-date-picker v-model="date" no-title scrollable actions>
-                <template slot-scope="{ save, cancel }">
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                        <!--Raise a TimeMenu after the Ok button clicking-->
-                        <v-btn flat color="primary" @click="save" @click.stop="menu2 = !menu2">OK</v-btn>
-                    </v-card-actions>
-                </template>
+            <!--Change action: appear the TimePicker after-->
+            <v-date-picker
+                v-model="date"
+                @change="menu2 = !menu2"
+                no-title
+                scrollable
+                :allowed-dates="allowedDates"
+            >
+                <!--<template slot-scope="{ save, cancel }">-->
+                    <!--<v-card-actions>-->
+                        <!--<v-spacer></v-spacer>-->
+                        <!--<v-btn flat color="primary" @click="cancel">Cancel</v-btn>-->
+                        <!--&lt;!&ndash;Raise a TimeMenu after the Ok button clicking&ndash;&gt;-->
+                        <!--<v-btn flat color="primary" @click="save" @click.stop="menu2 = !menu2">OK</v-btn>-->
+                    <!--</v-card-actions>-->
+                <!--</template>-->
             </v-date-picker>
         </v-menu>
     </v-flex>
@@ -41,6 +46,7 @@
         <!--Time Picker-->
     <v-flex xs4>
         <v-menu
+            ref="menu2"
             lazy
             :close-on-content-click="false"
             v-model="menu2"
@@ -58,11 +64,15 @@
                 prepend-icon="access_time"
                 readonly
             ></v-text-field>
+            <!--Change action: save time in text-field after picking-->
+            <!--Input action: update value in parent component-->
             <v-time-picker
                 v-model="time"
-                autosave
-                @input="updateValue()"
+                @change="$refs.menu2.save(time)"
+                @input="updateValue($refs.date.value, time)"
                 format="24hr"
+                :allowed-hours="allowedTimes.hours"
+                :allowed-minutes="allowedTimes.minutes"
             ></v-time-picker>
         </v-menu>
     </v-flex>
@@ -78,6 +88,11 @@
             menu: false,
             time: null,
             menu2: false,
+            allowedTimes: {
+                hours: null,
+                minutes: null
+            },
+            allowedDates: null
         }),
 
         props: {
@@ -88,9 +103,10 @@
         },
 
         methods: {
-            updateValue: function () {
+            updateValue: function (date, time) {
 //                to ISO 8601
-                var res = this.$refs.date.value + 'T' + this.$refs.time.value;
+                var res = date + 'T' + time;
+//                console.log(res);
 //                Emit event "input" for Parent component and update 'value' in Parent
                 this.$emit('input', res)
             },
