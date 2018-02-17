@@ -28,6 +28,7 @@
                 @change="menu2 = !menu2"
                 no-title
                 scrollable
+                :min="date"
                 :allowed-dates="allowedDates"
             >
                 <!--<template slot-scope="{ save, cancel }">-->
@@ -67,6 +68,7 @@
                 v-model="time"
                 @change="$refs.menu2.save(time)"
                 format="24hr"
+                :min="minTime"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"
             ></v-time-picker>
@@ -80,16 +82,28 @@
     export default {
         name: 'DateTimePickerTo',
 
+        props: ['dateTo', 'timeTo'],
+
         data: () => ({
-            date: null,
             menu: false,
-            time: null,
             menu2: false,
+            time: null,
             allowedTimes: {
                 hours: null,
                 minutes: null
             },
             allowedDates: null
-        })
+        }),
+
+        computed: {
+            date: function () {
+                return this.dateTo
+            },
+            // rent a bike for at least one hour
+            minTime: function () {
+                let h = Number(this.timeTo.slice(0, 2)) + 1
+                return String(h + this.timeTo.slice(2))
+            }
+        }
     }
 </script>

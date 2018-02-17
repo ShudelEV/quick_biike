@@ -2,8 +2,8 @@
     <!--Create a form-->
     <!--Evoke getShops() method when button "Confirm" is clicked-->
 <v-form
-    v-model="valid"
     ref="form"
+    v-model="valid"
     lazy-validation
 >
 <v-card>
@@ -13,9 +13,15 @@
 
     <v-container fluid>
         <v-layout row wrap>
-            <!-- V-model is value for the children component, that will be updated $emit('input', value) -->
-            <date-time-picker-from v-model="date_time_from"></date-time-picker-from>
-            <date-time-picker-to v-model="date_time_to"></date-time-picker-to>
+            <!-- Catch date and time from DateTimePickerFrom -->
+            <date-time-picker-from
+                :date="dateTo" :time="timeTo"
+                @input="(date, time) => {this.dateTo = date, this.timeTo = time}"
+            ></date-time-picker-from>
+            <!-- Throw date and time to DateTimePickerTo -->
+            <date-time-picker-to
+                :dateTo="dateTo" :timeTo="timeTo"
+            ></date-time-picker-to>
 
             <v-container fluid pa-0>
                 <v-subheader> BikeQuantity </v-subheader>
@@ -35,7 +41,7 @@
     <v-card-actions>
         <v-spacer></v-spacer>
         <!--<v-btn @click="clear">clear</v-btn>-->
-        <v-btn @click="submit" :disabled="!valid">submit</v-btn>
+        <v-btn @click="getShops" :disabled="!valid">Confirm</v-btn>
     </v-card-actions>
 </v-card>
 </v-form>
@@ -46,6 +52,8 @@ import DateTimePickerFrom from './DateTimePickerFrom.vue'
 import DateTimePickerTo from './DateTimePickerTo.vue'
 import OrderCheckBox from './OrderCheckBox.vue'
 
+import axios from 'axios'
+
 export default {
     components: {
         DateTimePickerFrom, DateTimePickerTo, OrderCheckBox
@@ -53,8 +61,8 @@ export default {
 
     data: () => ({
         valid: true,
-        date_time_from: null,
-        date_time_to: null,
+        dateTo: null,
+        timeTo: null,
         bikes: [
             //            Type: Man
             { type: 'man', checked_default: true, quantity: 1, icon: 'face' },
@@ -63,17 +71,6 @@ export default {
             //            Type: Child
             { type: 'child', checked_default: false, quantity: 0, icon: 'child_care' }
         ]
-//        form: {
-//            bike_is_free: {
-//                date_time_from: null,
-//                date_time_to: null
-//            },
-//            bikes: [
-//                { type: 'man', quantity: 1 },
-//                { type: 'woman', quantity: 0 },
-//                { type: 'child', quantity: 0 }
-//            ]
-//        }
     }),
 
     methods: {
@@ -81,14 +78,43 @@ export default {
             this.$refs.form.reset()
         },
 
-        submit () {
-            if (this.$refs.form.validate()) {
-                console.log('bike is free = ', this.bikes)
-            }
-        },
-
         getShops () {
-            console.log()
+            if (this.$refs.form.validate()) {
+                let inputs = this.$refs.form.inputs;
+                this.date_time_from = inputs[0].value + 'T' + inputs[1].value;
+                this.date_time_to = inputs[2].value + 'T' + inputs[3].value;
+                let form = {
+                    bike_is_free: {
+                        date_time_from: this.date_time_from,
+                        date_time_to: this.date_time_to
+                    },
+                    bikes:
+                        {'man': inputs[5].inputValue},
+                        // {type: 'woman', quantity: inputs[7].inputValue},
+                        // {type: 'child', quantity: inputs[9].inputValue},
+
+                };
+                console.log('form = ', form);
+                // axios({
+                //     method: 'get',
+                //     url: '/api-auth/login/',
+                //     auth: {
+                //         username: 'quickbike_admin',
+                //         password: 'velik5000admin'
+                //     }
+                // }).then(function(response){console.log(response)});
+
+                axios.post(
+                    '/api/readShops/',
+                    // Request Data in JSON format
+                    JSON.stringify({'form': form}),
+                    // Axios Configuration
+                    {headers: {
+                        'Content-Type': 'application/json'
+                    }},
+                    // {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
+                ).then(function(response){console.log(response)})
+            }
         }
     }
 }

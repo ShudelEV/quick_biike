@@ -22,12 +22,15 @@
                 readonly
                 required
             ></v-text-field>
-            <!--Change action: appear the TimePicker after-->
+            <!--Change action: appear the TimePicker after
+                and set min, date in DateTimePickerTo (through parent component)-->
             <v-date-picker
                 v-model="date"
-                @change="menu2 = !menu2"
+                @change="menu2 = !menu2; setDateTimeTo()"
                 no-title
                 scrollable
+                :min="(new Date()).toISOString().slice(0, 10)"
+
                 :allowed-dates="allowedDates"
             >
                 <!--SAVE, CANCEL buttons (vuetify v0.17)-->
@@ -63,10 +66,11 @@
                 prepend-icon="access_time"
                 readonly
             ></v-text-field>
-            <!--Change action: save time in text-field after picking-->
+            <!--Change action: save time in text-field after picking
+                    and set min time in DateTimePickerTo (through parent component)-->
             <v-time-picker
                 v-model="time"
-                @change="$refs.menu2.save(time)"
+                @change="$refs.menu2.save(time); setDateTimeTo()"
                 format="24hr"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"
@@ -78,11 +82,13 @@
 </template>
 
 <script>
+    import bus from '../main.js'
     export default {
         name: 'DateTimePickerFrom',
 
         data: () => ({
-            date: null,
+            // date now in 'yyyy-mm-dd' format
+            date: (new Date()).toISOString().slice(0, 10),
             menu: false,
             time: null,
             menu2: false,
@@ -91,6 +97,12 @@
                 minutes: null
             },
             allowedDates: null
-        })
+        }),
+
+        methods: {
+            setDateTimeTo () {
+                this.$emit('input', this.date, this.time)
+            }
+        }
     }
 </script>
