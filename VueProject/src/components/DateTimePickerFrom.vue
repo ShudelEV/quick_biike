@@ -45,7 +45,7 @@
             </v-date-picker>
         </v-menu>
     </v-flex>
-    <v-flex xs1></v-flex>
+    <v-spacer></v-spacer>
         <!--Time Picker-->
     <v-flex xs4>
         <v-menu
@@ -53,6 +53,7 @@
             lazy
             :close-on-content-click="false"
             v-model="menu2"
+            @update:returnValue.once="$emit('activeDateTimeTo', true)"
             transition="scale-transition"
             offset-y
             full-width
@@ -70,6 +71,7 @@
                     and set min time in DateTimePickerTo (through parent component)-->
             <v-time-picker
                 v-model="time"
+
                 @change="$refs.menu2.save(time); setDateTimeTo()"
                 format="24hr"
                 :allowed-hours="allowedTimes.hours"
@@ -77,6 +79,7 @@
             ></v-time-picker>
         </v-menu>
     </v-flex>
+    <v-spacer></v-spacer>
     </v-layout>
     </v-container>
 </template>
@@ -102,7 +105,10 @@
         methods: {
             setDateTimeTo () {
                 this.$emit('input', this.date, this.time)
-            }
+            },
+            // activeDateTimeTo () {
+            //     this.$emit('activeDateTimeTo')
+            // }
         }
     }
 </script>

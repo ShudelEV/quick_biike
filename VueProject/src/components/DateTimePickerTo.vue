@@ -7,6 +7,7 @@
             lazy
             :close-on-content-click="true"
             v-model="menu"
+            :disabled="!activeDateTimeTo"
             transition="scale-transition"
             offset-y
             full-width
@@ -18,6 +19,7 @@
                 slot="activator"
                 label="To:"
                 v-model="date"
+                :disabled="!activeDateTimeTo"
                 prepend-icon="event"
                 readonly
                 required
@@ -42,7 +44,7 @@
             </v-date-picker>
         </v-menu>
     </v-flex>
-    <v-flex xs1></v-flex>
+    <v-spacer></v-spacer>
         <!--Time Picker-->
     <v-flex xs4>
         <v-menu
@@ -74,6 +76,7 @@
             ></v-time-picker>
         </v-menu>
     </v-flex>
+    <v-spacer></v-spacer>
     </v-layout>
     </v-container>
 </template>
@@ -82,7 +85,7 @@
     export default {
         name: 'DateTimePickerTo',
 
-        props: ['dateTo', 'timeTo'],
+        props: ['dateTo', 'timeTo', 'activeDateTimeTo'],
 
         data: () => ({
             menu: false,
@@ -101,8 +104,11 @@
             },
             // rent a bike for at least one hour
             minTime: function () {
-                let h = Number(this.timeTo.slice(0, 2)) + 1
-                return String(h + this.timeTo.slice(2))
+                if (this.timeTo) {
+                    let h = Number(this.timeTo.slice(0, 2)) + 1;
+                    return String(h + this.timeTo.slice(2))
+                }
+                else {return null}
             }
         }
     }

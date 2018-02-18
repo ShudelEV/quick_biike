@@ -17,10 +17,13 @@
             <date-time-picker-from
                 :date="dateTo" :time="timeTo"
                 @input="(date, time) => {this.dateTo = date, this.timeTo = time}"
+                @activeDateTimeTo="this.activeDateTimeTo = true"
             ></date-time-picker-from>
             <!-- Throw date and time to DateTimePickerTo -->
             <date-time-picker-to
-                :dateTo="dateTo" :timeTo="timeTo"
+                :dateTo="dateTo"
+                :timeTo="timeTo"
+                :activeDateTimeTo="activeDateTimeTo"
             ></date-time-picker-to>
 
             <v-container fluid pa-0>
@@ -63,6 +66,7 @@ export default {
         valid: true,
         dateTo: null,
         timeTo: null,
+        activeDateTimeTo: false,
         bikes: [
             //            Type: Man
             { type: 'man', checked_default: true, quantity: 1, icon: 'face' },
