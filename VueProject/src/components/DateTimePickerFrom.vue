@@ -53,7 +53,6 @@
             lazy
             :close-on-content-click="false"
             v-model="menu2"
-            @update:returnValue.once="$emit('activeDateTimeTo', true)"
             transition="scale-transition"
             offset-y
             full-width
@@ -105,10 +104,7 @@
         methods: {
             setDateTimeTo () {
                 this.$emit('input', this.date, this.time)
-            },
-            // activeDateTimeTo () {
-            //     this.$emit('activeDateTimeTo')
-            // }
+            }
         }
     }
 </script>

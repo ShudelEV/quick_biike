@@ -52,6 +52,7 @@
             lazy
             :close-on-content-click="false"
             v-model="menu2"
+            :disabled="!activeDateTimeTo"
             transition="scale-transition"
             offset-y
             full-width
@@ -62,6 +63,7 @@
             <v-text-field
                 slot="activator"
                 v-model="time"
+                :disabled="!activeDateTimeTo"
                 prepend-icon="access_time"
                 readonly
             ></v-text-field>

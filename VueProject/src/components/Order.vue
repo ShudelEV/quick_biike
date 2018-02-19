@@ -17,7 +17,6 @@
             <date-time-picker-from
                 :date="dateTo" :time="timeTo"
                 @input="(date, time) => {this.dateTo = date, this.timeTo = time}"
-                @activeDateTimeTo="this.activeDateTimeTo = true"
             ></date-time-picker-from>
             <!-- Throw date and time to DateTimePickerTo -->
             <date-time-picker-to
@@ -66,7 +65,6 @@ export default {
         valid: true,
         dateTo: null,
         timeTo: null,
-        activeDateTimeTo: false,
         bikes: [
             //            Type: Man
             { type: 'man', checked_default: true, quantity: 1, icon: 'face' },
@@ -76,6 +74,13 @@ export default {
             { type: 'child', checked_default: false, quantity: 0, icon: 'child_care' }
         ]
     }),
+
+    computed: {
+        // Activate DateTimePickerTo after a picking TimeFrom
+        activeDateTimeTo: function () {
+            return this.timeTo
+        }
+    },
 
     methods: {
         clear () {
