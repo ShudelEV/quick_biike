@@ -72,7 +72,7 @@
                 v-model="time"
                 @change="$refs.menu2.save(time)"
                 format="24hr"
-                :min="minTime"
+                :min="timeTo"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"
             ></v-time-picker>
@@ -89,29 +89,21 @@
 
         props: ['dateTo', 'timeTo', 'activeDateTimeTo'],
 
+        // The hook is to update the date when the dateTo have changed
+        beforeUpdate () {
+            this.date = this.dateTo
+        },
+
         data: () => ({
             menu: false,
             menu2: false,
             time: null,
+            date: null,
             allowedTimes: {
                 hours: null,
                 minutes: null
             },
             allowedDates: null
-        }),
-
-        computed: {
-            date: function () {
-                return this.dateTo
-            },
-            // rent a bike for at least one hour
-            minTime: function () {
-                if (this.timeTo) {
-                    let h = Number(this.timeTo.slice(0, 2)) + 1;
-                    return String(h + this.timeTo.slice(2))
-                }
-                else {return null}
-            }
-        }
+        })
     }
 </script>

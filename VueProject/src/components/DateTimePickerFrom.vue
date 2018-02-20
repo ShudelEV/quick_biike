@@ -70,7 +70,6 @@
                     and set min time in DateTimePickerTo (through parent component)-->
             <v-time-picker
                 v-model="time"
-
                 @change="$refs.menu2.save(time); setDateTimeTo()"
                 format="24hr"
                 :allowed-hours="allowedTimes.hours"
@@ -84,7 +83,6 @@
 </template>
 
 <script>
-    import bus from '../main.js'
     export default {
         name: 'DateTimePickerFrom',
 
@@ -103,7 +101,21 @@
 
         methods: {
             setDateTimeTo () {
-                this.$emit('input', this.date, this.time)
+                // Set +1 hours (rent for at least 1 hour)
+                let h = Number(this.time.slice(0, 2));
+                let m = Number(this.time.slice(3));
+                let resDate = this.date;
+                if (this.time) {
+                    if (h==23) {
+                        h = 0;
+                        // Set dateTo + 1 day, if h=23.
+                        let tomorrow = new Date(this.date);
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        resDate = tomorrow.toISOString().slice(0, 10);
+                    }
+                    else { h += 1 }
+                }
+                this.$emit('input', resDate, ( h + ':' + m ))
             }
         }
     }

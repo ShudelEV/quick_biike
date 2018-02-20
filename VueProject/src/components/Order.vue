@@ -69,9 +69,9 @@ export default {
             //            Type: Man
             { type: 'man', checked_default: true, quantity: 1, icon: 'face' },
             //            Type: Woman
-            { type: 'woman', checked_default: false, quantity: 0, icon: 'pregnant_woman' },
+            { type: 'woman', checked_default: false, quantity: 1, icon: 'pregnant_woman' },
             //            Type: Child
-            { type: 'child', checked_default: false, quantity: 0, icon: 'child_care' }
+            { type: 'child', checked_default: false, quantity: 1, icon: 'child_care' }
         ]
     }),
 
