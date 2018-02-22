@@ -54,7 +54,9 @@ import DateTimePickerFrom from './DateTimePickerFrom.vue'
 import DateTimePickerTo from './DateTimePickerTo.vue'
 import OrderCheckBox from './OrderCheckBox.vue'
 
-import axios from 'axios'
+import {markers} from './ContentMap.vue'
+
+import readShops from './readShops'
 
 export default {
     components: {
@@ -92,37 +94,9 @@ export default {
                 let inputs = this.$refs.form.inputs;
                 this.date_time_from = inputs[0].value + 'T' + inputs[1].value;
                 this.date_time_to = inputs[2].value + 'T' + inputs[3].value;
-                let form = {
-                    bike_is_free: {
-                        date_time_from: this.date_time_from,
-                        date_time_to: this.date_time_to
-                    },
-                    bikes:
-                        {'man': inputs[5].inputValue},
-                        // {type: 'woman', quantity: inputs[7].inputValue},
-                        // {type: 'child', quantity: inputs[9].inputValue},
 
-                };
-                console.log('form = ', form);
-                // axios({
-                //     method: 'get',
-                //     url: '/api-auth/login/',
-                //     auth: {
-                //         username: 'quickbike_admin',
-                //         password: 'velik5000admin'
-                //     }
-                // }).then(function(response){console.log(response)});
+                console.log('form = ', markers);
 
-                axios.post(
-                    '/api/readShops/',
-                    // Request Data in JSON format
-                    JSON.stringify({'form': form}),
-                    // Axios Configuration
-                    {headers: {
-                        'Content-Type': 'application/json'
-                    }},
-                    // {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
-                ).then(function(response){console.log(response)})
             }
         }
     }

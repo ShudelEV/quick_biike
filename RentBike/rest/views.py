@@ -49,10 +49,11 @@ def readShops(request):
              "bike_is_free": {
                  "from": <str(date)>,
                  "to": <str(date)> },
-             "bike_count": {
-                 "type1": <int>,
-                 "type2": <int>,
-                 "type3": <int> }
+             "bikes: [
+                { "type": <int>, "quantity": <int> },
+                { "type": <int>, "quantity": <int> },
+                ...
+             ]
     } } }
     """
     logging.debug("REST.readShops: form: {}".format(request.data))
@@ -63,9 +64,7 @@ def readShops(request):
 
         free_from = filter_data['bike_is_free']['from']
         free_to = filter_data['bike_is_free']['to']
-        type1_count = filter_data['bike_count']['type1']
-        type2_count = filter_data['bike_count']['type2']
-        type3_count = filter_data['bike_count']['type3']
+        bikes = filter_data['bikes']
 
     except KeyError:
         return bad_request("detail: Not valid content!")
@@ -74,7 +73,8 @@ def readShops(request):
     else:
         # to find out the busy bikes
         busy_bike_ids = []
-        for order in Order.objects.exclude(time_from__gte=free_to).exclude(time_to__lte=free_from):
+        for order in Order.objects.exclude(time_from__gte=free_to):
+            # .exclude(time_to__lte=free_from):
             busy_bike_ids += [bike.id for bike in order.bikes.all()]
         busy_bike_ids = set(busy_bike_ids)
 

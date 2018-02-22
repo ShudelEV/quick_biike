@@ -25,6 +25,8 @@
   import * as VueGoogleMaps from 'vue2-google-maps';
   import Vue from 'vue';
 
+  import readShops from './readShops';
+
   Vue.use(VueGoogleMaps, {
       load: {
           key: 'AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q'
@@ -32,13 +34,14 @@
       }
   });
 
-  var markers = [{
-      position: {lat: 53.870899, lng: 27.517329}
-  }, {
-      position: {lat: 53.893001, lng: 27.603587}
-  }, {
-      position: {lat: 53.930904, lng: 27.519106}
-  }];
+  export var markers = readShops((new Date()).toISOString().slice(0, 16));
+//      [{
+//      position: {lat: 53.870899, lng: 27.517329}
+//  }, {
+//      position: {lat: 53.893001, lng: 27.603587}
+//  }, {
+//      position: {lat: 53.930904, lng: 27.519106}
+//  }];
 
   export default {
       data () {
@@ -50,7 +53,3 @@
   }
 
 </script>
-
-<style>
-
-</style>
