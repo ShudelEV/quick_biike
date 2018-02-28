@@ -1,7 +1,19 @@
+
+/* AJAX request to get list of shops using filter:
+{ "bike_is_free": {
+        "from": <str(date)>,
+        "to": <str(date)> },
+  "bikes: [
+        { "type": <int>, "quantity": <int> },
+        { "type": <int>, "quantity": <int> },
+           ...
+        ]
+ } */
+
 import axios from 'axios'
 
 
-export default function (dt_from, dt_to, bikes) {
+export default function (dt_from, dt_to='', bikes=[]) {
 
     console.log('readShops: ' +
         'from - ' + dt_from + ', to - ' + dt_to + '\n\t' +
@@ -15,17 +27,19 @@ export default function (dt_from, dt_to, bikes) {
         bikes: bikes
     };
 
-    axios.get('/api-auth/login/', {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
-            ).then(function(response){console.log(response)});
+    // axios.get('/api-auth/login/', {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
+    //         ).then(function(response){console.log(response)});
 
-    axios.post(
+    return axios.post(
         '/api/readShops/',
-        JSON.stringify({'form': form}), // Request Data in JSON format
-            // Axios Configuration
-        {headers: { 'Content-Type': 'application/json'}
-        //     'Cookie': )
-        },
+        {'form': form}, // Request Data will be in JSON format
+        // Axios Configuration
+        {headers: { 'Content-Type': 'application/json'}},
         // {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
-    ).then(function(response){console.log(response)});
-
+    )
+        .then(response => {
+            // console.log(response.data);
+            return response.data
+        });
+        // .catch(e => {console.log(e)});
 }

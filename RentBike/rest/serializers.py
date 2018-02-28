@@ -13,6 +13,7 @@ class ShopSerializer(serializers.ModelSerializer):
      class Meta:
         model = Shop
         fields = ('__all__')
+        depth = 2
 
 
 class BikeSerializer(serializers.ModelSerializer):

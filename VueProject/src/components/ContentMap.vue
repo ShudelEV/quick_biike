@@ -29,25 +29,46 @@
 
   Vue.use(VueGoogleMaps, {
       load: {
-          key: 'AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q'
-          // libraries: 'places', //// If you need to use place input
+          key: 'AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q',
+//          libraries: 'places', //// If you need to use place input
       }
   });
-
-  export var markers = readShops((new Date()).toISOString().slice(0, 16));
-//      [{
-//      position: {lat: 53.870899, lng: 27.517329}
-//  }, {
-//      position: {lat: 53.893001, lng: 27.603587}
-//  }, {
-//      position: {lat: 53.930904, lng: 27.519106}
-//  }];
 
   export default {
       data () {
           return {
               center: {lat: 53.9023238, lng: 27.5618025},
-              markers: markers
+              markers: [],
+              shops: []
+          }
+      },
+
+      created() {
+          // get shops when the index page starts
+          readShops((new Date()).toISOString().slice(0, 16))
+              .then(data => {
+//                  console.log('Shops: ' + data['shops']);
+                  this.shops = data.shops
+              });
+      },
+
+      watch: {
+          // update markers on the map when shops is changed
+          shops: function (shops) {
+              let marks = [];
+              if (shops) {
+                  for (var i = 0; i < shops.length; i++) {
+                      marks.push(
+                          {
+                              position: {
+                                  lat: shops[i].contact_info.latitude,
+                                  lng: shops[i].contact_info.longitude
+                              }
+                          }
+                      )
+                  }
+              }
+              this.markers = marks
           }
       }
   }

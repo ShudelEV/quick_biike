@@ -54,8 +54,6 @@ import DateTimePickerFrom from './DateTimePickerFrom.vue'
 import DateTimePickerTo from './DateTimePickerTo.vue'
 import OrderCheckBox from './OrderCheckBox.vue'
 
-import {markers} from './ContentMap.vue'
-
 import readShops from './readShops'
 
 export default {
@@ -94,9 +92,6 @@ export default {
                 let inputs = this.$refs.form.inputs;
                 this.date_time_from = inputs[0].value + 'T' + inputs[1].value;
                 this.date_time_to = inputs[2].value + 'T' + inputs[3].value;
-
-                console.log('form = ', markers);
-
             }
         }
     }
