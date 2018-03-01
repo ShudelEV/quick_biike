@@ -1,9 +1,10 @@
 <template>
     <!--Create a form-->
-    <!--Evoke getShops() method when button "Confirm" is clicked-->
+    <!--Evoke getShops() method when a value of order is changed-->
 <v-form
     ref="form"
     v-model="valid"
+    @input="getShops"
     lazy-validation
 >
 <v-card>
@@ -32,7 +33,10 @@
                         <!--Transfer default args of bike to child component-->
                         <order-check-box
                             v-bind="bike"
-                            @input="checked_default => {bike.checked_default = checked_default}"
+                            @input="(checked_default, quantity) => {
+                                bike.checked_default = checked_default;
+                                bike.quantity = quantity;
+                            }"
                         ></order-check-box>
                     </v-flex>
                 </v-layout>
@@ -40,11 +44,11 @@
         </v-layout>
     </v-container>
 
-    <v-card-actions>
-        <v-spacer></v-spacer>
+    <!--<v-card-actions>-->
+        <!--<v-spacer></v-spacer>-->
         <!--<v-btn @click="clear">clear</v-btn>-->
-        <v-btn @click="getShops" :disabled="!valid">Confirm</v-btn>
-    </v-card-actions>
+        <!--<v-btn @click="getShops" :disabled="!valid">Confirm</v-btn>-->
+    <!--</v-card-actions>-->
 </v-card>
 </v-form>
 </template>
@@ -57,6 +61,7 @@ import OrderCheckBox from './OrderCheckBox.vue'
 import readShops from './readShops'
 
 export default {
+    name: 'Order',
     components: {
         DateTimePickerFrom, DateTimePickerTo, OrderCheckBox
     },

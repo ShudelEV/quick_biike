@@ -16,6 +16,7 @@
             min-width="285px"
         >
             <v-text-field
+                id="date_to"
                 slot="activator"
                 label="To:"
                 v-model="date"
@@ -61,6 +62,7 @@
             min-width="285px"
         >
             <v-text-field
+                id="time_to"
                 slot="activator"
                 v-model="time"
                 :disabled="!activeDateTimeTo"

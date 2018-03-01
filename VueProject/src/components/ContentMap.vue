@@ -57,7 +57,7 @@
           shops: function (shops) {
               let marks = [];
               if (shops) {
-                  for (var i = 0; i < shops.length; i++) {
+                  for (let i = 0; i < shops.length; i++) {
                       marks.push(
                           {
                               position: {

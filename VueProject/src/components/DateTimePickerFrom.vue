@@ -15,6 +15,7 @@
             min-width="285px"
         >
             <v-text-field
+                id="date_from"
                 slot="activator"
                 label="From:"
                 v-model="date"
@@ -61,6 +62,7 @@
             min-width="285px"
         >
             <v-text-field
+                id="time_from"
                 slot="activator"
                 v-model="time"
                 prepend-icon="access_time"
@@ -102,10 +104,13 @@
         methods: {
             setDateTimeTo () {
                 // Set +1 hours (rent for at least 1 hour)
-                let h = Number(this.time.slice(0, 2));
-                let m = Number(this.time.slice(3));
+                let h, m;
                 let resDate = this.date;
-                if (this.time) {
+
+                if (this.time.slice(0, 2) && this.time.slice(3)) {
+                    h = Number(this.time.slice(0, 2));
+                    m = Number(this.time.slice(3));
+
                     if (h==23) {
                         h = 0;
                         // Set dateTo + 1 day, if h=23.
@@ -114,8 +119,8 @@
                         resDate = tomorrow.toISOString().slice(0, 10);
                     }
                     else { h += 1 }
+                    this.$emit('input', resDate, ( h + ':' + m ))
                 }
-                this.$emit('input', resDate, ( h + ':' + m ))
             }
         }
     }

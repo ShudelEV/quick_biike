@@ -1,8 +1,10 @@
 <template>
     <v-card>
-        <v-checkbox ref="checkbox"
+        <v-checkbox
+            ref="checkbox"
             :id="type"
-            :input-value="checked_default" @change="updateCheckbox($refs.checkbox.inputValue)"
+            :input-value="checked_default"
+            @change="updateCheckbox($refs.checkbox.inputValue)"
             :prepend-icon="icon" hide-details></v-checkbox>
         <v-text-field
             ref="qty"
@@ -11,6 +13,7 @@
             :min="minQty"
             :max="maxQty"
             :value="quantity"
+            @input="updateCheckbox(!$refs.checkbox.inputValue, $refs.qty.inputValue)"
             @change="validateQty"
         ></v-text-field>
     </v-card>
@@ -34,8 +37,8 @@
       },
 
       methods: {
-          updateCheckbox (val) {
-              this.$emit('input', !val)
+          updateCheckbox (checked, qty=this.quantity) {
+              this.$emit('input', !checked, Number(qty))
           },
           validateQty () {
               let val = this.$refs.qty.inputValue;
