@@ -15,10 +15,6 @@ import axios from 'axios'
 
 export default function (dt_from, dt_to='', bikes=[]) {
 
-    console.log('readShops: ' +
-        'from - ' + dt_from + ', to - ' + dt_to + '\n\t' +
-        'bikes - ' +  bikes);
-
     let form = {
         bike_is_free: {
             from: dt_from,
@@ -26,6 +22,9 @@ export default function (dt_from, dt_to='', bikes=[]) {
         },
         bikes: bikes
     };
+
+    console.log('readShops/Form: ');
+    console.log({'form': form});
 
     // axios.get('/api-auth/login/', {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
     //         ).then(function(response){console.log(response)});

@@ -56,8 +56,8 @@ class Bike(models.Model):
     name = models.CharField(max_length=200)
     photo = models.ImageField(verbose_name="bike photo", blank=True)
     type = models.CharField(max_length=1,
-                            choices=(('1', 'male'), ('2', 'female'), ('3', 'kids')),
-                            default='1')
+                            choices=((1, 'male'), (2, 'female'), (3, 'kids')),
+                            default=1)
     shop = models.ForeignKey(Shop, related_name='bikes', on_delete=models.CASCADE)
     price = models.ForeignKey(Price, related_name='bikes')
     description = models.TextField(blank=True)

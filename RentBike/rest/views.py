@@ -58,7 +58,7 @@ def readShops(request):
              ]
     } } }
     """
-    logging.debug("REST.readShops: form: {}".format(request.data))
+    logging.debug("REST.readShops/Form: {}".format(request.data))
 
     try:
         filter_data = request.data['form']
@@ -68,7 +68,9 @@ def readShops(request):
         # count types of bikes
         type_count = {}
         if bikes:
-            type_count = {bike.type: bike.quantity for bike in bikes}
+            type_count = {bike['type']: bike['quantity'] for bike in bikes}
+
+        # logging.debug("REST.readShops/Type_count: {}".format(type_count))
 
     except KeyError:
         return bad_request("detail: Not valid content!")
@@ -90,14 +92,14 @@ def readShops(request):
         # to find out shops that have relevant bikes
         shop_ids = []
 
-        if busy_bike_ids and bikes:
+        if bikes:
             for shop in Shop.objects.all():
-                for bike in shop.bike_set.exclude(pk__in=busy_bike_ids):
+                for bike in shop.bikes.exclude(pk__in=busy_bike_ids):
                     if bike.type in type_count.keys():
                         type_count[bike.type] -= 1
 
                 # check: does this shop have relevant bikes?
-                if type_count.values() <= 0:
+                if sum(type_count.values()) <= 0:
                     shop_ids.append(shop.id)
         else:
             shop_ids = [shop.id for shop in Shop.objects.all()]

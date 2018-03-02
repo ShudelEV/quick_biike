@@ -73,6 +73,7 @@
             <v-time-picker
                 v-model="time"
                 @change="$refs.menu2.save(time); setDateTime()"
+                :min="(new Date()).toISOString().slice(11, 16)"
                 format="24hr"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"

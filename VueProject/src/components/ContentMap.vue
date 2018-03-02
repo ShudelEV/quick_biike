@@ -26,6 +26,7 @@
   import Vue from 'vue';
 
   import readShops from './readShops';
+  import {bus} from '../main'
 
   Vue.use(VueGoogleMaps, {
       load: {
@@ -50,6 +51,15 @@
 //                  console.log('Shops: ' + data['shops']);
                   this.shops = data.shops
               });
+          // update the list of shops when any input in Order is changed
+          bus.$on('orderShops', function (dtFrom, dtTo, bikes) {
+              readShops(dtFrom, dtTo, bikes)
+                  .then(data => {
+                      console.log();
+                      console.log(data.shops);
+                      this.shops = data.shops
+                  });
+          })
       },
 
       watch: {

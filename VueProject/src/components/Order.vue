@@ -41,6 +41,7 @@
                             @input="(checked_default, quantity) => {
                                 bike.checked_default = checked_default;
                                 bike.quantity = quantity;
+                                getShops();
                             }"
                         ></order-check-box>
                     </v-flex>
@@ -64,6 +65,7 @@ import DateTimePickerTo from './DateTimePickerTo.vue'
 import OrderCheckBox from './OrderCheckBox.vue'
 
 import readShops from './readShops'
+import {bus} from '../main'
 
 export default {
     name: 'Order',
@@ -77,7 +79,7 @@ export default {
         actDateTo: null,
         actTimeTo: null,
         // dateTimeFrom, dateTimeTo - for update the list of shops on the map
-        dateTimeFrom: null,
+        dateTimeFrom: (new Date()).toISOString().slice(0, 16),
         dateTimeTo: null,
         bikes: [
             //            Type: Man
@@ -111,9 +113,6 @@ export default {
             }
             this.getShops()
         },
-        bikes: function () {
-            this.getShops()
-        },
     },
 
     methods: {
@@ -122,15 +121,16 @@ export default {
         },
 
         getShops () {
-            let setBikes = [];
-            for (let bike in this.bikes) {
-                let i = 0;
-                if (bike['checked_default']) {
-                    setBikes.push({type: i, quantity: bike['quantity']})
+            let bikesSet = [];
+            let i = 1;
+            for (let bike of this.bikes) {
+                if (bike.checked_default) {
+                    bikesSet.push({type: i, quantity: bike.quantity})
                 }
-                i++
+                i += 1
             }
-            readShops(this.dateTimeFrom, this.dateTimeTo, setBikes)
+            // emit event to update the list of shops in ContentMap
+            bus.$emit('orderShops', this.dateTimeFrom, this.dateTimeTo, bikesSet)
         },
 
         setDateTimeTo (date, time) {
