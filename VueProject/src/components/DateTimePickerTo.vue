@@ -28,7 +28,7 @@
             <!--Change action: appear the TimePicker after-->
             <v-date-picker
                 v-model="date"
-                @change="menu2 = !menu2"
+                @change="menu2 = !menu2; setDateTime()"
                 no-title
                 scrollable
                 :min="date"
@@ -72,9 +72,9 @@
             <!--Change action: save time in text-field after picking-->
             <v-time-picker
                 v-model="time"
-                @change="$refs.menu2.save(time)"
+                @change="$refs.menu2.save(time); setDateTime()"
                 format="24hr"
-                :min="timeTo"
+                :min="actTimeTo"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"
             ></v-time-picker>
@@ -89,11 +89,11 @@
     export default {
         name: 'DateTimePickerTo',
 
-        props: ['dateTo', 'timeTo', 'activeDateTimeTo'],
+        props: ['actDateTo', 'actTimeTo', 'activeDateTimeTo'],
 
         // The hook is to update the date when the dateTo have changed
         beforeUpdate () {
-            this.date = this.dateTo
+            this.date = this.actDateTo
         },
 
         data: () => ({
@@ -106,6 +106,12 @@
                 minutes: null
             },
             allowedDates: null
-        })
+        }),
+
+        methods: {
+            setDateTime () {
+                this.$emit('input', this.date, this.time)
+            }
+        }
     }
 </script>

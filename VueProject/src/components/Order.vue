@@ -4,7 +4,6 @@
 <v-form
     ref="form"
     v-model="valid"
-    @input="getShops"
     lazy-validation
 >
 <v-card>
@@ -16,14 +15,20 @@
         <v-layout row wrap>
             <!-- Catch date and time from DateTimePickerFrom -->
             <date-time-picker-from
-                :date="dateTo" :time="timeTo"
-                @input="(date, time) => {this.dateTo = date, this.timeTo = time}"
+                @input="(date, time) => {
+                    setDateTimeTo(date, time);
+                    this.dateTimeFrom = date + 'T' + time;
+                }"
             ></date-time-picker-from>
             <!-- Throw date and time to DateTimePickerTo -->
+            <!-- And catch date and time from DateTimePickerTo -->
             <date-time-picker-to
-                :dateTo="dateTo"
-                :timeTo="timeTo"
+                :actDateTo="actDateTo"
+                :actTimeTo="actTimeTo"
                 :activeDateTimeTo="activeDateTimeTo"
+                @input="(date, time) => {
+                    this.dateTimeTo = date + 'T' + time;
+                }"
             ></date-time-picker-to>
 
             <v-container fluid pa-0>
@@ -68,8 +73,12 @@ export default {
 
     data: () => ({
         valid: true,
-        dateTo: null,
-        timeTo: null,
+        // actDateTo, actTimeTo - for activate dateTimeTo field
+        actDateTo: null,
+        actTimeTo: null,
+        // dateTimeFrom, dateTimeTo - for update the list of shops on the map
+        dateTimeFrom: null,
+        dateTimeTo: null,
         bikes: [
             //            Type: Man
             { type: 'man', checked_default: true, quantity: 1, icon: 'face' },
@@ -83,8 +92,28 @@ export default {
     computed: {
         // Activate DateTimePickerTo after a picking TimeFrom
         activeDateTimeTo: function () {
-            return this.timeTo
+            return this.actTimeTo ? true : false
         }
+    },
+
+    watch: {
+        dateTimeFrom: function (val) {
+            // if time is not picked - set 00:00
+            if (val.slice(11) == 'null') {
+                this.dateTimeFrom = val.slice(0, 10) + 'T00:00'
+            }
+            this.getShops()
+        },
+        dateTimeTo: function (val) {
+            // if time is not picked - set actTimeTo
+            if (val.slice(11) == 'null') {
+                this.dateTimeTo = val.slice(0, 11) + this.actTimeTo
+            }
+            this.getShops()
+        },
+        bikes: function () {
+            this.getShops()
+        },
     },
 
     methods: {
@@ -93,10 +122,39 @@ export default {
         },
 
         getShops () {
-            if (this.$refs.form.validate()) {
-                let inputs = this.$refs.form.inputs;
-                this.date_time_from = inputs[0].value + 'T' + inputs[1].value;
-                this.date_time_to = inputs[2].value + 'T' + inputs[3].value;
+            let setBikes = [];
+            for (let bike in this.bikes) {
+                let i = 0;
+                if (bike['checked_default']) {
+                    setBikes.push({type: i, quantity: bike['quantity']})
+                }
+                i++
+            }
+            readShops(this.dateTimeFrom, this.dateTimeTo, setBikes)
+        },
+
+        setDateTimeTo (date, time) {
+            // Set +1 hours (rent for at least 1 hour)
+            let h = 0, m = 0;
+            let resDate = date;
+
+            if (time) {
+                h = Number(time.slice(0, 2));
+                m = Number(time.slice(3));
+
+                if (h == 23) {
+                    h = 0;
+                    // Set dateTo +1 day, if h = 23.
+                    let tomorrow = new Date(date);
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    resDate = tomorrow.toISOString().slice(0, 10);
+                }
+                else {
+                    h += 1
+                }
+
+                this.actDateTo = resDate;
+                this.actTimeTo = h + ':' + m;
             }
         }
     }

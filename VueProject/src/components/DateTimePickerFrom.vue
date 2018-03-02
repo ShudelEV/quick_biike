@@ -27,7 +27,7 @@
                 and set min, date in DateTimePickerTo (through parent component)-->
             <v-date-picker
                 v-model="date"
-                @change="menu2 = !menu2; setDateTimeTo()"
+                @change="menu2 = !menu2; setDateTime()"
                 no-title
                 scrollable
                 :min="(new Date()).toISOString().slice(0, 10)"
@@ -72,7 +72,7 @@
                     and set min time in DateTimePickerTo (through parent component)-->
             <v-time-picker
                 v-model="time"
-                @change="$refs.menu2.save(time); setDateTimeTo()"
+                @change="$refs.menu2.save(time); setDateTime()"
                 format="24hr"
                 :allowed-hours="allowedTimes.hours"
                 :allowed-minutes="allowedTimes.minutes"
@@ -102,25 +102,8 @@
         }),
 
         methods: {
-            setDateTimeTo () {
-                // Set +1 hours (rent for at least 1 hour)
-                let h, m;
-                let resDate = this.date;
-
-                if (this.time.slice(0, 2) && this.time.slice(3)) {
-                    h = Number(this.time.slice(0, 2));
-                    m = Number(this.time.slice(3));
-
-                    if (h==23) {
-                        h = 0;
-                        // Set dateTo + 1 day, if h=23.
-                        let tomorrow = new Date(this.date);
-                        tomorrow.setDate(tomorrow.getDate() + 1);
-                        resDate = tomorrow.toISOString().slice(0, 10);
-                    }
-                    else { h += 1 }
-                    this.$emit('input', resDate, ( h + ':' + m ))
-                }
+            setDateTime () {
+                this.$emit('input', this.date, this.time)
             }
         }
     }
