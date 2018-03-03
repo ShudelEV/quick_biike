@@ -3,12 +3,21 @@ import App from './App.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css'
 
-// For emitting events between non-bind components
-export let bus = new Vue();
 
 Vue.use(Vuetify);
 
-new Vue({
+// For emitting events between non-bind components
+const EventBus = new Vue();
+
+Object.defineProperties(Vue.prototype, {
+    $bus: {
+        get: function () {
+          return EventBus
+        }
+    }
+});
+
+let vm = new Vue({
     el: '#app',
     render: h => h(App)
 });

@@ -65,7 +65,6 @@ import DateTimePickerTo from './DateTimePickerTo.vue'
 import OrderCheckBox from './OrderCheckBox.vue'
 
 import readShops from './readShops'
-import {bus} from '../main'
 
 export default {
     name: 'Order',
@@ -130,7 +129,7 @@ export default {
                 i += 1
             }
             // emit event to update the list of shops in ContentMap
-            bus.$emit('orderShops', this.dateTimeFrom, this.dateTimeTo, bikesSet)
+            this.$bus.$emit('setShopsOnMap', this.dateTimeFrom, this.dateTimeTo, bikesSet)
         },
 
         setDateTimeTo (date, time) {
