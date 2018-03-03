@@ -102,7 +102,11 @@ def readShops(request):
                         shop_type_count[b_type] -= 1
 
                 # check: does this shop have relevant bikes?
-                if sum(shop_type_count.values()) <= 0:
+                comp = True
+                for val in shop_type_count.values():
+                    if val > 0:
+                        comp = False
+                if comp:
                     shop_ids.append(shop.id)
         else:
             shop_ids = [shop.id for shop in Shop.objects.all()]

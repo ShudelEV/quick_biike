@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     'webpack_loader',
 
     'django_extensions',
-    'reset_migrations',
 
     'rest_framework',
     'Profile',
