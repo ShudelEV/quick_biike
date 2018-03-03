@@ -7,10 +7,11 @@
     lazy-validation
 >
 <v-card>
-    <v-card-title
-    class="yellow accent-1 pa-4 title"
-    > Create order </v-card-title>
-
+    <v-toolbar class="lime accent-2">
+        <v-toolbar-title>
+            Create order
+        </v-toolbar-title>
+    </v-toolbar>
     <v-container fluid>
         <v-layout row wrap>
             <!-- Catch date and time from DateTimePickerFrom -->
@@ -50,11 +51,11 @@
         </v-layout>
     </v-container>
 
-    <!--<v-card-actions>-->
-        <!--<v-spacer></v-spacer>-->
+    <v-card-actions>
+        <v-spacer></v-spacer>
         <!--<v-btn @click="clear">clear</v-btn>-->
-        <!--<v-btn @click="getShops" :disabled="!valid">Confirm</v-btn>-->
-    <!--</v-card-actions>-->
+        <v-btn @click="getShops" :disabled="!valid">Confirm</v-btn>
+    </v-card-actions>
 </v-card>
 </v-form>
 </template>

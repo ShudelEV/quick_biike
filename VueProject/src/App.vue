@@ -32,7 +32,7 @@
         right
         v-model="rightDrawer"
         app
-        class="yellow accent-1"
+        class="lime accent-1"
     >
 
         <right-menu></right-menu>
