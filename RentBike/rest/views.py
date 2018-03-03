@@ -66,9 +66,9 @@ def readShops(request):
         free_to = filter_data['bike_is_free']['to']
         bikes = filter_data['bikes']
         # count types of bikes
-        type_count = {}
+        order_type_count = {}
         if bikes:
-            type_count = {bike['type']: bike['quantity'] for bike in bikes}
+            order_type_count = {bike['type']: bike['quantity'] for bike in bikes}
 
         # logging.debug("REST.readShops/Type_count: {}".format(type_count))
 
@@ -87,24 +87,27 @@ def readShops(request):
             for order in Order.objects.exclude(time_to__lte=free_from):
                 busy_bike_ids += [bike.id for bike in order.bikes.all()]
 
-        busy_bike_ids = set(busy_bike_ids)
+        # logging.debug("REST.readShops/Busy bike ids: {}".format(busy_bike_ids))
 
         # to find out shops that have relevant bikes
         shop_ids = []
 
         if bikes:
             for shop in Shop.objects.all():
+                shop_type_count = order_type_count.copy()
+
                 for bike in shop.bikes.exclude(pk__in=busy_bike_ids):
-                    if bike.type in type_count.keys():
-                        type_count[bike.type] -= 1
+                    b_type = int(bike.type)
+                    if b_type in list(order_type_count.keys()):
+                        shop_type_count[b_type] -= 1
 
                 # check: does this shop have relevant bikes?
-                if sum(type_count.values()) <= 0:
+                if sum(shop_type_count.values()) <= 0:
                     shop_ids.append(shop.id)
         else:
             shop_ids = [shop.id for shop in Shop.objects.all()]
 
-        logging.debug("REST.readShops: Order.shops.ids: {}".format(shop_ids))
+        # logging.debug("REST.readShops: Order.shops.ids: {}".format(shop_ids))
 
         shops_query = Shop.objects.filter(pk__in=shop_ids)
 

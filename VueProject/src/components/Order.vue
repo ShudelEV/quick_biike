@@ -82,7 +82,7 @@ export default {
         dateTimeTo: null,
         bikes: [
             //            Type: Man
-            { type: 'man', checked_default: true, quantity: 1, icon: 'face' },
+            { type: 'man', checked_default: false, quantity: 1, icon: 'face' },
             //            Type: Woman
             { type: 'woman', checked_default: false, quantity: 1, icon: 'pregnant_woman' },
             //            Type: Child
