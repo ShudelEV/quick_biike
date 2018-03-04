@@ -1,11 +1,10 @@
 <template>
 <v-app>
     <v-navigation-drawer
-        fixed
+        app fixed
         :mini-variant="miniVariant"
         :clipped="clipped"
         v-model="drawer"
-        app
     >
 
         <left-menu></left-menu>
@@ -27,11 +26,9 @@
     <content-map></content-map>
 
     <v-navigation-drawer
-        fixed
+        app fixed right
         :clipped="!clipped"
-        right
         v-model="rightDrawer"
-        app
         class="lime accent-1"
     >
 
@@ -59,7 +56,7 @@ export default {
             clipped: true,
             drawer: false,
             fixed: false,
-            miniVariant: true,
+            miniVariant: false,
             rightDrawer: true,
             title: 'QuickBike'
         }

@@ -10,7 +10,7 @@ class ShopSerializer(serializers.ModelSerializer):
     #     read_only=True
     # )
 
-     class Meta:
+    class Meta:
         model = Shop
         fields = ('__all__')
         depth = 2

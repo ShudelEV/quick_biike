@@ -17,14 +17,17 @@
                     </gmap-info-window>
 
                     <gmap-marker
-                      :key="i"
-                      v-for="(m, i) in markers"
-                      :position="m.position"
-                      :clickable="true"
-                      :draggable="true"
-                      @click="
-                          // center=m.position;
-                          toggleInfoWindow(m, i)"
+                        :key="sh.id"
+                        v-for="sh in shops"
+                        :position="{
+                                      lat: sh.contact_info.latitude,
+                                      lng: sh.contact_info.longitude
+                                   }"
+                        :clickable="true"
+                        :draggable="true"
+                        @click="
+                            // center=m.position;
+                            toggleInfoWindow(sh)"
                     ></gmap-marker>
                 </gmap-map>
             </v-layout>
@@ -79,27 +82,6 @@
           this.$bus.$on('setShopsOnMap', this.setShops);
       },
 
-      watch: {
-          // update markers on the map when shops is changed
-          shops: function (shops) {
-              let marks = [];
-              if (shops) {
-                  for (let i = 0; i < shops.length; i++) {
-                      marks.push(
-                          {
-                              position: {
-                                  lat: shops[i].contact_info.latitude,
-                                  lng: shops[i].contact_info.longitude
-                              },
-                              infoText: shops[i].name
-                          }
-                      )
-                  }
-              }
-              this.markers = marks
-          }
-      },
-
       methods: {
           setShops (dtFrom, dtTo, bikes) {
               readShops(dtFrom, dtTo, bikes)
@@ -108,17 +90,20 @@
                   })
           },
 
-          toggleInfoWindow: function(marker, idx) {
-              this.infoWindowPos = marker.position;
-              this.infoContent = marker.infoText;
+          toggleInfoWindow: function(marker) {
+              this.infoWindowPos = {
+                                      lat: marker.contact_info.latitude,
+                                      lng: marker.contact_info.longitude
+                                   };
+              this.infoContent = marker.name;
               // check if its the same marker that was selected if yes toggle
-              if (this.currentMidx == idx) {
+              if (this.currentMidx == marker.id) {
                   this.infoWinOpen = !this.infoWinOpen;
               }
               // if different marker set infowindow to open and reset current marker index
               else {
                   this.infoWinOpen = true;
-                  this.currentMidx = idx;
+                  this.currentMidx = marker.id;
               }
           }
       }
