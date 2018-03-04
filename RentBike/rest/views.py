@@ -47,7 +47,7 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet):
 def readShops(request):
     """
         API endpoint that return set of shops using filter:
-    { "form":{
+    { "filter":{
              "bike_is_free": {
                  "from": <str(date)>,
                  "to": <str(date)> },
@@ -61,7 +61,7 @@ def readShops(request):
     logging.debug("REST.readShops/Form: {}".format(request.data))
 
     try:
-        filter_data = request.data['form']
+        filter_data = request.data['filter']
         free_from = filter_data['bike_is_free']['from']
         free_to = filter_data['bike_is_free']['to']
         bikes = filter_data['bikes']

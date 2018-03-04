@@ -7,29 +7,37 @@
         { "type": <int>, "quantity": <int> },
         { "type": <int>, "quantity": <int> },
            ...
-        ]
- } */
+        ],
+  ?shop: { id: <[int]> }
+} */
 
 import axios from 'axios'
 
 
-export default function (dt_from, dt_to='', bikes=[]) {
+export default function (dt_from, dt_to='', bikes=[], shop_id=null) {
 
     let filter = {
         bike_is_free: {
             from: dt_from,
             to: dt_to
         },
-        bikes: bikes
+        bikes: bikes,
+        shop: {
+            id: shop_id
+        }
     };
 
-    console.log('readShops/Form: ', filter);
+    // if (shop_id) {
+    //     filter.shop = {id: shop_id}}
+    // };
+
+    console.log('readBikes/Form: ', filter);
 
     // axios.get('/api-auth/login/', {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
     //         ).then(function(response){console.log(response)});
 
     return axios.post(
-        '/api/readShops/',
+        '/api/readBikes/',
         // Request Data will be in JSON format
         {'filter': filter},
         // Axios Configuration

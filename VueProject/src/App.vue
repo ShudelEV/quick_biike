@@ -23,7 +23,7 @@
         </v-btn>
     </v-toolbar>
 
-    <content-map></content-map>
+    <content-map :shops="shops"></content-map>
 
     <v-navigation-drawer
         app fixed right
@@ -47,10 +47,13 @@ import LeftMenu from './components/LeftMenu.vue'
 import RightMenu from './components/Order.vue'
 import BaseFooter from './components/Footer.vue'
 
+import readShops from './components/readShops';
+
 export default {
     components: {
         ContentMap, LeftMenu, RightMenu, BaseFooter
     },
+
     data () {
         return {
             clipped: true,
@@ -58,8 +61,31 @@ export default {
             fixed: false,
             miniVariant: false,
             rightDrawer: true,
-            title: 'QuickBike'
+            title: 'QuickBike',
+
+            shops: null
         }
+    },
+
+    created () {
+        // get shops when the index page starts
+        readShops((new Date()).toISOString().slice(0, 16))
+            .then(data => {
+//                console.log(this);
+                this.shops = data.shops
+            });
+        // update the list of shops when any input in Order is changed
+        this.$bus.$on('setShopsOnMap', this.setShops);
+    },
+
+    methods: {
+        setShops (dtFrom, dtTo, bikes) {
+              readShops(dtFrom, dtTo, bikes)
+                  .then(data => {
+                      this.shops = data.shops
+                  })
+        },
     }
+
 }
 </script>

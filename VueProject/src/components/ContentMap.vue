@@ -39,7 +39,6 @@
   import * as VueGoogleMaps from 'vue2-google-maps';
   import Vue from 'vue';
 
-  import readShops from './readShops';
 
   Vue.use(VueGoogleMaps, {
       load: {
@@ -66,30 +65,14 @@
                   }
               },
               center: {lat: 53.9023238, lng: 27.5618025},
-              markers: [],
-              shops: []
           }
       },
 
-      created() {
-          // get shops when the index page starts
-          readShops((new Date()).toISOString().slice(0, 16))
-              .then(data => {
-//                  console.log(this);
-                  this.shops = data.shops
-              });
-          // update the list of shops when any input in Order is changed
-          this.$bus.$on('setShopsOnMap', this.setShops);
+      props: {
+          shops: {type: Array, default: []}
       },
 
       methods: {
-          setShops (dtFrom, dtTo, bikes) {
-              readShops(dtFrom, dtTo, bikes)
-                  .then(data => {
-                      this.shops = data.shops
-                  })
-          },
-
           toggleInfoWindow: function(marker) {
               this.infoWindowPos = {
                                       lat: marker.contact_info.latitude,

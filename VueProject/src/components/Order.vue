@@ -1,4 +1,5 @@
 <template>
+<div>
     <!--Create a form-->
     <!--Evoke getShops() method when a value of order is changed-->
 <v-form
@@ -54,23 +55,34 @@
     <v-card-actions>
         <v-spacer></v-spacer>
         <!--<v-btn @click="clear">clear</v-btn>-->
-        <v-btn @click="getShops" :disabled="!valid">Confirm</v-btn>
+        <v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Confirm</v-btn>
     </v-card-actions>
 </v-card>
 </v-form>
+
+    <!-- List of Shops appears after clicking the button  -->
+<v-list :hidden="!listOfShopsActive">
+<list-of-shops
+    :key="shop.id"
+    v-for="shop in shops"
+    :shop="shop"
+>
+</list-of-shops>
+</v-list>
+</div>
 </template>
 
 <script>
 import DateTimePickerFrom from './DateTimePickerFrom.vue'
 import DateTimePickerTo from './DateTimePickerTo.vue'
 import OrderCheckBox from './OrderCheckBox.vue'
-
-import readShops from './readShops'
+import ListOfShops from './ListOfShops.vue'
 
 export default {
     name: 'Order',
+
     components: {
-        DateTimePickerFrom, DateTimePickerTo, OrderCheckBox
+        DateTimePickerFrom, DateTimePickerTo, OrderCheckBox, ListOfShops
     },
 
     data: () => ({
@@ -88,7 +100,9 @@ export default {
             { type: 'woman', checked_default: false, quantity: 1, icon: 'pregnant_woman' },
             //            Type: Child
             { type: 'child', checked_default: false, quantity: 1, icon: 'child_care' }
-        ]
+        ],
+        listOfShopsActive: false,
+        shops: []
     }),
 
     computed: {
