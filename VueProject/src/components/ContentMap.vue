@@ -7,14 +7,25 @@
                   :zoom="12"
                   style="width: 100%; height: 100%"
                 >
-                  <gmap-marker
-                    :key="index"
-                    v-for="(m, index) in markers"
-                    :position="m.position"
-                    :clickable="true"
-                    :draggable="true"
-                    @click="center=m.position"
-                  ></gmap-marker>
+                    <gmap-info-window
+                        :options="infoOptions"
+                        :position="infoWindowPos"
+                        :opened="infoWinOpen"
+                        @closeclick="infoWinOpen=false"
+                    >
+                        {{infoContent}}
+                    </gmap-info-window>
+
+                    <gmap-marker
+                      :key="i"
+                      v-for="(m, i) in markers"
+                      :position="m.position"
+                      :clickable="true"
+                      :draggable="true"
+                      @click="
+                          // center=m.position;
+                          toggleInfoWindow(m, i)"
+                    ></gmap-marker>
                 </gmap-map>
             </v-layout>
         </v-container>
@@ -37,6 +48,20 @@
   export default {
       data () {
           return {
+              infoContent: '',
+              infoWindowPos: {
+                  lat: 0,
+                  lng: 0
+              },
+              infoWinOpen: false,
+              currentMidx: null,
+              // optional: offset infowindow so it visually sits nicely on top of our marker
+              infoOptions: {
+                  pixelOffset: {
+                    width: 0,
+                    height: -35
+                  }
+              },
               center: {lat: 53.9023238, lng: 27.5618025},
               markers: [],
               shops: []
@@ -65,7 +90,8 @@
                               position: {
                                   lat: shops[i].contact_info.latitude,
                                   lng: shops[i].contact_info.longitude
-                              }
+                              },
+                              infoText: shops[i].name
                           }
                       )
                   }
@@ -80,6 +106,20 @@
                   .then(data => {
                       this.shops = data.shops
                   })
+          },
+
+          toggleInfoWindow: function(marker, idx) {
+              this.infoWindowPos = marker.position;
+              this.infoContent = marker.infoText;
+              // check if its the same marker that was selected if yes toggle
+              if (this.currentMidx == idx) {
+                  this.infoWinOpen = !this.infoWinOpen;
+              }
+              // if different marker set infowindow to open and reset current marker index
+              else {
+                  this.infoWinOpen = true;
+                  this.currentMidx = idx;
+              }
           }
       }
   }
