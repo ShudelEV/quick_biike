@@ -32,7 +32,11 @@
         class="lime accent-1"
     >
 
-        <right-menu></right-menu>
+        <right-menu
+            :shops="shops"
+            @setShopsOnMap="(dtFrom, dtTo, bikes) => {
+                setShops(dtFrom, dtTo, bikes)}"
+        ></right-menu>
 
     </v-navigation-drawer>
 
@@ -71,14 +75,12 @@ export default {
         // get shops when the index page starts
         readShops((new Date()).toISOString().slice(0, 16))
             .then(data => {
-//                console.log(this);
                 this.shops = data.shops
             });
-        // update the list of shops when any input in Order is changed
-        this.$bus.$on('setShopsOnMap', this.setShops);
     },
 
     methods: {
+        // update the list of shops when any input in Order is changed
         setShops (dtFrom, dtTo, bikes) {
               readShops(dtFrom, dtTo, bikes)
                   .then(data => {
@@ -86,6 +88,5 @@ export default {
                   })
         },
     }
-
 }
 </script>

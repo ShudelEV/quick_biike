@@ -102,8 +102,11 @@ export default {
             { type: 'child', checked_default: false, quantity: 1, icon: 'child_care' }
         ],
         listOfShopsActive: false,
-        shops: []
     }),
+
+    props: {
+        shops: {type: Array, default: null}
+    },
 
     computed: {
         // Activate DateTimePickerTo after a picking TimeFrom
@@ -144,7 +147,7 @@ export default {
                 i += 1
             }
             // emit event to update the list of shops in ContentMap
-            this.$bus.$emit('setShopsOnMap', this.dateTimeFrom, this.dateTimeTo, bikesSet)
+            this.$emit('setShopsOnMap', this.dateTimeFrom, this.dateTimeTo, bikesSet)
         },
 
         setDateTimeTo (date, time) {

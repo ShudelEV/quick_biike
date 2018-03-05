@@ -69,7 +69,7 @@
       },
 
       props: {
-          shops: {type: Array, default: []}
+          shops: {type: Array, default: null}
       },
 
       methods: {
