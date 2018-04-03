@@ -11,6 +11,7 @@ router.register(r'orders', views.OrderViewSet, r'order')
 urlpatterns = router.urls
 
 urlpatterns += [
-    url(r'^readShops/$', views.readShops),
-    url(r'^createOrder/$', views.createOrder),
+    url(r'^readShops/$', views.read_shops),
+    url(r'^readBikes/$', views.read_bikes),
+    url(r'^createOrder/$', views.create_order),
 ]

@@ -42,9 +42,25 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OrderSerializer
 
 
+# find out busy bikes
+def get_busy_bikes(free_from, free_to):
+    busy_bike_ids = []
+
+    if free_from and free_to:
+        for order in Order.objects.exclude(time_from__gte=free_to).exclude(time_to__lte=free_from):
+            busy_bike_ids += [bike.id for bike in order.bikes.all()]
+    elif free_from and not free_to:
+        for order in Order.objects.exclude(time_to__lte=free_from):
+            busy_bike_ids += [bike.id for bike in order.bikes.all()]
+
+    # logging.debug("REST/Busy bike ids: {}".format(busy_bike_ids))
+
+    return busy_bike_ids
+
+
 @api_view(['POST'])
 @authentication_classes((BasicAuthentication, ))
-def readShops(request):
+def read_shops(request):
     """
         API endpoint that return set of shops using filter:
     { "filter":{
@@ -58,7 +74,7 @@ def readShops(request):
              ]
     } } }
     """
-    logging.debug("REST.readShops/Form: {}".format(request.data))
+    # logging.debug("REST.readShops/Form: {}".format(request.data))
 
     try:
         filter_data = request.data['filter']
@@ -77,17 +93,7 @@ def readShops(request):
 
     # using filter return the response
     else:
-        # find out the busy bikes
-        busy_bike_ids = []
-
-        if free_from and free_to:
-            for order in Order.objects.exclude(time_from__gte=free_to).exclude(time_to__lte=free_from):
-                busy_bike_ids += [bike.id for bike in order.bikes.all()]
-        elif free_from and not free_to:
-            for order in Order.objects.exclude(time_to__lte=free_from):
-                busy_bike_ids += [bike.id for bike in order.bikes.all()]
-
-        # logging.debug("REST.readShops/Busy bike ids: {}".format(busy_bike_ids))
+        busy_bike_ids = get_busy_bikes(free_from, free_to)
 
         # to find out shops that have relevant bikes
         shop_ids = []
@@ -119,7 +125,59 @@ def readShops(request):
 
 
 @api_view(['POST'])
-def createOrder(request):
+@authentication_classes((BasicAuthentication, ))
+def read_bikes(request):
+    """
+        API endpoint that return set of bikes using filter:
+    { "filter":{
+             "bike_is_free": {
+                 "from": <str(date)>,
+                 "to": <str(date)> },
+             "bikes: [
+                { "type": <int>, "quantity": <int> },
+                { "type": <int>, "quantity": <int> },
+                ...
+             ],
+             ?"shop": { "id": <[int]> }
+    } } }
+    """
+    # logging.debug("REST.readBikes/Form: {}".format(request.data))
+
+    try:
+        filter_data = request.data['filter']
+        free_from = filter_data['bike_is_free']['from']
+        free_to = filter_data['bike_is_free']['to']
+        bikes = filter_data['bikes']
+        # count types of bikes
+        bike_types = []
+        if bikes:
+            bike_types = [str(bike['type']) for bike in bikes]
+
+        shop_ids = filter_data['shop']['id']
+
+    except KeyError:
+        return bad_request("detail: Not valid content!")
+
+    # using filter return the response
+    else:
+        busy_bike_ids = get_busy_bikes(free_from, free_to)
+        shops = Shop.objects.filter(pk__in=shop_ids) if shop_ids else Shop.objects.all()
+
+        if bike_types:
+            bikes_query = Bike.objects\
+                .exclude(pk__in=busy_bike_ids)\
+                .filter(shop__in=shops)\
+                .filter(type__in=bike_types)
+        else:
+            bikes_query = Bike.objects\
+                .exclude(pk__in=busy_bike_ids)\
+                .filter(shop__in=shops)
+
+        return Response({"bikes": BikeSerializer(bikes_query, many=True).data})
+
+
+@api_view(['POST'])
+def create_order(request):
     """
         API endpoint that create order using request:
     {

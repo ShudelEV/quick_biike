@@ -55,20 +55,25 @@
     <v-card-actions>
         <v-spacer></v-spacer>
         <!--<v-btn @click="clear">clear</v-btn>-->
-        <v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Confirm</v-btn>
+        <v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Show/Hide List</v-btn>
     </v-card-actions>
+
 </v-card>
 </v-form>
 
     <!-- List of Shops appears after clicking the button  -->
 <v-list :hidden="!listOfShopsActive">
-<list-of-shops
-    :key="shop.id"
-    v-for="shop in shops"
-    :shop="shop"
->
-</list-of-shops>
+    <list-of-shops
+        v-for="shop in shops"
+        :key="shop.id"
+        :shop="shop"
+        :dt_from="dateTimeFrom"
+        :dt_to="dateTimeTo"
+        :bike_types="bikes"
+    >
+    </list-of-shops>
 </v-list>
+
 </div>
 </template>
 
@@ -123,6 +128,7 @@ export default {
             }
             this.getShops()
         },
+
         dateTimeTo: function (val) {
             // if time is not picked - set actTimeTo
             if (val.slice(11) == 'null') {

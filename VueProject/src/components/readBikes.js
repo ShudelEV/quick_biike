@@ -1,5 +1,5 @@
 
-/* AJAX request to get list of shops using filter:
+/* AJAX request to get list of bikes using filter:
 { "bike_is_free": {
         "from": <str(date)>,
         "to": <str(date)> },
@@ -8,13 +8,13 @@
         { "type": <int>, "quantity": <int> },
            ...
         ],
-  ?shop: { id: <[int]> }
+  ?"shop": { "id": <[int]> }
 } */
 
 import axios from 'axios'
 
 
-export default function (dt_from, dt_to='', bikes=[], shop_id=null) {
+export default function (dt_from, dt_to='', bikes=[], shop_ids=[]) {
 
     let filter = {
         bike_is_free: {
@@ -23,13 +23,9 @@ export default function (dt_from, dt_to='', bikes=[], shop_id=null) {
         },
         bikes: bikes,
         shop: {
-            id: shop_id
+            id: shop_ids
         }
     };
-
-    // if (shop_id) {
-    //     filter.shop = {id: shop_id}}
-    // };
 
     console.log('readBikes/Form: ', filter);
 
