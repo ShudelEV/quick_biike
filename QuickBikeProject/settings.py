@@ -138,12 +138,16 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
-
 # STATIC_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
+
+# Media static files (Images, Video)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'VueProject/public/')
+MEDIA_URL = '/media/'
+
 
 WEBPACK_LOADER = {
     'DEFAULT': {

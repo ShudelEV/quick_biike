@@ -15,7 +15,8 @@ class ContactInfo(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=200)
-    photo = models.ImageField(verbose_name="company photo", blank=True)
+    photo = models.ImageField(verbose_name="company photo", blank=True,
+                              max_length=255)
     contact_info = models.ForeignKey(ContactInfo)
 
     def __str__(self):
@@ -25,9 +26,16 @@ class Company(models.Model):
         verbose_name_plural = "Companies"
 
 
+# NOT WORK!
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.name, filename)
+
+
 class Shop(models.Model):
     name = models.CharField(max_length=200)
-    photo = models.ImageField(verbose_name="shop photo", blank=True)
+    photo = models.ImageField(verbose_name="shop photo", blank=True,
+                              max_length=255, upload_to=user_directory_path)
     contact_info = models.ForeignKey(ContactInfo)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 

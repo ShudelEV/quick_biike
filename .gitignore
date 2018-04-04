@@ -17,6 +17,7 @@ node_modules/
 package-lock.json
 webpack-stats.json
 **/static/dist/
+VueProject/public/
 
 # Editor directories and files
 *.suo
