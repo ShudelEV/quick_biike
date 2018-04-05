@@ -1,6 +1,15 @@
 from django.db import models
 from Profile.models import User
 
+import logging
+
+logging.basicConfig(
+    filename="test.log",
+    level=logging.DEBUG,
+    format="%(asctime)s:%(levelname)s:%(message)s"
+)
+
+
 
 class ContactInfo(models.Model):
     address = models.CharField(max_length=200)
@@ -13,10 +22,15 @@ class ContactInfo(models.Model):
         return self.address
 
 
+def photo_path_company(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/company_<name>/
+    return 'company_{0}/{1}'.format(instance.name, filename)
+
+
 class Company(models.Model):
     name = models.CharField(max_length=200)
     photo = models.ImageField(verbose_name="company photo", blank=True,
-                              max_length=255)
+                              max_length=255, upload_to=photo_path_company)
     contact_info = models.ForeignKey(ContactInfo)
 
     def __str__(self):
@@ -26,16 +40,16 @@ class Company(models.Model):
         verbose_name_plural = "Companies"
 
 
-# NOT WORK!
-def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/{1}'.format(instance.name, filename)
+def photo_path_shop(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/company_<name>/shop_<name>/
+    parent_path = instance.company._meta.get_field('photo').upload_to(instance.company, '')
+    return parent_path + 'shop_{0}/{1}'.format(instance.name, filename)
 
 
 class Shop(models.Model):
     name = models.CharField(max_length=200)
     photo = models.ImageField(verbose_name="shop photo", blank=True,
-                              max_length=255, upload_to=user_directory_path)
+                              max_length=255, upload_to=photo_path_shop)
     contact_info = models.ForeignKey(ContactInfo)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
@@ -60,9 +74,16 @@ class Price(models.Model):
             self.workday_one_hour, self.workday_three_hours, self.work_day, self.week)
 
 
+def photo_path_bike(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/company_<name>/shop_<name>/bikes/
+    parent_path = instance.shop._meta.get_field('photo').upload_to(instance.shop, '')
+    return parent_path + 'bikes/{0}'.format(filename)
+
+
 class Bike(models.Model):
     name = models.CharField(max_length=200)
-    photo = models.ImageField(verbose_name="bike photo", blank=True)
+    photo = models.ImageField(verbose_name="bike photo", blank=True,
+                              max_length=255, upload_to=photo_path_bike)
     type = models.CharField(max_length=1,
                             choices=(('1', 'male'), ('2', 'female'), ('3', 'kids')),
                             default='1')

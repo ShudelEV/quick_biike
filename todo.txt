@@ -1,0 +1,12 @@
+python manage.py runserver --settings=QuickBikeProject.settingsdev
+
+
+1 Admin: to add Bikes in the Shop
+
+2
+
+3
+
+4
+
+5

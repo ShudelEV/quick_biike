@@ -52,11 +52,11 @@
         </v-layout>
     </v-container>
 
-    <v-card-actions>
-        <v-spacer></v-spacer>
-        <!--<v-btn @click="clear">clear</v-btn>-->
-        <v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Show/Hide List</v-btn>
-    </v-card-actions>
+    <!--<v-card-actions>-->
+        <!--<v-spacer></v-spacer>-->
+        <!--&lt;!&ndash;<v-btn @click="clear">clear</v-btn>&ndash;&gt;-->
+        <!--<v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Show/Hide List</v-btn>-->
+    <!--</v-card-actions>-->
 
 </v-card>
 </v-form>
@@ -106,7 +106,7 @@ export default {
             //            Type: Child
             { type: 'child', checked_default: false, quantity: 1, icon: 'child_care' }
         ],
-        listOfShopsActive: false,
+        listOfShopsActive: true,
     }),
 
     props: {

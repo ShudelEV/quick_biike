@@ -1,10 +1,36 @@
 <template>
 <v-card>
-    <v-card-title primary-title>
-        <h4>{{shop.name}}</h4>
-    </v-card-title>
+    <v-card-media
+        :src="shop.photo"
+        height="128px"
+        class="white--text"
+    >
+        <v-container fill-height fluid>
+            <v-layout fill-height>
+                <v-flex xs12 align-end flexbox>
+                    <span class="headline">{{shop.name}}</span>
+                </v-flex>
+            </v-layout>
+          </v-container>
+    </v-card-media>
 
-    <v-list two-line>
+    <!--<v-card-title primary-title>-->
+        <!--<h4>{{shop.contact_info}}</h4>-->
+    <!--</v-card-title>-->
+
+    <v-card-actions>
+          <!--<v-btn flat>Share</v-btn>-->
+          <v-spacer></v-spacer>
+          <v-btn flat color="purple"
+                 @click.native="show = !show"
+                 v-show="!show"
+          >Show Bikes</v-btn>
+          <v-btn icon @click.native="show = !show">
+              <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+          </v-btn>
+    </v-card-actions>
+
+    <v-list two-line v-show="show">
         <template v-for="bike in bikes">
             <v-list-tile  @click="">
                 <v-list-tile-avatar>
@@ -35,7 +61,8 @@ export default {
     },
 
     data: () => ({
-        bikes: null
+        bikes: null,
+        show: false
     }),
 
     created () {
