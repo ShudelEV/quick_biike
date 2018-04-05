@@ -10,7 +10,6 @@ logging.basicConfig(
 )
 
 
-
 class ContactInfo(models.Model):
     address = models.CharField(max_length=200)
     phone = models.CharField(max_length=200)

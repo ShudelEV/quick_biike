@@ -13,7 +13,37 @@
                         :opened="infoWinOpen"
                         @closeclick="infoWinOpen=false"
                     >
-                        {{infoContent}}
+                        <v-card>
+                            <!--<v-card-title primary-title>-->
+                                <!--<div>-->
+                                    <!--<div class="headline">{{shop.name}}</div>-->
+                                    <!--<span class="grey&#45;&#45;text">{{shop.contact_info.phone}}</span>-->
+                                <!--</div>-->
+                            <!--</v-card-title>-->
+                            <v-list two-line>
+                                <v-list-tile @click="">
+                                    <v-list-tile-action>
+                                        <v-list-tile-avatar size="50">
+                                            <img :src="shop.photo"/>
+                                        </v-list-tile-avatar>
+                                    </v-list-tile-action>
+                                    <v-list-tile-content>
+                                      <v-list-tile-title>{{shop.name}}</v-list-tile-title>
+                                      <v-list-tile-sub-title>{{shop.contact_info.phone}}</v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                                <v-divider inset></v-divider>
+                                <v-list-tile>
+                                    <v-list-tile-action>
+                                      <v-icon color="green">location_on</v-icon>
+                                    </v-list-tile-action>
+                                    <v-list-tile-content>
+                                      <v-list-tile-title>{{shop.contact_info.address}}</v-list-tile-title>
+                                      <!--<v-list-tile-sub-title></v-list-tile-sub-title>-->
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                            </v-list>
+                        </v-card>
                     </gmap-info-window>
 
                     <gmap-marker
@@ -23,6 +53,8 @@
                                       lat: sh.contact_info.latitude,
                                       lng: sh.contact_info.longitude
                                    }"
+                        :title="sh.name"
+                        :animation="animation"
                         :clickable="true"
                         :draggable="true"
                         @click="
@@ -56,6 +88,7 @@
                   lng: 0
               },
               infoWinOpen: false,
+              animation: 4,
               currentMidx: null,
               // optional: offset infowindow so it visually sits nicely on top of our marker
               infoOptions: {
@@ -65,6 +98,14 @@
                   }
               },
               center: {lat: 53.9023238, lng: 27.5618025},
+              shop: {
+                  name: '',
+                  photo: '',
+                  contact_info: {
+                      phone: '',
+                      address: ''
+                  }
+              },
           }
       },
 
@@ -73,20 +114,20 @@
       },
 
       methods: {
-          toggleInfoWindow: function(marker) {
+          toggleInfoWindow: function(shop) {
+              this.shop = shop;
               this.infoWindowPos = {
-                                      lat: marker.contact_info.latitude,
-                                      lng: marker.contact_info.longitude
+                                      lat: shop.contact_info.latitude,
+                                      lng: shop.contact_info.longitude
                                    };
-              this.infoContent = marker.name;
               // check if its the same marker that was selected if yes toggle
-              if (this.currentMidx == marker.id) {
+              if (this.currentMidx == shop.id) {
                   this.infoWinOpen = !this.infoWinOpen;
               }
               // if different marker set infowindow to open and reset current marker index
               else {
                   this.infoWinOpen = true;
-                  this.currentMidx = marker.id;
+                  this.currentMidx = shop.id;
               }
           }
       }

@@ -1,5 +1,5 @@
 <template>
-<v-card>
+<v-card onmouseover="">
     <v-card-media
         :src="shop.photo"
         height="128px"
@@ -11,7 +11,7 @@
                     <span class="headline">{{shop.name}}</span>
                 </v-flex>
             </v-layout>
-          </v-container>
+        </v-container>
     </v-card-media>
 
     <!--<v-card-title primary-title>-->
@@ -90,7 +90,7 @@ export default {
                 .then(data => {
                     this.bikes = data.bikes
                 });
-        }
+        },
     }
 }
 </script>
