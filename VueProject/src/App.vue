@@ -54,6 +54,8 @@ import BaseFooter from './components/Footer.vue'
 import readShops from './components/readShops';
 
 export default {
+    name: 'App',
+
     components: {
         ContentMap, LeftMenu, RightMenu, BaseFooter
     },
