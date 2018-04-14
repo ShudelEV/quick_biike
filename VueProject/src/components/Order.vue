@@ -1,18 +1,21 @@
 <template>
-<div>
     <!--Create a form-->
     <!--Evoke getShops() method when a value of order is changed-->
-<v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
->
 <v-card>
-    <v-toolbar class="lime accent-2">
+
+    <v-toolbar
+        class="lime accent-2">
         <v-toolbar-title>
             Create order
         </v-toolbar-title>
     </v-toolbar>
+
+    <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+    >
+
     <v-container fluid>
         <v-layout row wrap>
             <!-- Catch date and time from DateTimePickerFrom -->
@@ -52,29 +55,28 @@
         </v-layout>
     </v-container>
 
-    <!--<v-card-actions>-->
-        <!--<v-spacer></v-spacer>-->
-        <!--&lt;!&ndash;<v-btn @click="clear">clear</v-btn>&ndash;&gt;-->
-        <!--<v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Show/Hide List</v-btn>-->
-    <!--</v-card-actions>-->
+    </v-form>
 
-</v-card>
-</v-form>
+    <v-card-actions>
+        <v-spacer></v-spacer>
+        <!--<v-btn @click="clear">clear</v-btn>-->
+        <v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Show/Hide List</v-btn>
+    </v-card-actions>
 
     <!-- List of Shops appears after clicking the button  -->
-<v-list :hidden="!listOfShopsActive">
-    <list-of-shops
-        v-for="shop in shops"
-        :key="shop.id"
-        :shop="shop"
-        :dt_from="dateTimeFrom"
-        :dt_to="dateTimeTo"
-        :bike_types="bikes"
-    >
-    </list-of-shops>
-</v-list>
+    <v-list :hidden="!listOfShopsActive">
+        <list-of-shops
+            v-for="shop in shops"
+            :key="shop.id"
+            :shop="shop"
+            :dt_from="dateTimeFrom"
+            :dt_to="dateTimeTo"
+            :bike_types="bikes"
+        >
+        </list-of-shops>
+    </v-list>
 
-</div>
+</v-card>
 </template>
 
 <script>
