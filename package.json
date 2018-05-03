@@ -15,10 +15,10 @@
     "mkdirp": "^0.5.1",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.0.14"
+    "vuetify": "^1.0.17"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.0",
@@ -33,14 +33,14 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^2.0.1",
     "file-loader": "^1.1.11",
-    "node-sass": "^4.8.3",
+    "node-sass": "^4.9.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.5.16",
-    "vue2-google-maps": "^0.8.11",
+    "vue2-google-maps": "^0.8.12",
     "webpack": "^3.11.0",
     "webpack-bundle-tracker": "^0.2.0",
     "webpack-dev-server": "^2.11.2"

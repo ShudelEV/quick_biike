@@ -1,7 +1,8 @@
 <template>
     <v-container fluid pa-0>
     <v-layout raw wrap>
-        <!--Date Picker-->
+
+    <!--Date Picker-->
     <v-flex xs6>
         <v-menu
             lazy
@@ -19,6 +20,7 @@
                 slot="activator"
                 label="From:"
                 v-model="date"
+                :rules="[v => !!v || 'Date is required']"
                 prepend-icon="event"
                 readonly
                 required
@@ -46,8 +48,10 @@
             </v-date-picker>
         </v-menu>
     </v-flex>
+
     <v-spacer></v-spacer>
-        <!--Time Picker-->
+
+    <!--Time Picker-->
     <v-flex xs4>
         <v-menu
             ref="menu2"
@@ -64,9 +68,12 @@
             <v-text-field
                 id="time_from"
                 slot="activator"
+                label="time"
                 v-model="time"
+                :rules="[v => !!v || 'Time is required']"
                 prepend-icon="access_time"
                 readonly
+                required
             ></v-text-field>
             <!--Change action: save time in text-field after picking
                     and set min time in DateTimePickerTo (through parent component)-->

@@ -59,8 +59,24 @@
 
     <v-card-actions>
         <v-spacer></v-spacer>
-        <!--<v-btn @click="clear">clear</v-btn>-->
-        <v-btn @click="listOfShopsActive = !listOfShopsActive" :disabled="!valid">Show/Hide List</v-btn>
+        <v-btn
+            @click="clear"
+            flat
+            color="red"
+        >
+            <v-icon>delete</v-icon>
+            Clear
+        </v-btn>
+
+        <v-btn
+            @click="listOfShopsActive = !listOfShopsActive"
+            flat
+            :disabled="!valid"
+            color="green"
+        >
+            <v-icon>search</v-icon>
+            Find out
+        </v-btn>
     </v-card-actions>
 
     <!-- List of Shops appears after clicking the button  -->

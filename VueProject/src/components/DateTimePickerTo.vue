@@ -20,6 +20,7 @@
                 slot="activator"
                 label="To:"
                 v-model="date"
+                :rules="[v => !!v || 'Date is required']"
                 :disabled="!activeDateTimeTo"
                 prepend-icon="event"
                 readonly
@@ -64,10 +65,13 @@
             <v-text-field
                 id="time_to"
                 slot="activator"
+                label="time"
                 v-model="time"
+                :rules="[v => !!v || 'Time is required']"
                 :disabled="!activeDateTimeTo"
                 prepend-icon="access_time"
                 readonly
+                required
             ></v-text-field>
             <!--Change action: save time in text-field after picking-->
             <v-time-picker
