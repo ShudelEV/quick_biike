@@ -61,7 +61,7 @@
         <v-spacer></v-spacer>
         <v-btn
             @click="clear"
-            flat
+            outline
             color="red"
         >
             <v-icon>delete</v-icon>
@@ -70,7 +70,7 @@
 
         <v-btn
             @click="listOfShopsActive = !listOfShopsActive"
-            flat
+            outline
             :disabled="!valid"
             color="green"
         >

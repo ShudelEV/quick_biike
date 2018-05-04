@@ -27,6 +27,10 @@
         ></right-menu>
 
     </v-navigation-drawer>
+
+    <!-- Go to the url /order (the page "Price") -->
+    <router-view></router-view>
+
 </v-app>
 </template>
 

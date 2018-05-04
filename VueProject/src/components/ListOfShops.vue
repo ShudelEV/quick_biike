@@ -19,7 +19,7 @@
     <!--</v-card-title>-->
 
     <v-card-actions>
-          <!--<v-btn flat>Share</v-btn>-->
+          <v-btn outline :to="createPath()">price_$</v-btn>
           <v-spacer></v-spacer>
           <v-btn flat color="purple"
                  @click.native="show = !show"
@@ -91,6 +91,18 @@ export default {
                     this.bikes = data.bikes
                 });
         },
+
+        createPath () {
+            return {
+                path: 'order',
+                query: {
+                    id: this.shop.id,
+                    dt_from: this.dt_from,
+                    dt_to: this.dt_to
+                }
+            }
+        }
+
     }
 }
 </script>

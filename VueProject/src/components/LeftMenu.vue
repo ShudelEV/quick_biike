@@ -19,6 +19,8 @@
 
 <script>
 export default {
+    name: 'LeftMenu',
+
     data () {
         return {
             items: [
