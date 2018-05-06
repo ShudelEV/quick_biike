@@ -57,7 +57,7 @@ export default {
         shop: {type: Object, default: null},
         dt_from: {type: String, default: null},
         dt_to: {type: String, default: null},
-        bike_types: {type: Array, default: []},
+        bikeTypeQty: {type: Array, default: []},
     },
 
     data: () => ({
@@ -77,29 +77,23 @@ export default {
 
     methods: {
         getBikes () {
-            let bikesSet = [];
-            let i = 1;
-            for (let bike of this.bike_types) {
-                if (bike.checked_default) {
-                    bikesSet.push({type: i, quantity: bike.quantity})
-                }
-                i += 1
-            }
-            // get bikes
-            readBikes(this.dt_from, this.dt_to, bikesSet, [this.shop.id])
+            readBikes(this.dt_from, this.dt_to, this.bikeTypeQty, [this.shop.id])
                 .then(data => {
                     this.bikes = data.bikes
                 });
         },
 
         createPath () {
+            let query = {
+                id: this.shop.id,
+                dt_from: this.dt_from,
+                dt_to: this.dt_to,
+                bikeTypeQty: JSON.stringify(this.bikeTypeQty)
+            };
+
             return {
                 path: 'order',
-                query: {
-                    id: this.shop.id,
-                    dt_from: this.dt_from,
-                    dt_to: this.dt_to
-                }
+                query: query
             }
         }
 

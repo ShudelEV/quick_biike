@@ -87,7 +87,7 @@
             :shop="shop"
             :dt_from="dateTimeFrom"
             :dt_to="dateTimeTo"
-            :bike_types="bikes"
+            :bikeTypeQty="getBikeTypeQty()"
         >
         </list-of-shops>
     </v-list>
@@ -162,6 +162,11 @@ export default {
         },
 
         getShops () {
+            // emit event to update the list of shops in ContentMap
+            this.$emit('setShopsOnMap', this.dateTimeFrom, this.dateTimeTo, this.getBikeTypeQty())
+        },
+
+        getBikeTypeQty () {
             let bikesSet = [];
             let i = 1;
             for (let bike of this.bikes) {
@@ -170,8 +175,7 @@ export default {
                 }
                 i += 1
             }
-            // emit event to update the list of shops in ContentMap
-            this.$emit('setShopsOnMap', this.dateTimeFrom, this.dateTimeTo, bikesSet)
+            return bikesSet
         },
 
         setDateTimeTo (date, time) {

@@ -5,7 +5,8 @@
             :id="type"
             :input-value="checked_default"
             @change="updateCheckbox($refs.checkbox.inputValue)"
-            :prepend-icon="icon" hide-details></v-checkbox>
+            :prepend-icon="icon" hide-details
+        ></v-checkbox>
         <v-text-field
             ref="qty"
             type="number" v-if="checked_default"
@@ -40,6 +41,7 @@
           updateCheckbox (checked, qty=this.quantity) {
               this.$emit('input', !checked, Number(qty))
           },
+
           validateQty () {
               let val = this.$refs.qty.inputValue;
               if (val < this.minQty) { this.$refs.qty.inputValue = this.minQty }

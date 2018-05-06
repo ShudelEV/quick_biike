@@ -13,7 +13,8 @@ function dynamicPropsFnOrder(route) {
     return {
         id: route.query.id,
         dt_from: route.query.dt_from,
-        dt_to: route.query.dt_to
+        dt_to: route.query.dt_to,
+        bikeTypeQty: JSON.parse(route.query.bikeTypeQty)
     }
 }
 
