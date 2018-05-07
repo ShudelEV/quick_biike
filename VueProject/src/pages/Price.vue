@@ -18,26 +18,37 @@
             </v-card-media>
 
             <v-list two-line>
-                <div v-for="bike in bikes" :key="bike.id">
-                    <v-list-tile  @click="">
+                <template v-for="(bike, index) in bikes">
+                    <v-list-tile :key="index"
+                                 @click=""
+                    >
                         <v-list-tile-avatar>
                               <img :src="bike.photo">
                         </v-list-tile-avatar>
+
                         <v-list-tile-content>
                             <v-list-tile-title>{{bike.name}}</v-list-tile-title>
                             <v-list-tile-sub-title>Price</v-list-tile-sub-title>
                         </v-list-tile-content>
+
                         <v-spacer></v-spacer>
-                        <v-text-field v-if="bike.checked"
-                                      type="number" solo flat
-                                      @change="validateQty"
+
+                        <v-text-field v-if="!(selected.indexOf(index) < 0)"
+                                      solo flat box
+                                      type="number"
+                                      :value="getQty(bike.type)"
+                                      @change=""
                         ></v-text-field>
-                        <v-checkbox :input-value="bike.checked"
-                                    @change="changeStatus(bike.id, bike.checked)"
+
+                        <v-list-tile-action @click="changeStatus(index)">
+                            <v-icon v-if="selected.indexOf(index) < 0"
+                            >check_box_outline_blank</v-icon>
+                            <v-icon v-else
                                     color="orange"
-                        ></v-checkbox>
+                            >check_box</v-icon>
+                        </v-list-tile-action>
                     </v-list-tile>
-                </div>
+                </template>
             </v-list>
 
             <v-card-actions>
@@ -58,6 +69,7 @@
             return {
                 showDialog: true,
                 bikes: [],
+                selected: [],
                 shop: {name: "", photo: ""}
             }
         },
@@ -71,18 +83,15 @@
 
         created () {
             // get Shop
-            axios.get('/api/shops/' + this.id + '/').then(response => {
-                this.shop = response.data
-            });
+            axios.get('/api/shops/' + this.id + '/')
+                .then(response => {
+                    this.shop = response.data
+                });
 
             // get Bikes
             readBikes(this.dt_from, this.dt_to, this.bikeTypeQty, [this.id])
                 .then(data => {
-                    this.bikes = data.bikes;
-                    // Add a check box for each bike
-                    for (let i = 0; i < this.bikes.length; i++) {
-                        this.bikes[i]["checked"] = false
-                    }
+                    this.bikes = data.bikes
                 });
         },
 
@@ -91,8 +100,21 @@
                 window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
             },
 
-            changeStatus (id, checked) {
-                // this.bikes.find({id: id})["checked"] = !checked;
+            changeStatus (index) {
+                const i = this.selected.indexOf(index);
+
+                if (i > -1) {
+                    this.selected.splice(i, 1)
+                } else {
+                    this.selected.push(index)
+                }
+            },
+
+            getQty (type) {
+                let b = this.bikeTypeQty.find( t => String(t.type) === type);
+
+                if (b) { return b.quantity }
+                else { return 1 }
             }
         }
     }
