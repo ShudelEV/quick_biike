@@ -1,9 +1,10 @@
 <template>
-<v-card onmouseover="">
+<v-card>
     <v-card-media
         :src="shop.photo"
         height="128px"
         class="white--text"
+        @mouseover="raiseShopOnMap()"
     >
         <v-container fill-height fluid>
             <v-layout fill-height>
@@ -95,8 +96,11 @@ export default {
                 path: 'order',
                 query: query
             }
-        }
+        },
 
+        raiseShopOnMap () {
+            this.$bus.$emit('raiseShopOnMap', this.shop.id)
+        }
     }
 }
 </script>

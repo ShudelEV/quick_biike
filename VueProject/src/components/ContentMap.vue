@@ -54,7 +54,7 @@
                                       lng: sh.contact_info.longitude
                                    }"
                         :title="sh.name"
-                        :animation="animation"
+                        :animation="sh.animation"
                         :clickable="true"
                         :draggable="true"
                         @click="
@@ -104,31 +104,43 @@
                   contact_info: {
                       phone: '',
                       address: ''
-                  }
+                  },
+                  animation: 0
               },
           }
       },
 
       props: {
-          shops: {type: Array, default: null}
+          shops: {type: Array, default: []}
+      },
+
+      created () {
+          this.$bus.$on('raiseShopOnMap', this.raiseShopOnMap)
       },
 
       methods: {
           toggleInfoWindow: function(shop) {
               this.shop = shop;
+              this.shop.animation = 4;
               this.infoWindowPos = {
                                       lat: shop.contact_info.latitude,
                                       lng: shop.contact_info.longitude
                                    };
               // check if its the same marker that was selected if yes toggle
               if (this.currentMidx == shop.id) {
-                  this.infoWinOpen = !this.infoWinOpen;
+//                  this.infoWinOpen = !this.infoWinOpen;
               }
               // if different marker set infowindow to open and reset current marker index
               else {
                   this.infoWinOpen = true;
                   this.currentMidx = shop.id;
               }
+          },
+
+          raiseShopOnMap (shopId) {
+              let shop = this.shops.find(sh => sh.id === shopId);
+              this.toggleInfoWindow(shop);
+//              this.shop.animation = 1
           }
       }
   }

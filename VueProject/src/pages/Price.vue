@@ -34,7 +34,7 @@
                         <v-spacer></v-spacer>
 
                         <v-text-field v-if="!(selected.indexOf(index) < 0)"
-                                      solo flat box
+                                      solo flat
                                       type="number"
                                       :value="getQty(bike.type)"
                                       @change=""
@@ -114,6 +114,7 @@
                 let b = this.bikeTypeQty.find( t => String(t.type) === type);
 
                 if (b) { return b.quantity }
+                // default one bike
                 else { return 1 }
             }
         }
