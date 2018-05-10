@@ -138,9 +138,9 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATIC_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
+#     os.path.join(BASE_DIR, 'RentBike/static/dist'),
 # )
 
 # Media static files (Images, Video)

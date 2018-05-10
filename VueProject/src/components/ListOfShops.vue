@@ -93,7 +93,7 @@ export default {
             };
 
             return {
-                path: 'order',
+                name: 'order',
                 query: query
             }
         },

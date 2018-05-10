@@ -5,6 +5,7 @@ import Router from 'vue-router'
 // @ is an alias for the /src directory
 import Home from './pages/Home.vue'
 import Price from './pages/Price.vue'
+import LoginWindow from './pages/LoginWindow.vue'
 
 // tell Vue to use the vue-router plugin
 Vue.use(Router);
@@ -24,14 +25,19 @@ export default new Router({
     routes: [
     {
         path: '/',
-        name: 'Home',
+        name: 'index',
         component: Home,
         children: [
             {
                 path: 'order',
-                name: 'Order',
+                name: 'order',
                 component: Price,
                 props: dynamicPropsFnOrder
+            },
+            {
+                path: 'login',
+                name: 'login',
+                component: LoginWindow
             }
         ]
     },

@@ -28,7 +28,7 @@
 
     </v-navigation-drawer>
 
-    <!-- Go to the url /order (the page "Price") -->
+    <!-- Go to the url /order (the pages "Price", "LoginWindow") -->
     <router-view></router-view>
 
 </v-app>

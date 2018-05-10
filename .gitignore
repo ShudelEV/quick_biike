@@ -10,6 +10,7 @@
 .idea
 **/migrations/
 .sass-cache
+RentBike/static/dist/
 
 ### Vue ###
 .DS_Store
