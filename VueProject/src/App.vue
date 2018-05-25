@@ -10,7 +10,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn flat icon  :to="{ name: 'login' }">
+        <v-btn flat icon  :to="{ name: 'Login' }">
             <v-icon>account_circle</v-icon>
         </v-btn>
         <v-btn icon @click.stop="rightDrawer = !rightDrawer">

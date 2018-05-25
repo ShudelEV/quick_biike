@@ -6,6 +6,7 @@ import Router from 'vue-router'
 import Home from './pages/Home.vue'
 import Price from './pages/Price.vue'
 import LoginWindow from './pages/LoginWindow.vue'
+import Account from './pages/Account.vue'
 
 // tell Vue to use the vue-router plugin
 Vue.use(Router);
@@ -30,15 +31,22 @@ export default new Router({
         children: [
             {
                 path: 'order',
-                name: 'order',
+                name: 'Order',
                 component: Price,
-                props: dynamicPropsFnOrder
+                props: dynamicPropsFnOrder,
             },
             {
                 path: 'login',
-                name: 'login',
-                component: LoginWindow
-            }
+                name: 'Login',
+                component: LoginWindow,
+                // beforeEnter: ifNotAuthenticated,
+            },
+            {
+                path: 'account',
+                name: 'Account',
+                component: Account,
+                // beforeEnter: ifAuthenticated,
+            },
         ]
     },
     ]

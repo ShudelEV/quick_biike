@@ -93,7 +93,7 @@ export default {
             };
 
             return {
-                name: 'order',
+                name: 'Order',
                 query: query
             }
         },
