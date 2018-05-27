@@ -11,6 +11,7 @@
  } */
 
 import axios from 'axios'
+import cookies from "js-cookie";
 
 
 export default function (dt_from, dt_to='', bikes=[]) {
@@ -31,10 +32,14 @@ export default function (dt_from, dt_to='', bikes=[]) {
     return axios.post(
         '/api/readShops/',
         // Request Data will be in JSON format
-        {'filter': filter},
+        filter,
         // Axios Configuration
-        {headers: { 'Content-Type': 'application/json'}},
-        // {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': cookies.get('csrftoken')
+            }
+        },
     )
         .then(response => {
             // console.log(response.data);

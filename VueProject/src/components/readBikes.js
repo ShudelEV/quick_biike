@@ -12,6 +12,7 @@
 } */
 
 import axios from 'axios'
+import cookies from 'js-cookie'
 
 
 export default function (dt_from, dt_to='', bikes=[], shop_ids=[]) {
@@ -29,16 +30,17 @@ export default function (dt_from, dt_to='', bikes=[], shop_ids=[]) {
 
     console.log('readBikes/Form: ', filter);
 
-    // axios.get('/api-auth/login/', {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
-    //         ).then(function(response){console.log(response)});
-
     return axios.post(
         '/api/readBikes/',
         // Request Data will be in JSON format
-        {'filter': filter},
+        filter,
         // Axios Configuration
-        {headers: { 'Content-Type': 'application/json'}},
-        // {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': cookies.get('csrftoken')
+            }
+        },
     )
         .then(response => {
             // console.log(response.data);

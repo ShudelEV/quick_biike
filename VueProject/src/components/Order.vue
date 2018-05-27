@@ -75,7 +75,7 @@
             color="green"
         >
             <v-icon>search</v-icon>
-            Find out
+            search
         </v-btn>
     </v-card-actions>
 

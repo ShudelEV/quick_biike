@@ -1,6 +1,6 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view, list_route, detail_route, authentication_classes
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from RentBike.models import Shop, Order, Bike
 from .serializers import ShopSerializer, BikeSerializer, OrderSerializer
@@ -59,25 +59,27 @@ def get_busy_bikes(free_from, free_to):
 
 
 @api_view(['POST'])
-@authentication_classes((BasicAuthentication, ))
+@permission_classes((AllowAny, ))
 def read_shops(request):
     """
         API endpoint that return set of shops using filter:
-    { "filter":{
-             "bike_is_free": {
-                 "from": <str(date)>,
-                 "to": <str(date)> },
-             "bikes: [
-                { "type": <int>, "quantity": <int> },
-                { "type": <int>, "quantity": <int> },
-                ...
-             ]
-    } } }
+    {
+        "bike_is_free": {
+            "from": <str(date)>,
+            "to": <str(date)>
+            },
+        "bikes: [
+           { "type": <int>, "quantity": <int> },
+           { "type": <int>, "quantity": <int> },
+           ...
+        ]
+    } }
     """
     # logging.debug("REST.readShops/Form: {}".format(request.data))
 
+    filter_data = request.data
+
     try:
-        filter_data = request.data['filter']
         free_from = filter_data['bike_is_free']['from']
         free_to = filter_data['bike_is_free']['to']
         bikes = filter_data['bikes']
@@ -125,26 +127,28 @@ def read_shops(request):
 
 
 @api_view(['POST'])
-@authentication_classes((BasicAuthentication, ))
+@permission_classes((AllowAny, ))
 def read_bikes(request):
     """
         API endpoint that return set of bikes using filter:
-    { "filter":{
-             "bike_is_free": {
-                 "from": <str(date)>,
-                 "to": <str(date)> },
-             "bikes: [
-                { "type": <int>, "quantity": <int> },
-                { "type": <int>, "quantity": <int> },
-                ...
-             ],
-             ?"shop": { "id": <[int]> }
-    } } }
+    {
+        "bike_is_free": {
+            "from": <str(date)>,
+            "to": <str(date)>
+            },
+        "bikes: [
+           { "type": <int>, "quantity": <int> },
+           { "type": <int>, "quantity": <int> },
+           ...
+        ],
+        ?"shop": { "id": <[int]> }
+    } }
     """
     # logging.debug("REST.readBikes/Form: {}".format(request.data))
 
+    filter_data = request.data
+
     try:
-        filter_data = request.data['filter']
         free_from = filter_data['bike_is_free']['from']
         free_to = filter_data['bike_is_free']['to']
         bikes = filter_data['bikes']

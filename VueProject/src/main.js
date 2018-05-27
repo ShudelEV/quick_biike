@@ -11,18 +11,23 @@ import VueAuthenticate from 'vue-authenticate'
 Vue.config.productionTip = true;
 
 Vue.use(Vuetify);
+
 // wrapper for integrating axios to Vuejs
 Vue.use(VueAxios, axios);
 
 Vue.use(VueAuthenticate, {
-  baseUrl: 'http://localhost:8000', // Your API domain
+    baseUrl: 'http://localhost:8000/api', // Your API domain
 
-  providers: {
-    // github: {
-    //   clientId: '',
-    //   redirectUri: 'http://localhost:8000/auth/callback' // Your client app URL
-    // }
-  }
+    headers: {
+        'Content-Type': 'application/json',
+    },
+
+    providers: {
+        // github: {
+        //   clientId: '',
+        //   redirectUri: 'http://localhost:8000/auth/callback' // Your client app URL
+        // }
+    }
 });
 
 // For emitting events between non-bind components

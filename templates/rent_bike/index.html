@@ -25,6 +25,8 @@
 <body>
 
     <div id="app"></div>
+    {% csrf_token %}
+{# If production, ucomment the script: #}
 {#    <script src="{% static 'dist/main-a96041a089063d32afd9.js' %}"></script>#}
     {% render_bundle 'main' %}
 

@@ -3,7 +3,7 @@ python manage.py runserver --settings=QuickBikeProject.settingsdev
 
 1 Admin: to add Bikes in the Shop
 
-2
+2 Login: only phone number, without login
 
 3
 
