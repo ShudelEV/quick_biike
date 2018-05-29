@@ -24,7 +24,7 @@ export default function (dt_from, dt_to='', bikes=[]) {
         bikes: bikes
     };
 
-    console.log('readShops/Form: ', filter);
+    // console.log('readShops/Form: ', filter);
 
     // axios.get('/api-auth/login/', {auth: {username: 'quickbike_admin', password: 'velik5000admin'}}
     //         ).then(function(response){console.log(response)});

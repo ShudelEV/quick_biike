@@ -33,7 +33,7 @@
 
     <v-list two-line v-show="show">
         <template v-for="bike in bikes">
-            <v-list-tile  @click="">
+            <v-list-tile :key="bike.id" @click="">
                 <v-list-tile-avatar>
                       <img :src="bike.photo">
                 </v-list-tile-avatar>
@@ -58,7 +58,8 @@ export default {
         shop: {type: Object, default: null},
         dt_from: {type: String, default: null},
         dt_to: {type: String, default: null},
-        bikeTypeQty: {type: Array, default: []},
+        bikeTypeQty: {type: Array, default: function () { return [] }
+        },
     },
 
     data: () => ({

@@ -72,10 +72,10 @@ export default {
     methods: {
         // update the list of shops when any input in Order is changed
         setShops (dtFrom, dtTo, bikes) {
-              readShops(dtFrom, dtTo, bikes)
-                  .then(data => {
-                      this.shops = data.shops
-                  })
+            readShops(dtFrom, dtTo, bikes)
+                .then(data => {
+                    this.shops = data.shops
+                })
         },
     }
 }

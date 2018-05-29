@@ -24,30 +24,30 @@ export default new Router({
     mode: 'history',
     // base: __dirname,
     routes: [
-    {
-        path: '/',
-        name: 'index',
-        component: Home,
-        children: [
-            {
-                path: 'order',
-                name: 'Order',
-                component: Price,
-                props: dynamicPropsFnOrder,
-            },
-            {
-                path: 'login',
-                name: 'Login',
-                component: LoginWindow,
-                // beforeEnter: ifNotAuthenticated,
-            },
-            {
-                path: 'account',
-                name: 'Account',
-                component: Account,
-                // beforeEnter: ifAuthenticated,
-            },
-        ]
-    },
+        {
+            path: '/',
+            name: 'index',
+            component: Home,
+            children: [
+                {
+                    path: 'order',
+                    name: 'Order',
+                    component: Price,
+                    props: dynamicPropsFnOrder,
+                },
+                {
+                    path: 'login',
+                    name: 'Login',
+                    component: LoginWindow,
+                    // beforeEnter: ifNotAuthenticated,
+                },
+                {
+                    path: 'account',
+                    name: 'Account',
+                    component: Account,
+                    // beforeEnter: ifAuthenticated,
+                },
+            ]
+        },
     ]
 })

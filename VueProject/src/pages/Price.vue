@@ -78,7 +78,7 @@
             id: {type: Number, default: 0},
             dt_from: {type: String, default: ''},
             dt_to: {type: String, default: ''},
-            bikeTypeQty: {type: Array, default: []},
+            bikeTypeQty: {type: Array, default: function () { return []}}
         },
 
         created () {

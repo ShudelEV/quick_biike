@@ -36,12 +36,12 @@ const EventBus = new Vue();
 Object.defineProperties(Vue.prototype, {
     $bus: {
         get: function () {
-          return EventBus
+            return EventBus
         }
     }
 });
 
-let vm = new Vue({
+new Vue({
     el: '#app',
     router,
     template: '<App/>',

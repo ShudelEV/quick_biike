@@ -93,8 +93,8 @@
               // optional: offset infowindow so it visually sits nicely on top of our marker
               infoOptions: {
                   pixelOffset: {
-                    width: 0,
-                    height: -35
+                      width: 0,
+                      height: -35
                   }
               },
               center: {lat: 53.9023238, lng: 27.5618025},
@@ -111,7 +111,7 @@
       },
 
       props: {
-          shops: {type: Array, default: []}
+          shops: {type: Array, default: function () { return [] }}
       },
 
       created () {
@@ -123,9 +123,9 @@
               this.shop = shop;
               this.shop.animation = 4;
               this.infoWindowPos = {
-                                      lat: shop.contact_info.latitude,
-                                      lng: shop.contact_info.longitude
-                                   };
+                  lat: shop.contact_info.latitude,
+                  lng: shop.contact_info.longitude
+              };
               // check if its the same marker that was selected if yes toggle
               if (this.currentMidx == shop.id) {
 //                  this.infoWinOpen = !this.infoWinOpen;

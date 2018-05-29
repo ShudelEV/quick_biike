@@ -165,24 +165,24 @@ export default {
 
             loginName: '',
             loginRules: [
-              v => !!v || 'Login is required',
-              v => (v && v.length <= 25) || 'Login must be less than 20 characters'
+                v => !!v || 'Login is required',
+                v => (v && v.length <= 25) || 'Login must be less than 20 characters'
             ],
             password: '',
             password2: '',
             passwordRules: [
-              v => !!v || 'Password is required',
-              v => (v && v.length >= 8) || 'Password must be at least 8 characters',
-              v => /^/.test(v) || 'Password must be valid'
+                v => !!v || 'Password is required',
+                v => (v && v.length >= 8) || 'Password must be at least 8 characters',
+                v => /^/.test(v) || 'Password must be valid'
             ],
             passwordRules2: [
-              v => !!v || 'Password is required',
-              v => (v === this.password) || 'Password must be equal',
+                v => !!v || 'Password is required',
+                v => (v === this.password) || 'Password must be equal',
             ],
             phone: '',
             phoneRules: [
-              v => !!v || 'Phone number is required',
-              v => (v && v.length >= 9) || 'Phone number must be 7 characters'
+                v => !!v || 'Phone number is required',
+                v => (v && v.length >= 9) || 'Phone number must be 7 characters'
             ],
             checkbox: false,
             error: null

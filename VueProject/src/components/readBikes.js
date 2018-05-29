@@ -28,7 +28,7 @@ export default function (dt_from, dt_to='', bikes=[], shop_ids=[]) {
         }
     };
 
-    console.log('readBikes/Form: ', filter);
+    // console.log('readBikes/Form: ', filter);
 
     return axios.post(
         '/api/readBikes/',
