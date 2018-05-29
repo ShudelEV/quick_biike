@@ -57,7 +57,7 @@
                         :animation="sh.animation"
                         :clickable="true"
                         :draggable="true"
-                        @click="toggleInfoWindow(sh)"
+                        @click="$store.commit('SET_ACTIVE_SHOP', sh)"
                     ></gmap-marker>
                 </gmap-map>
             </v-layout>
@@ -95,53 +95,38 @@
                       height: -35
                   }
               },
-              center: {lat: 53.9023238, lng: 27.5618025},
-              shop: {
-                  name: '',
-                  photo: '',
-                  contact_info: {
-                      phone: '',
-                      address: ''
-                  },
-                  animation: 0
-              },
+              center: {lat: 53.9023238, lng: 27.5618025}
           }
-      },
-
-      created () {
-          this.$bus.$on('raiseShopOnMap', this.raiseShopOnMap)
       },
 
       computed: {
           shops: function () {
               return this.$store.getters.allShops
           },
+          shop: function () {
+              return this.$store.getters.activeShop
+          }
       },
 
-      methods: {
-          toggleInfoWindow: function(shop) {
-              this.shop = shop;
-              this.shop.animation = 4;
+      watch: {
+          shop: function () {
               this.infoWindowPos = {
-                  lat: shop.contact_info.latitude,
-                  lng: shop.contact_info.longitude
+                  lat: this.shop.contact_info.latitude,
+                  lng: this.shop.contact_info.longitude
               };
               // check if its the same marker that was selected if yes toggle
-              if (this.currentMidx == shop.id) {
+              if (this.currentMidx == this.shop.id) {
 //                  this.infoWinOpen = !this.infoWinOpen;
               }
               // if different marker set infowindow to open and reset current marker index
               else {
                   this.infoWinOpen = true;
-                  this.currentMidx = shop.id;
+                  this.currentMidx = this.shop.id;
               }
-          },
-
-          raiseShopOnMap (shopId) {
-              let shop = this.shops.find(sh => sh.id === shopId);
-              this.toggleInfoWindow(shop);
-//              this.shop.animation = 1
           }
+      },
+
+      methods: {
       }
   }
 

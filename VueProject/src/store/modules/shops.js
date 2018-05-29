@@ -1,18 +1,25 @@
 import readShops from '../../api/readShops'
 
 const state = {
-  all: []
+    all: [],
+    active: {
+        name: '',
+        photo: '',
+        contact_info: { phone: '', address: ''},
+        animation: 0
+    },
 };
 
 const getters = {
-    allShops: state => state.all
+    allShops: state => state.all,
+    activeShop: state => state.active
 };
 
 const actions = {
     getAllShops ({ commit }) {
         readShops((new Date()).toISOString().slice(0, 16))
-            .then(data => {
-                commit('SET_SHOPS', data)
+            .then(shops => {
+                commit('SET_SHOPS', shops)
             });
     },
 
@@ -21,12 +28,24 @@ const actions = {
             .then(shops => {
                 commit('SET_SHOPS', shops)
             });
-    }
+    },
+
+    getShop ({ commit }) {
+        readShops((new Date()).toISOString().slice(0, 16))
+            .then(shop => {
+                commit('SET_ACTIVE_SHOP', shop)
+            });
+    },
 };
 
 const mutations = {
     SET_SHOPS (state, { shops }) {
         state.all = shops
+    },
+
+    SET_ACTIVE_SHOP (state, shop ) {
+        shop.animation = 4,
+        state.active = shop
     },
 };
 

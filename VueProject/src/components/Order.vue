@@ -126,7 +126,7 @@ export default {
             //            Type: Child
             { type: 'child', checked_default: false, quantity: 1, icon: 'child_care' }
         ],
-        listOfShopsActive: true,
+        listOfShopsActive: true
     }),
 
     computed: {
@@ -137,7 +137,7 @@ export default {
         // Activate DateTimePickerTo after a picking TimeFrom
         activeDateTimeTo: function () {
             return this.actTimeTo ? true : false
-        },
+        }
     },
 
     watch: {
@@ -155,7 +155,7 @@ export default {
                 this.dateTimeTo = val.slice(0, 11) + this.actTimeTo
             }
             this.upShops()
-        },
+        }
     },
 
     methods: {

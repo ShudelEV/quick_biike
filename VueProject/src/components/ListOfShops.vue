@@ -4,7 +4,7 @@
         :src="shop.photo"
         height="128px"
         class="white--text"
-        @mouseover="raiseShopOnMap()"
+        @mouseover="activateShop()"
     >
         <v-container fill-height fluid>
             <v-layout fill-height>
@@ -98,8 +98,8 @@ export default {
             }
         },
 
-        raiseShopOnMap () {
-            this.$bus.$emit('raiseShopOnMap', this.shop.id)
+        activateShop () {
+            this.$store.commit('SET_ACTIVE_SHOP', this.shop)
         }
     }
 }

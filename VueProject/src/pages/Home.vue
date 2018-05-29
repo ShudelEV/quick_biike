@@ -6,9 +6,7 @@
         :clipped="clipped"
         v-model="drawer"
     >
-
         <left-menu></left-menu>
-
     </v-navigation-drawer>
 
     <content-map></content-map>
@@ -19,9 +17,7 @@
         v-model="rightDrawer"
         class="lime accent-1"
     >
-
         <right-menu></right-menu>
-
     </v-navigation-drawer>
 
     <!-- Go to the url /order (the pages "Price", "LoginWindow") -->
