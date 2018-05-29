@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import readBikes from './readBikes';
+import readBikes from '../api/readBikes';
 
 export default {
     name: 'ListOfShops',
@@ -58,8 +58,7 @@ export default {
         shop: {type: Object, default: null},
         dt_from: {type: String, default: null},
         dt_to: {type: String, default: null},
-        bikeTypeQty: {type: Array, default: function () { return [] }
-        },
+        bikeTypeQty: {type: Array, default: function () { return [] }}
     },
 
     data: () => ({

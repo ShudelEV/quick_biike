@@ -57,9 +57,7 @@
                         :animation="sh.animation"
                         :clickable="true"
                         :draggable="true"
-                        @click="
-                            // center=m.position;
-                            toggleInfoWindow(sh)"
+                        @click="toggleInfoWindow(sh)"
                     ></gmap-marker>
                 </gmap-map>
             </v-layout>
@@ -110,12 +108,14 @@
           }
       },
 
-      props: {
-          shops: {type: Array, default: function () { return [] }}
-      },
-
       created () {
           this.$bus.$on('raiseShopOnMap', this.raiseShopOnMap)
+      },
+
+      computed: {
+          shops: function () {
+              return this.$store.getters.allShops
+          },
       },
 
       methods: {
