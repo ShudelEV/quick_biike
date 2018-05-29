@@ -46,7 +46,7 @@
                             @input="(checked_default, quantity) => {
                                 bike.checked_default = checked_default;
                                 bike.quantity = quantity;
-                                getShops();
+                                upShops();
                             }"
                         ></order-check-box>
                     </v-flex>
@@ -101,6 +101,8 @@ import DateTimePickerTo from './DateTimePickerTo.vue'
 import OrderCheckBox from './OrderCheckBox.vue'
 import ListOfShops from './ListOfShops.vue'
 
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
     name: 'Order',
 
@@ -127,15 +129,15 @@ export default {
         listOfShopsActive: true,
     }),
 
-    props: {
-        shops: {type: Array, default: null}
-    },
-
     computed: {
+        shops: function () {
+            return this.$store.getters.allShops
+        },
+
         // Activate DateTimePickerTo after a picking TimeFrom
         activeDateTimeTo: function () {
             return this.actTimeTo ? true : false
-        }
+        },
     },
 
     watch: {
@@ -144,7 +146,7 @@ export default {
             if (val.slice(11) == 'null') {
                 this.dateTimeFrom = val.slice(0, 10) + 'T00:00'
             }
-            this.getShops()
+            this.upShops()
         },
 
         dateTimeTo: function (val) {
@@ -152,7 +154,7 @@ export default {
             if (val.slice(11) == 'null') {
                 this.dateTimeTo = val.slice(0, 11) + this.actTimeTo
             }
-            this.getShops()
+            this.upShops()
         },
     },
 
@@ -161,9 +163,13 @@ export default {
             this.$refs.form.reset()
         },
 
-        getShops () {
-            // emit event to update the list of shops in ContentMap
-            this.$emit('setShopsOnMap', this.dateTimeFrom, this.dateTimeTo, this.getBikeTypeQty())
+        upShops () {
+            // update the list of shops in store
+            this.$store.dispatch('getFilterShops', {
+                dt_from: this.dateTimeFrom,
+                dt_to: this.dateTimeTo,
+                type_qty: this.getBikeTypeQty()
+            })
         },
 
         getBikeTypeQty () {

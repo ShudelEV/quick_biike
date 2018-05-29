@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import readBikes from '../components/readBikes';
+    import readBikes from '../api/readBikes';
     import axios from 'axios'
 
     export default {

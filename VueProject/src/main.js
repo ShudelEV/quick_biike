@@ -6,6 +6,7 @@ import App from './App.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css'
 import VueAuthenticate from 'vue-authenticate'
+import store from './store/index'
 
 // tell Vue whether or not to show tips and warnings in the developer console of browser
 Vue.config.productionTip = true;
@@ -44,6 +45,7 @@ Object.defineProperties(Vue.prototype, {
 new Vue({
     el: '#app',
     router,
+    store,
     template: '<App/>',
     components: { App }
 });
