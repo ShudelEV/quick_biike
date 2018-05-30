@@ -93,14 +93,16 @@
 </template>
 
 <script>
+    // import { mapGetters, mapActions } from 'vuex'
+
     export default {
         name: 'DateTimePickerFrom',
 
         data: () => ({
             // date now in 'yyyy-mm-dd' format
             date: (new Date()).toISOString().slice(0, 10),
-            menu: false,
             time: null,
+            menu: false,
             menu2: false,
             allowedTimes: {
                 hours: null,
@@ -108,6 +110,15 @@
             },
             allowedDates: null
         }),
+
+        // computed: mapGetters({
+        //     date: 'date_from',
+        //     time: 'time_from'
+        // }),
+
+        created () {
+            // this.$store.commit('SET_DATE_FROM', (new Date()).toISOString().slice(0, 10))
+        },
 
         methods: {
             setDateTime () {

@@ -8,11 +8,22 @@ const state = {
         contact_info: { phone: '', address: ''},
         animation: 0
     },
+    // filter: {
+    //     date_from: null,
+    //     time_from: null,
+    //     date_to: null,
+    //     time_to: null,
+    //     bikes: []
+    // }
 };
 
 const getters = {
     allShops: state => state.all,
-    activeShop: state => state.active
+    activeShop: state => state.active,
+    // date_from: state => state.date_from,
+    // time_from: state => state.time_from,
+    // date_to: state => state.date_to,
+    // time_to: state => state.time_to
 };
 
 const actions = {
@@ -44,9 +55,13 @@ const mutations = {
     },
 
     SET_ACTIVE_SHOP (state, shop ) {
-        shop.animation = 4,
+        shop.animation = 4;
         state.active = shop
     },
+
+    // SET_DATE_FROM (state, d) {
+    //     state.filter.date_from = d
+    // }
 };
 
 export default {

@@ -1,12 +1,16 @@
 import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import router from './router'
-import App from './App.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css'
-import VueAuthenticate from 'vue-authenticate'
+import router from './router'
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+import firebase from 'firebase'
+import VueFire from 'vuefire'
+
 import store from './store/index'
+import App from './App.vue'
 
 // tell Vue whether or not to show tips and warnings in the developer console of browser
 Vue.config.productionTip = true;
@@ -16,20 +20,7 @@ Vue.use(Vuetify);
 // wrapper for integrating axios to Vuejs
 Vue.use(VueAxios, axios);
 
-Vue.use(VueAuthenticate, {
-    baseUrl: 'http://localhost:8000/api', // Your API domain
-
-    headers: {
-        'Content-Type': 'application/json',
-    },
-
-    providers: {
-        // github: {
-        //   clientId: '',
-        //   redirectUri: 'http://localhost:8000/auth/callback' // Your client app URL
-        // }
-    }
-});
+Vue.use(VueFire);
 
 // For emitting events between non-bind components
 const EventBus = new Vue();
