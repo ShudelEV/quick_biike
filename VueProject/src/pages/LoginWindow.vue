@@ -29,15 +29,23 @@
                             <!--required-->
                         <!--&gt;</v-text-field>-->
 
-                        <v-text-field class="input-group--focused" color="blue"
-                            v-model="phone"
-                            prepend-icon="phone"
-                            prefix="+375"
-                            mask=" (##) #######"
-                            :rules="phoneRules"
-                            label="Enter phone number"
+                        <v-text-field class="input-group--focused"
+                            v-model="email"
+                            prepend-icon="email"
+                            :rules="emailRules"
+                            label="E-mail"
                             required
                         ></v-text-field>
+
+                        <!--<v-text-field class="input-group&#45;&#45;focused" color="blue"-->
+                            <!--v-model="phone"-->
+                            <!--prepend-icon="phone"-->
+                            <!--prefix="+375"-->
+                            <!--mask=" (##) #######"-->
+                            <!--:rules="phoneRules"-->
+                            <!--label="Enter phone number"-->
+                            <!--required-->
+                        <!--&gt;</v-text-field>-->
 
                         <v-text-field class="input-group--focused" color="green"
                             v-model="password"
@@ -54,17 +62,17 @@
                             required
                         ></v-text-field>
                     </v-card-text>
-                    <v-card-text>
-                        <v-avatar title="vk" color="grey" tile>
-                            <img src="/static/images/vk_icon.svg" alt="">
-                        </v-avatar>
-                        <v-avatar title="facebook" color="grey" tile>
-                            <img src="/static/images/facebook_icon.svg" alt="">
-                        </v-avatar>
-                        <v-avatar title="twitter" color="grey" tile>
-                            <img src="/static/images/twitter_icon.svg" alt="">
-                        </v-avatar>
-                    </v-card-text>
+                    <!--<v-card-text>-->
+                        <!--<v-avatar title="vk" color="grey" tile>-->
+                            <!--<img src="/static/images/vk_icon.svg" alt="">-->
+                        <!--</v-avatar>-->
+                        <!--<v-avatar title="facebook" color="grey" tile>-->
+                            <!--<img src="/static/images/facebook_icon.svg" alt="">-->
+                        <!--</v-avatar>-->
+                        <!--<v-avatar title="twitter" color="grey" tile>-->
+                            <!--<img src="/static/images/twitter_icon.svg" alt="">-->
+                        <!--</v-avatar>-->
+                    <!--</v-card-text>-->
 
                     <v-card-actions>
                         <v-btn outline color="red"
@@ -89,13 +97,21 @@
                 <v-form ref="formReg" v-model="valid" lazy-validation>
                     <v-card-text>
 
-                        <v-text-field class="input-group--focused" color="blue"
-                            v-model="phone"
-                            prepend-icon="phone"
-                            prefix="+375"
-                            mask=" (##) #######"
-                            :rules="phoneRules"
-                            label="Enter phone number"
+                        <!--<v-text-field class="input-group&#45;&#45;focused" color="blue"-->
+                            <!--v-model="phone"-->
+                            <!--prepend-icon="phone"-->
+                            <!--prefix="+375"-->
+                            <!--mask=" (##) #######"-->
+                            <!--:rules="phoneRules"-->
+                            <!--label="Enter phone number"-->
+                            <!--required-->
+                        <!--&gt;</v-text-field>-->
+
+                        <v-text-field class="input-group--focused"
+                            v-model="email"
+                            prepend-icon="email"
+                            :rules="emailRules"
+                            label="E-mail"
                             required
                         ></v-text-field>
 
@@ -140,7 +156,7 @@
                         <v-spacer></v-spacer>
                         <v-btn outline color="green"
                                :disabled="!valid"
-                               @click.prevent="register()"
+                               @click="register()"
                         >register</v-btn>
                     </v-card-actions>
                 </v-form>
@@ -155,6 +171,9 @@
 export default {
     name: 'Login',
 
+    mounted() {
+    },
+
     data () {
         return {
             showDialog: true,
@@ -163,6 +182,11 @@ export default {
             e1: true,
             e2: true,
 
+            email: '',
+            emailRules: [
+                v => !!v || 'E-mail is required',
+                v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+            ],
             loginName: '',
             loginRules: [
                 v => !!v || 'Login is required',
@@ -192,9 +216,6 @@ export default {
     methods: {
         login () {
             if (this.$refs.formLog.validate()) {
-                this.$auth.login({ phone: this.phone, password: this.password })
-                    .then(request => this.loginSuccessful(request))
-                    .catch(() => this.loginFailed())
             }
         },
 
@@ -217,17 +238,7 @@ export default {
 
         register () {
             if (this.$refs.formReg.validate()) {
-                this.$auth.register({ phone: this.phone, password: this.password }).then(function () {
-
-                })
             }
-        },
-
-        // Social account authentication
-        authenticate (provider) {
-            this.$auth.authenticate(provider).then(function () {
-
-            })
         },
 
         goBack () {

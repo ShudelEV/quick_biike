@@ -7,6 +7,7 @@ import Home from './pages/Home.vue'
 import Price from './pages/Price.vue'
 import LoginWindow from './pages/LoginWindow.vue'
 import Account from './pages/Account.vue'
+import NotFound from './components/errors/404.vue'
 
 // tell Vue to use the vue-router plugin
 Vue.use(Router);
@@ -47,6 +48,10 @@ export default new Router({
                     component: Account,
                     // beforeEnter: ifAuthenticated,
                 },
+                // {
+                //     path: '*',
+                //     component: NotFound
+                // }
             ]
         },
     ]

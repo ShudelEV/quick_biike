@@ -10,9 +10,25 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn flat icon  :to="{ name: 'Login' }">
-            <v-icon>account_circle</v-icon>
+        <v-btn flat
+               v-if="!user.loggedIn"
+               :to="{ name: 'Login' }"
+        >
+            login
         </v-btn>
+        <v-btn flat icon
+               v-if="!user.loggedIn"
+               @click="signInGoogle"
+               title="Sig in with Google"
+        >
+            <v-icon>face</v-icon>
+        </v-btn>
+
+        <v-btn flat
+               v-if="user.loggedIn"
+               @click="signOut"
+               :title="currentUserName"
+        > signout </v-btn>
         <v-btn icon @click.stop="rightDrawer = !rightDrawer">
             <v-icon v-html="rightDrawer ? 'chevron_right' : 'chevron_left'"></v-icon>
         </v-btn>
@@ -31,6 +47,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'App',
@@ -41,7 +58,17 @@ export default {
             drawer: false,
             rightDrawer: true,
             title: 'QuickBike',
+            name: ''
         }
+    },
+
+    computed: mapGetters([
+        'user',
+        'currentUserName'
+    ]),
+
+    methods: {
+        ...mapActions(['signInGoogle', 'signOut'])
     }
 }
 </script>

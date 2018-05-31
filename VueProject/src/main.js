@@ -6,8 +6,7 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-import firebase from 'firebase'
-import VueFire from 'vuefire'
+import Firebase from "./api/firebase"
 
 import store from './store/index'
 import App from './App.vue'
@@ -20,23 +19,14 @@ Vue.use(Vuetify);
 // wrapper for integrating axios to Vuejs
 Vue.use(VueAxios, axios);
 
-Vue.use(VueFire);
+Firebase.initFirebase();
 
-// For emitting events between non-bind components
-const EventBus = new Vue();
-
-Object.defineProperties(Vue.prototype, {
-    $bus: {
-        get: function () {
-            return EventBus
-        }
-    }
-});
-
-new Vue({
+const app = new Vue({
     el: '#app',
     router,
     store,
     template: '<App/>',
     components: { App }
 });
+
+global._App = app;
