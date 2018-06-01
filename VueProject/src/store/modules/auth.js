@@ -3,26 +3,50 @@ import Firebase from '../../api/firebase'
 const state = {
     user: {
         loggedIn: false,
-        uid: '',
-        name: '',
-        profilePicUrl: ''
+        displayName : '',
+        email : '',
+        emailVerified : false,
+        photoURL : '',
+        isAnonymous : true,
+        uid : '',
+        providerData : ''
     },
-    error: ''
+    error: {
+        errorCode: '',
+        errorMessage: ''
+    }
 };
 
 const mutations = {
-    onAuthStateChanged (state, { user }) {
-        state.user = user
+    AUTH_STATE_CHANGED (state, { user }) {
+        state.user = user;
+        if (user) { state.error = {
+            errorCode: '',
+            errorMessage: null
+        } }
     },
 
-    setUser (state, { key, val }) {
+    SET_USER (state, { key, val }) {
         Vue.set(state.user, key, val)
+    },
+
+    SET_ERROR (state, error) {
+        state.error = error;
+        state.user.loggedIn = false
     }
 };
 
 const actions = {
     onAuthStateChanged ({ commit }, user) {
-        commit('onAuthStateChanged', { user })
+        commit('AUTH_STATE_CHANGED', { user })
+    },
+
+    registerWithEmailAndPassword (state, user) {
+        Firebase.registerWithEmailAndPassword(user)
+    },
+
+    signInWithEmailAndPassword (state, user) {
+        Firebase.signInWithEmailAndPassword(user)
     },
 
     signInGoogle () {
@@ -31,27 +55,15 @@ const actions = {
 
     signOut () {
         Firebase.signOut()
-    },
-
-    setUserInfo ({ commit, state }, { key, val }) {
-        return new Promise((resolve, reject) => {
-            if (state.user.loggedIn) { // is signed in. Firebase
-                Firebase.setUserInfo(key, val)
-                    .then(() => {
-                        commit('setUser', { key, val });
-                        resolve()
-                    }).catch(reject)
-            } else { // is signed out. Localstorage
-                reject('still dev for guest')
-            }
-        })
-    },
+    }
 };
 
 const getters = {
     user: state => state.user,
-    currentUserName: state => state.user.name,
-    currentUserId: state => state.user.uid
+    error: state => state.error,
+    currentUserName: state => state.user.displayName,
+    currentUserId: state => state.user.uid,
+    currentUserEmail: state => state.user.email
 };
 
 export default {

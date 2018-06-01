@@ -23,6 +23,7 @@
         >
             <v-icon>face</v-icon>
         </v-btn>
+        <div v-if="user.loggedIn">Hello, {{currentUserName || currentUserEmail}}</div>
 
         <v-btn flat
                v-if="user.loggedIn"
@@ -62,10 +63,7 @@ export default {
         }
     },
 
-    computed: mapGetters([
-        'user',
-        'currentUserName'
-    ]),
+    computed: mapGetters(['user', 'currentUserName', 'currentUserEmail']),
 
     methods: {
         ...mapActions(['signInGoogle', 'signOut'])

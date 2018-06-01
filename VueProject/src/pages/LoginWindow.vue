@@ -15,7 +15,7 @@
     </v-toolbar>
 
     <v-tabs-items v-model="model">
-
+        <!--Login window-->
         <v-tab-item id="log">
             <v-card class="elevation-12">
                 <v-form ref="formLog" v-model="valid" lazy-validation>
@@ -60,8 +60,14 @@
                             min="8"
                             :counter="20"
                             required
-                        ></v-text-field>
+                        >
+                        </v-text-field>
                     </v-card-text>
+                    <!-- Error message -->
+                    <v-card-title class="error"
+                                  v-if="error.errorMessage"
+                    > {{ error.errorMessage }} </v-card-title>
+
                     <!--<v-card-text>-->
                         <!--<v-avatar title="vk" color="grey" tile>-->
                             <!--<img src="/static/images/vk_icon.svg" alt="">-->
@@ -91,7 +97,7 @@
                 </v-form>
             </v-card>
         </v-tab-item>
-
+        <!--Registration window-->
         <v-tab-item id="reg">
             <v-card class="elevation-12">
                 <v-form ref="formReg" v-model="valid" lazy-validation>
@@ -131,6 +137,7 @@
                         ></v-text-field>
 
                         <v-text-field class="input-group--focused" color="green"
+                            v-if="password"
                             v-model="password2"
                             prepend-icon="fingerprint"
                             :rules="passwordRules2"
@@ -145,6 +152,10 @@
                             required
                         ></v-text-field>
                     </v-card-text>
+                    <!-- Error message -->
+                    <v-card-title class="error"
+                                  v-if="error.errorMessage"
+                    > {{ error.errorMessage }} </v-card-title>
 
                     <v-card-actions>
                         <v-btn outline color="red"
@@ -168,10 +179,13 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
     name: 'Login',
 
     mounted() {
+//        console.log(this.$refs.password)
     },
 
     data () {
@@ -207,37 +221,34 @@ export default {
             phoneRules: [
                 v => !!v || 'Phone number is required',
                 v => (v && v.length >= 9) || 'Phone number must be 7 characters'
-            ],
-            checkbox: false,
-            error: null
+            ]
         }
+    },
+
+    computed: {
+        ...mapGetters(['error'])
     },
 
     methods: {
         login () {
             if (this.$refs.formLog.validate()) {
+                this.$store.dispatch('signInWithEmailAndPassword', {
+                    email: this.email,
+                    password: this.password,
+                    // go back if login is OK
+                    result: () => { this.goBack() }
+                })
             }
-        },
-
-        loginSuccessful (req) {
-            if (!req.data.token) {
-                this.loginFailed();
-                return
-            }
-
-            localStorage.token = req.data.token;
-            this.error = false;
-
-            this.$router.replace(this.$route.query.redirect || '/account')
-        },
-
-        loginFailed () {
-            this.error = 'Login failed!';
-            delete localStorage.token
         },
 
         register () {
             if (this.$refs.formReg.validate()) {
+                this.$store.dispatch('registerWithEmailAndPassword', {
+                    email: this.email,
+                    password: this.password,
+                    // go back if register is OK
+                    result: () => { this.goBack() }
+                })
             }
         },
 
