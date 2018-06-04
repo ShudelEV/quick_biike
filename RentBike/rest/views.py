@@ -59,7 +59,7 @@ def get_busy_bikes(free_from, free_to):
 
 
 @api_view(['POST'])
-@permission_classes((AllowAny, ))
+# @permission_classes((AllowAny, ))
 def read_shops(request):
     """
         API endpoint that return set of shops using filter:

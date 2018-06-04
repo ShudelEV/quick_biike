@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'rest_framework',
+    'firebase_auth',
     'Profile',
     'RentBike.apps.RentBikeConfig',
 ]
@@ -40,6 +41,10 @@ INSTALLED_APPS = [
 # Set our AUTH_USER_MODEL to a custom User model.
 # Doing this will give us the same functionality but allow us to easily customize our User model
 AUTH_USER_MODEL = 'Profile.User'
+
+# Specify a location for your Firebase keyfile
+KEYFILES_DIR = os.path.join(BASE_DIR, 'firebase_auth')
+FIREBASE_KEY = 'quickbile2-firebase-adminsdk-9dg3y-13dd20b488.json'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -113,7 +118,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework.authentication.SessionAuthentication',
+            'firebase_auth.authentication.FirebaseAuthentication',
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
