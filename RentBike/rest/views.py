@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from RentBike.models import Shop, Order, Bike
 from .serializers import ShopSerializer, BikeSerializer, OrderSerializer
-
+from django.views.decorators.csrf import csrf_protect
 import logging
 
 logging.basicConfig(
@@ -57,9 +57,8 @@ def get_busy_bikes(free_from, free_to):
 
     return busy_bike_ids
 
-
 @api_view(['POST'])
-# @permission_classes((AllowAny, ))
+@permission_classes((AllowAny, ))
 def read_shops(request):
     """
         API endpoint that return set of shops using filter:

@@ -17,6 +17,7 @@ Vue.config.productionTip = true;
 Vue.use(Vuetify);
 
 // wrapper for integrating axios to Vuejs
+// usage: this.axios.get() or this.$http.get()
 Vue.use(VueAxios, axios);
 
 Firebase.initFirebase();

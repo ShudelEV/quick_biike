@@ -38,7 +38,7 @@ export default function (dt_from, dt_to='', bikes=[], shop_ids=[]) {
         {
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': cookies.get('csrftoken')
+                // 'X-CSRFToken': cookies.get('csrftoken')
             }
         },
     )

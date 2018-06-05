@@ -7,6 +7,7 @@ from firebase_admin import auth
 import os
 from django.conf import settings
 
+
 cred_json = os.path.join(settings.KEYFILES_DIR, settings.FIREBASE_KEY)
 cred = credentials.Certificate(cred_json)
 default_app = firebase_admin.initialize_app(cred)
@@ -25,9 +26,10 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
             return None
 
         uid = decoded_token.get('uid')
+
         try:
             user = User.objects.get(username=uid)
         except User.DoesNotExist:
             raise exceptions.AuthenticationFailed('The user does not exist')
 
-        return (user, None)
+        return user, None

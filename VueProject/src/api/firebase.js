@@ -24,7 +24,28 @@ export default {
 
     initFirebase () {
         // Initiates Firebase auth and listen to auth state changes.
-        auth.onAuthStateChanged(this.onAuthStateChanged.bind(this))
+        auth.onAuthStateChanged(user => {
+            if (user) { // User is signed in!
+                // get token for backend auth
+                user.getIdToken().then(idToken => { sessionStorage.userIdToken = idToken });
+
+                _userInfo = {
+                    displayName: user.displayName,
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    photoURL: user.photoURL,
+                    isAnonymous: user.isAnonymous,
+                    uid: user.uid,
+                    providerData: user.providerData
+                };
+                // _userInfo.loggedIn = _userInfo.emailVerified ? true : false;
+                _userInfo.loggedIn = true;
+                _App.$store.dispatch('onAuthStateChanged', _userInfo)
+            } else {
+                _userInfo = { loggedIn: false };
+                _App.$store.dispatch('onAuthStateChanged', _userInfo)
+            }
+        })
     },
 
     getAuth () {
@@ -107,28 +128,5 @@ export default {
     signOut () {
         // Sign out of Firebase.
         auth.signOut()
-    },
-
-    // Triggers when the auth state change for instance when the user signs-in or signs-out.
-    onAuthStateChanged (user) {
-        if (user) { // User is signed in!
-            _userInfo = {
-                displayName : user.displayName,
-                email : user.email,
-                emailVerified : user.emailVerified,
-                photoURL : user.photoURL,
-                isAnonymous : user.isAnonymous,
-                uid : user.uid,
-                providerData : user.providerData
-            };
-            // _userInfo.loggedIn = _userInfo.emailVerified ? true : false;
-            _userInfo.loggedIn = true;
-            _App.$store.dispatch('onAuthStateChanged', _userInfo)
-        } else {
-            _userInfo = {
-                loggedIn: false,
-            };
-            _App.$store.dispatch('onAuthStateChanged', _userInfo)
-        }
     }
 }

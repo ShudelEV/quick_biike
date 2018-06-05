@@ -54,7 +54,8 @@ const actions = {
     },
 
     signOut () {
-        Firebase.signOut()
+        Firebase.signOut();
+        sessionStorage.removeItem('userIdToken')
     }
 };
 
@@ -63,7 +64,8 @@ const getters = {
     error: state => state.error,
     currentUserName: state => state.user.displayName,
     currentUserId: state => state.user.uid,
-    currentUserEmail: state => state.user.email
+    currentUserEmail: state => state.user.email,
+    getUserIdToken: state => state.user.userIdToken
 };
 
 export default {

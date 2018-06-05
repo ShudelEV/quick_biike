@@ -13,8 +13,6 @@
 import axios from 'axios'
 import cookies from "js-cookie"
 
-import getters from '../store/modules/auth'
-
 
 export default function (dt_from, dt_to='', bikes=[]) {
 
@@ -26,8 +24,6 @@ export default function (dt_from, dt_to='', bikes=[]) {
         bikes: bikes
     };
 
-    console.log(getters.getToken);
-
     return axios.post(
         '/api/readShops/',
         // Request Data will be in JSON format
@@ -36,8 +32,8 @@ export default function (dt_from, dt_to='', bikes=[]) {
         {
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': cookies.get('csrftoken'),
-                'authorization': 'key=' + getters.getToken
+                // 'X-CSRFToken': cookies.get('csrftoken'),
+                // 'Authorization': sessionStorage.userIdToken
             }
         },
     )

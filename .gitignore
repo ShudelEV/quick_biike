@@ -11,6 +11,7 @@
 **/migrations/
 .sass-cache
 RentBike/static/dist/
+firebase_auth/*.json
 
 ### Vue ###
 .DS_Store
