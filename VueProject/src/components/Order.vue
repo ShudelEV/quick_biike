@@ -3,12 +3,12 @@
     <!--Evoke getShops() method when a value of order is changed-->
 <v-card>
 
-    <v-toolbar
-        class="lime accent-2">
-        <v-toolbar-title>
-            Create order
-        </v-toolbar-title>
-    </v-toolbar>
+    <!--<v-toolbar-->
+        <!--class="lime accent-2">-->
+        <!--<v-toolbar-title>-->
+            <!--Create order-->
+        <!--</v-toolbar-title>-->
+    <!--</v-toolbar>-->
 
     <v-form
         ref="form"
@@ -126,7 +126,7 @@ export default {
             //            Type: Child
             { type: 'child', checked_default: false, quantity: 1, icon: 'child_care' }
         ],
-        listOfShopsActive: true
+        listOfShopsActive: false
     }),
 
     computed: {

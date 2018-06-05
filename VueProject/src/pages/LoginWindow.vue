@@ -64,9 +64,10 @@
                         </v-text-field>
                     </v-card-text>
                     <!-- Error message -->
-                    <v-card-title class="error"
-                                  v-if="error.errorMessage"
-                    > {{ error.errorMessage }} </v-card-title>
+                    <v-alert type="error"
+                             transition="scale-transition"
+                             :value="error.errorMessage"
+                    > {{ error.errorMessage }} </v-alert>
 
                     <!--<v-card-text>-->
                         <!--<v-avatar title="vk" color="grey" tile>-->
@@ -153,9 +154,10 @@
                         ></v-text-field>
                     </v-card-text>
                     <!-- Error message -->
-                    <v-card-title class="error"
-                                  v-if="error.errorMessage"
-                    > {{ error.errorMessage }} </v-card-title>
+                    <v-alert type="error"
+                             transition="scale-transition"
+                             :value="error.errorMessage"
+                    > {{ error.errorMessage }} </v-alert>
 
                     <v-card-actions>
                         <v-btn outline color="red"

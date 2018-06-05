@@ -21,7 +21,7 @@
                @click="signInGoogle"
                title="Sig in with Google"
         >
-            <v-icon>face</v-icon>
+            <v-icon>public</v-icon>
         </v-btn>
         <div v-if="user.loggedIn">Hello, {{currentUserName || currentUserEmail}}</div>
 

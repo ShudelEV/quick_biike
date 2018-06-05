@@ -5,20 +5,26 @@
         :mini-variant="miniVariant"
         :clipped="clipped"
         v-model="drawer"
+        id="d"
     >
         <left-menu></left-menu>
     </v-navigation-drawer>
 
     <content-map></content-map>
 
-    <v-navigation-drawer
-        app fixed right
-        :clipped="!clipped"
+    <!--<v-navigation-drawer-->
+        <!--app fixed right-->
+        <!--:clipped="!clipped"-->
+        <!--v-model="rightDrawer"-->
+        <!--class="lime accent-1"-->
+    <!--&gt;-->
+
+    <v-dialog
         v-model="rightDrawer"
-        class="lime accent-1"
-    >
+        hide-overlay persistent
+        max-width="300px">
         <right-menu></right-menu>
-    </v-navigation-drawer>
+    </v-dialog>
 
     <!-- Go to the url /order (the pages "Price", "LoginWindow") -->
     <router-view></router-view>

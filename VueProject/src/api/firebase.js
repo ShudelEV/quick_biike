@@ -28,6 +28,7 @@ export default {
             if (user) { // User is signed in!
                 // get token for backend auth
                 user.getIdToken().then(idToken => { sessionStorage.userIdToken = idToken });
+                // console.log(user);
 
                 _userInfo = {
                     displayName: user.displayName,
@@ -84,7 +85,7 @@ export default {
     signInWithEmailAndPassword (user) {
         auth.signInWithEmailAndPassword(user.email, user.password)
             .then(function (result) {
-                user.result(result)
+                user.result()
             })
             .catch(function(error) {
                 _error = {
