@@ -1,68 +1,65 @@
 <template>
-    <v-content>
-        <v-container fluid fill-height pa-0>
-            <v-layout justify-center align-center>
-                <gmap-map
-                  :center="center"
-                  :zoom="12"
-                  style="width: 100%; height: 100%"
+    <!--<v-container fluid fill-height pa-0>-->
+        <!--<v-layout justify-center align-center>-->
+            <gmap-map style="width: 100%; height: 90%; position: absolute;"
+                      :center="center"
+                      :zoom="12"
+                      :draggable="true"
+            >
+                <gmap-info-window
+                    :options="infoOptions"
+                    :position="infoWindowPos"
+                    :opened="infoWinOpen"
+                    @closeclick="infoWinOpen=false"
                 >
-                    <gmap-info-window
-                        :options="infoOptions"
-                        :position="infoWindowPos"
-                        :opened="infoWinOpen"
-                        @closeclick="infoWinOpen=false"
-                    >
-                        <v-card>
-                            <!--<v-card-title primary-title>-->
-                                <!--<div>-->
-                                    <!--<div class="headline">{{shop.name}}</div>-->
-                                    <!--<span class="grey&#45;&#45;text">{{shop.contact_info.phone}}</span>-->
-                                <!--</div>-->
-                            <!--</v-card-title>-->
-                            <v-list two-line>
-                                <v-list-tile @click="">
-                                    <v-list-tile-action>
-                                        <v-list-tile-avatar size="50">
-                                            <img :src="shop.photo"/>
-                                        </v-list-tile-avatar>
-                                    </v-list-tile-action>
-                                    <v-list-tile-content>
-                                      <v-list-tile-title>{{shop.name}}</v-list-tile-title>
-                                      <v-list-tile-sub-title>{{shop.contact_info.phone}}</v-list-tile-sub-title>
-                                    </v-list-tile-content>
-                                </v-list-tile>
-                                <v-divider inset></v-divider>
-                                <v-list-tile>
-                                    <v-list-tile-action>
-                                      <v-icon color="green">location_on</v-icon>
-                                    </v-list-tile-action>
-                                    <v-list-tile-content>
-                                      <v-list-tile-title>{{shop.contact_info.address}}</v-list-tile-title>
-                                      <!--<v-list-tile-sub-title></v-list-tile-sub-title>-->
-                                    </v-list-tile-content>
-                                </v-list-tile>
-                            </v-list>
-                        </v-card>
-                    </gmap-info-window>
-
-                    <gmap-marker
-                        :key="sh.id"
-                        v-for="sh in shops"
-                        :position="{
-                                      lat: sh.contact_info.latitude,
-                                      lng: sh.contact_info.longitude
-                                   }"
-                        :title="sh.name"
-                        :animation="sh.animation"
-                        :clickable="true"
-                        :draggable="true"
-                        @click="$store.commit('SET_ACTIVE_SHOP', sh)"
-                    ></gmap-marker>
-                </gmap-map>
-            </v-layout>
-        </v-container>
-    </v-content>
+                    <v-card>
+                        <!--<v-card-title primary-title>-->
+                            <!--<div>-->
+                                <!--<div class="headline">{{shop.name}}</div>-->
+                                <!--<span class="grey&#45;&#45;text">{{shop.contact_info.phone}}</span>-->
+                            <!--</div>-->
+                        <!--</v-card-title>-->
+                        <v-list two-line>
+                            <v-list-tile @click="">
+                                <v-list-tile-action>
+                                    <v-list-tile-avatar size="50">
+                                        <img :src="shop.photo"/>
+                                    </v-list-tile-avatar>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                  <v-list-tile-title>{{shop.name}}</v-list-tile-title>
+                                  <v-list-tile-sub-title>{{shop.contact_info.phone}}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-divider inset></v-divider>
+                            <v-list-tile>
+                                <v-list-tile-action>
+                                  <v-icon color="green">location_on</v-icon>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                  <v-list-tile-title>{{shop.contact_info.address}}</v-list-tile-title>
+                                  <!--<v-list-tile-sub-title></v-list-tile-sub-title>-->
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-list>
+                    </v-card>
+                </gmap-info-window>
+                <gmap-marker
+                    :key="sh.id"
+                    v-for="sh in shops"
+                    :position="{
+                        lat: sh.contact_info.latitude,
+                        lng: sh.contact_info.longitude
+                    }"
+                    :title="sh.name"
+                    :animation="sh.animation"
+                    :clickable="true"
+                    :draggable="false"
+                    @click="$store.commit('SET_ACTIVE_SHOP', sh)"
+                ></gmap-marker>
+            </gmap-map>
+        <!--</v-layout>-->
+    <!--</v-container>-->
 </template>
 
 <script>
@@ -129,5 +126,10 @@
       methods: {
       }
   }
-
 </script>
+
+<style>
+.map-panel {
+  absolute: 4 1 80%;
+}
+</style>

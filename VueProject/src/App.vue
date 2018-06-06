@@ -1,7 +1,6 @@
 <template>
 <v-app>
-
-    <v-toolbar fixed app :clipped-left="clipped"  color="lime accent-3">
+    <v-toolbar id="toolbar" app :clipped-left="clipped" color="lime accent-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <!--<v-btn icon @click.stop="clipped = !clipped">-->
             <!--<v-icon>web</v-icon>-->
@@ -35,23 +34,36 @@
         </v-btn>
     </v-toolbar>
 
-    <!-- pages/Home -->
-    <router-view
-        :clipped="clipped"
-        :drawer="drawer"
-        :rightDrawer="rightDrawer"
-    ></router-view>
+    <v-content>
+        <v-container fluid pa-0>
+            <!-- pages/Home -->
+            <router-view
+                :clipped="clipped"
+                :drawer="drawer"
+                :rightDrawer="rightDrawer"
+            ></router-view>
+        </v-container>
+    </v-content>
 
-    <!--<base-footer></base-footer>-->
-
+    <!--<v-footer app :fixed="true"-->
+        <!--color="lime accent-4"-->
+        <!--height="32"-->
+    <!--&gt;-->
+        <!--<v-spacer></v-spacer>-->
+        <!--<span>&copy; 2018</span>-->
+    <!--</v-footer>-->
 </v-app>
 </template>
 
 <script>
+import BaseFooter from './components/Footer.vue'
+
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'App',
+
+    components: { BaseFooter, },
 
     data () {
         return {
