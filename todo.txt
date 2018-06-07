@@ -9,6 +9,6 @@ python manage.py runserver --settings=QuickBikeProject.settingsdev
 https://github.com/kavinsharma/python-django-google-firebase-web-app-project-employee-progress-reporting-system/blob/master/progress%20report/report/report/views.py
 vuefire
 
-4 Order: clear button isn't working on the date_to
+4 Order: min time for case when date_from is not today
 
 5

@@ -1,38 +1,38 @@
 <template>
 <v-app>
-    <v-toolbar id="toolbar" app :clipped-left="clipped" color="lime accent-3">
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <!--<v-btn icon @click.stop="clipped = !clipped">-->
-            <!--<v-icon>web</v-icon>-->
+    <!--<v-toolbar id="toolbar" app :clipped-left="clipped" color="lime accent-3">-->
+        <!--<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>-->
+        <!--&lt;!&ndash;<v-btn icon @click.stop="clipped = !clipped">&ndash;&gt;-->
+            <!--&lt;!&ndash;<v-icon>web</v-icon>&ndash;&gt;-->
+        <!--&lt;!&ndash;</v-btn>&ndash;&gt;-->
+        <!--<v-toolbar-title v-text="title"></v-toolbar-title>-->
+
+        <!--<v-spacer></v-spacer>-->
+
+        <!--<v-btn flat-->
+               <!--v-if="!user.loggedIn"-->
+               <!--:to="{ name: 'Login' }"-->
+        <!--&gt;-->
+            <!--login-->
         <!--</v-btn>-->
-        <v-toolbar-title v-text="title"></v-toolbar-title>
+        <!--<v-btn flat icon-->
+               <!--v-if="!user.loggedIn"-->
+               <!--@click="signInGoogle"-->
+               <!--title="Sig in with Google"-->
+        <!--&gt;-->
+            <!--<v-icon>public</v-icon>-->
+        <!--</v-btn>-->
+        <!--<div v-if="user.loggedIn">Hello, {{currentUserName || currentUserEmail}}</div>-->
 
-        <v-spacer></v-spacer>
-
-        <v-btn flat
-               v-if="!user.loggedIn"
-               :to="{ name: 'Login' }"
-        >
-            login
-        </v-btn>
-        <v-btn flat icon
-               v-if="!user.loggedIn"
-               @click="signInGoogle"
-               title="Sig in with Google"
-        >
-            <v-icon>public</v-icon>
-        </v-btn>
-        <div v-if="user.loggedIn">Hello, {{currentUserName || currentUserEmail}}</div>
-
-        <v-btn flat
-               v-if="user.loggedIn"
-               @click="signOut"
-               :title="currentUserName"
-        > signout </v-btn>
-        <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-            <v-icon v-html="rightDrawer ? 'chevron_right' : 'chevron_left'"></v-icon>
-        </v-btn>
-    </v-toolbar>
+        <!--<v-btn flat-->
+               <!--v-if="user.loggedIn"-->
+               <!--@click="signOut"-->
+               <!--:title="currentUserName"-->
+        <!--&gt; signout </v-btn>-->
+        <!--<v-btn icon @click.stop="rightDrawer = !rightDrawer">-->
+            <!--<v-icon v-html="rightDrawer ? 'chevron_right' : 'chevron_left'"></v-icon>-->
+        <!--</v-btn>-->
+    <!--</v-toolbar>-->
 
     <v-content>
         <v-container fluid pa-0>

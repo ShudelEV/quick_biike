@@ -1,7 +1,7 @@
 <template>
     <!--<v-container fluid fill-height pa-0>-->
         <!--<v-layout justify-center align-center>-->
-            <gmap-map style="width: 100%; height: 90%; position: absolute;"
+            <gmap-map style="width: 100%; height: 100%; position: absolute;"
                       :center="center"
                       :zoom="12"
                       :draggable="true"

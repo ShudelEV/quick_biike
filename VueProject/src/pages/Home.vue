@@ -18,12 +18,12 @@
 
     <div>
         <content-map></content-map>
-        <v-dialog
-            v-model="rightDrawer"
-            content-class="map-order"
-            hide-overlay persistent
-            max-width="300px">
-            <right-menu></right-menu>
+        <v-dialog content-class="order"
+                  v-model="rightDrawer"
+                  hide-overlay persistent
+                  max-width="420px"
+        >
+            <order></order>
         </v-dialog>
          <!--Go to the url /order (the pages "Price", "LoginWindow") -->
         <router-view></router-view>
@@ -33,13 +33,13 @@
 <script>
 import ContentMap from '../components/ContentMap.vue'
 import LeftMenu from '../components/LeftMenu.vue'
-import RightMenu from '../components/Order.vue'
+import Order from '../components/Order.vue'
 
 export default {
     name: 'Home',
 
     components: {
-        ContentMap, LeftMenu, RightMenu
+        ContentMap, LeftMenu, Order
     },
 
     props: ['clipped', 'drawer', 'rightDrawer'],
@@ -59,11 +59,10 @@ export default {
 }
 </script>
 
-
 <style>
-    .map-order {
+    .order {
         position: absolute;
-        top: 96px;
-        right: 0px;
+        top: 0px;
+        left: 0px;
     }
 </style>
