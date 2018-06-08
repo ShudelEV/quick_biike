@@ -11,4 +11,4 @@ vuefire
 
 4 Order: min time for case when date_from is not today
 
-5
+5 Order: add button don't appear if close a chip

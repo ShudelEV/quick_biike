@@ -23,12 +23,12 @@
                             <v-list-tile @click="">
                                 <v-list-tile-action>
                                     <v-list-tile-avatar size="50">
-                                        <img :src="shop.photo"/>
+                                        <img :src="activeShop.photo"/>
                                     </v-list-tile-avatar>
                                 </v-list-tile-action>
                                 <v-list-tile-content>
-                                  <v-list-tile-title>{{shop.name}}</v-list-tile-title>
-                                  <v-list-tile-sub-title>{{shop.contact_info.phone}}</v-list-tile-sub-title>
+                                  <v-list-tile-title>{{activeShop.name}}</v-list-tile-title>
+                                  <v-list-tile-sub-title>{{activeShop.contact_info.phone}}</v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </v-list-tile>
                             <v-divider inset></v-divider>
@@ -37,7 +37,7 @@
                                   <v-icon color="green">location_on</v-icon>
                                 </v-list-tile-action>
                                 <v-list-tile-content>
-                                  <v-list-tile-title>{{shop.contact_info.address}}</v-list-tile-title>
+                                  <v-list-tile-title>{{activeShop.contact_info.address}}</v-list-tile-title>
                                   <!--<v-list-tile-sub-title></v-list-tile-sub-title>-->
                                 </v-list-tile-content>
                             </v-list-tile>
@@ -46,7 +46,7 @@
                 </gmap-info-window>
                 <gmap-marker
                     :key="sh.id"
-                    v-for="sh in shops"
+                    v-for="sh in allShops"
                     :position="{
                         lat: sh.contact_info.latitude,
                         lng: sh.contact_info.longitude
@@ -63,73 +63,61 @@
 </template>
 
 <script>
-  import * as VueGoogleMaps from 'vue2-google-maps';
-  import Vue from 'vue';
+import * as VueGoogleMaps from 'vue2-google-maps';
+import Vue from 'vue';
+
+import { mapGetters, mapActions } from 'vuex'
 
 
-  Vue.use(VueGoogleMaps, {
-      load: {
-          key: 'AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q',
-//          libraries: 'places', //// If you need to use place input
-      }
-  });
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyB5XIFkcMz1v5ljV-43Tae2Z917rVWt14Q',
+        //          libraries: 'places', //// If you need to use place input
+    }
+});
 
-  export default {
-      data () {
-          return {
-              infoContent: '',
-              infoWindowPos: {
-                  lat: 0,
-                  lng: 0
-              },
-              infoWinOpen: false,
-              animation: 4,
-              currentMidx: null,
-              // optional: offset infowindow so it visually sits nicely on top of our marker
-              infoOptions: {
-                  pixelOffset: {
-                      width: 0,
-                      height: -35
-                  }
-              },
-              center: {lat: 53.9023238, lng: 27.5618025}
-          }
-      },
+export default {
+    data () {
+        return {
+            infoContent: '',
+            infoWindowPos: {
+                lat: 0,
+                lng: 0
+            },
+            infoWinOpen: false,
+            animation: 4,
+            currentMidx: null,
+            // optional: offset infowindow so it visually sits nicely on top of our marker
+            infoOptions: {
+                pixelOffset: {
+                    width: 0,
+                    height: -35
+                }
+            },
+            center: { lat: 53.90259, lng: 27.4691211 }
+        }
+    },
 
-      computed: {
-          shops: function () {
-              return this.$store.getters.allShops
-          },
-          shop: function () {
-              return this.$store.getters.activeShop
-          }
-      },
+    computed: {
+        ...mapGetters([ 'allShops', 'activeShop' ]),
+    },
 
-      watch: {
-          shop: function () {
-              this.infoWindowPos = {
-                  lat: this.shop.contact_info.latitude,
-                  lng: this.shop.contact_info.longitude
-              };
-              // check if its the same marker that was selected if yes toggle
-              if (this.currentMidx == this.shop.id) {
-//                  this.infoWinOpen = !this.infoWinOpen;
-              }
-              // if different marker set infowindow to open and reset current marker index
-              else {
-                  this.infoWinOpen = true;
-                  this.currentMidx = this.shop.id;
-              }
-          }
-      },
-
-      methods: {
-      }
-  }
-</script>
-
-<style>
-.map-panel {
-  absolute: 4 1 80%;
+    watch: {
+        activeShop: function () {
+            this.infoWindowPos = {
+                lat: this.activeShop.contact_info.latitude,
+                lng: this.activeShop.contact_info.longitude
+            };
+            // check if its the same marker that was selected if yes toggle
+            if (this.currentMidx == this.activeShop.id) {
+//                this.infoWinOpen = !this.infoWinOpen;
+            }
+            // if different marker set infowindow to open and reset current marker index
+            else {
+                this.infoWinOpen = true;
+                this.currentMidx = this.activeShop.id;
+            }
+        }
+    }
 }
-</style>
+</script>

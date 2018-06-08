@@ -64,5 +64,7 @@ export default {
         position: absolute;
         top: 0px;
         left: 0px;
+        margin: 8px;
+        padding: 0;
     }
 </style>

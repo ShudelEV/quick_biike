@@ -34,7 +34,8 @@ const actions = {
             });
     },
 
-    getFilterShops ({ commit }, filter) {
+    getFilteredShops ({ commit }, filter) {
+        console.log(filter);
         readShops(filter.dt_from, filter.dt_to, filter.type_qty)
             .then(shops => {
                 commit('SET_SHOPS', shops)

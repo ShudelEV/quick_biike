@@ -5,26 +5,6 @@
     <v-form ref="form" v-model="valid" lazy-validation>
         <v-container fluid>
             <v-layout row justify-space-around>
-                <!-- Catch date and time from DateTimePickerFrom -->
-                <!--<date-time-picker-from-->
-                    <!--@input="(date, time) => {-->
-                        <!--setDateTimeTo(date, time);-->
-                        <!--this.dateTimeFrom = date + 'T' + time;-->
-                    <!--}"-->
-                <!--&gt;</date-time-picker-from>-->
-
-                <!--Variant #1 for DateTimePickerTo-->
-                <!-- Throw date and time to DateTimePickerTo -->
-                <!-- And catch date and time from DateTimePickerTo -->
-                <!--<date-time-picker-to-->
-                    <!--:actDateTo="actDateTo"-->
-                    <!--:actTimeTo="actTimeTo"-->
-                    <!--:activeDateTimeTo="activeDateTimeTo"-->
-                    <!--@input="(date, time) => {-->
-                        <!--this.dateTimeTo = date + 'T' + time;-->
-                    <!--}"-->
-                <!--&gt;</date-time-picker-to>-->
-
                 <!--DateFrom Picker-->
                 <v-flex xs4>
                     <v-menu
@@ -101,40 +81,54 @@
                         :items="timeItems"
                         v-model="period"
                         label="Period:"
-                        prepend-icon="event"
-                        :rules="[v => !!v || 'Field is required']"
-                        required
+                        prepend-icon="timer"
                     ></v-select>
                 </v-flex>
             </v-layout>
 
                 <!--<v-subheader> Bike Type and Quantity </v-subheader>-->
-            <v-layout row align-center>
-                <v-flex xs4>
-                    <v-chip close>
-                        <v-avatar>
-                            <img src="/static/images/bikecuny_favicon.ico" alt="man">
-                        </v-avatar>
-                        <v-select :items="[1,2,3]"></v-select>
-                    </v-chip>
+            <v-layout row align-center wrap>
+                <v-flex xs4
+                        v-for="(b, i) in bikes"
+                        :key="i"
+                >
+                    <v-layout row align-center>
+                        <v-flex d-flex>
+                            <v-chip color="teal"
+                                    text-color="white"
+                                    close @input="remove(b.type)"
+                            >
+                                <!--<v-icon flat> directions_bike </v-icon>-->
+                                {{ getTypeName(b.type) }}
+                            </v-chip>
+                        </v-flex>
+                        <v-flex d-flex>
+                            <v-select v-model="b.quantity" :items="[1,2,3,4,5]"></v-select>
+                        </v-flex>
+                    </v-layout>
                 </v-flex>
-                <v-flex xs3>
-                <v-btn fab dark small color="primary">
-                    <v-icon dark>add</v-icon>
-                </v-btn>
-                </v-flex>
-
-                <!--<v-flex xs4 v-for="bike in bikes" :key="bike.type">-->
-                    <!--Transfer default args of bike to child component-->
-                    <!--<order-check-box-->
-                        <!--v-bind="bike"-->
-                        <!--@input="(checked_default, quantity) => {-->
-                            <!--bike.checked_default = checked_default;-->
-                            <!--bike.quantity = quantity;-->
-                            <!--upShops();-->
-                        <!--}"-->
-                    <!--&gt;</order-check-box>-->
-                <!--</v-flex>-->
+                <!--Add button. To add a type and quantity of bikes from the popup menu-->
+                <v-menu
+                    origin="center center"
+                    transition="scale-transition"
+                    bottom
+                >
+                    <!--don't appear the add button when no type items-->
+                    <v-btn left fab small
+                           color="primary"
+                           slot="activator"
+                           v-show="showAddButton"
+                    >
+                        <v-icon>add</v-icon>
+                    </v-btn>
+                    <v-list>
+                        <v-list-tile v-for="(item, i) in filterTypeItems()" :key="i"
+                                     @click="bikes.push({type: item.value, quantity: 1})"
+                        >
+                            <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
             </v-layout>
         </v-container>
     </v-form>
@@ -155,24 +149,21 @@
     <!--</v-card-actions>-->
 
     <!-- List of Shops appears after clicking the button  -->
-    <v-list :hidden="!listOfShopsActive">
-        <list-of-shops
-            v-for="shop in allShops"
-            :key="shop.id"
-            :shop="shop"
-            :dt_from="dateTimeFrom"
-            :dt_to="dateTimeTo"
-            :bikeTypeQty="getBikeTypeQty()"
-        >
-        </list-of-shops>
-    </v-list>
+    <!--<v-list :hidden="!listOfShopsActive">-->
+        <!--<list-of-shops-->
+            <!--v-for="shop in allShops"-->
+            <!--:key="shop.id"-->
+            <!--:shop="shop"-->
+            <!--:dt_from="dateFrom+'T'+timeFrom"-->
+            <!--:dt_to="dateTo+'T'+timeTo"-->
+            <!--:bikeTypeQty="bikes"-->
+        <!--&gt;-->
+        <!--</list-of-shops>-->
+    <!--</v-list>-->
 </v-card>
 </template>
 
 <script>
-import DateTimePickerFrom from './DateTimePickerFrom.vue'
-import DateTimePickerTo from './DateTimePickerTo.vue'
-import OrderCheckBox from './OrderCheckBox.vue'
 import ListOfShops from './ListOfShops.vue'
 
 import { mapGetters, mapActions } from 'vuex'
@@ -198,6 +189,9 @@ export default {
         allowedDates: null,
             // to:
         dateTimeToMenu: false,
+        dateTo: null,
+        timeTo: null,
+        // Period in hours
         period: 1,
         timeItems: [
             { text: '1 hour', value: 1 },
@@ -207,94 +201,70 @@ export default {
             { text: '3 days', value: 72 }
         ],
         // Bike type and quantity
-        type: 1,
         typeItems: [
             { text: 'man', value: 1 },
-            { text: 'woman', value: 2 },
+            { text: 'wman', value: 2 },
             { text: 'child', value: 3 }
         ],
-        // Form
-        valid: true,
-        // dateTimeFrom, dateTimeTo - for update the list of shops on the map
-        dateTimeFrom: (new Date()).toISOString().slice(0, 16),
-        dateTimeTo: null,
         bikes: [
             { type: 1, quantity: 1 },
         ],
+        // Visibility of add button
+        showAddButton: true,
+        // Form
+        valid: true,
+        // The list of shops
         listOfShopsActive: false
     }),
 
     computed: {
-        ...mapGetters([ 'allShops' ]),
+        ...mapGetters([ 'allShops', 'activeShop' ]),
     },
 
     watch: {
-        dateTimeFrom: function (val) {
-            // if time is not picked - set 00:00
-            if (val.slice(11) == 'null') {
-                this.dateTimeFrom = val.slice(0, 10) + 'T00:00'
-            }
-            this.upShops()
-        },
-
-        dateTimeTo: function (val) {
-            // if time is not picked - set actTimeTo
-            if (val.slice(11) == 'null') {
-                this.dateTimeTo = val.slice(0, 11) + this.actTimeTo
-            }
-            this.upShops()
-        }
+//        dateFrom: function () { console.log('dateFrom'); this.setDateTimeTo() },
+//        timeFrom: function () { console.log('timeFrom'); this.setDateTimeTo() },
+//        dateTo: function () { console.log('dateTo'); this.setDateTimeTo() },
+//        timeTo: function () { console.log('timeTo'); this.setDateTimeTo() },
     },
 
     methods: {
-        clear () {
-            this.$refs.form.reset()
-        },
-
         upShops () {
             // update the list of shops in store
-            this.$store.dispatch('getFilterShops', {
-                dt_from: this.dateTimeFrom,
-                dt_to: this.dateTimeTo,
-                type_qty: this.getBikeTypeQty()
+            this.$store.dispatch('getFilteredShops', {
+                dt_from: this.dateFrom + 'T' + this.timeFrom,
+                dt_to: this.dateTo + 'T' + this.timeTo,
+                type_qty: this.bikes
             })
         },
 
-        getBikeTypeQty () {
-            let bikesSet = [];
-            let i = 1;
-            for (let bike of this.bikes) {
-                if (bike.checked_default) {
-                    bikesSet.push({type: i, quantity: bike.quantity})
-                }
-                i += 1
-            }
-            return bikesSet
+        // get a bike type name for chips
+        getTypeName (type) {
+            return this.typeItems.find(item => item.value === type).text
         },
 
-        setDateTimeTo (date, time) {
-            // Set +1 hours (rent for at least 1 hour)
-            let h = 0, m = 0;
-            let resDate = date;
+        // don't allow to choose a similar type of bikes
+        filterTypeItems () {
+            let items = this.typeItems.filter(
+                i => !this.bikes.map(i => i.type).includes(i.value)
+            );
+            this.showAddButton = !!items.length;
+            return items
+        },
 
-            if (time) {
-                h = Number(time.slice(0, 2));
-                m = Number(time.slice(3));
+        // remove item from bikes with bike type 'type'
+        remove (type) {
+            let i = this.bikes.findIndex( b => b.type == type);
+            this.bikes.splice(i , 1)
+        },
 
-                if (h == 23) {
-                    h = 0;
-                    // Set dateTo +1 day, if h = 23.
-                    let tomorrow = new Date(date);
-                    tomorrow.setDate(tomorrow.getDate() + 1);
-                    resDate = tomorrow.toISOString().slice(0, 10);
-                }
-                else {
-                    h += 1
-                }
-
-                this.actDateTo = resDate;
-                this.actTimeTo = h + ':' + m;
-            }
+        setDateTimeTo () {
+            let dtFrom = new Date(this.dateFrom + 'T' + this.timeFrom + ':00');
+            let dtTo = dtFrom.setHours(dtFrom.getHours() + this.period);
+            this.dateTo = (new Date(dtTo)).toISOString().slice(0, 10);
+            this.timeTo = (new Date(dtTo)).toISOString().slice(11, 16);
+            // update shops list
+            this.upShops()
         }
     }
 }
