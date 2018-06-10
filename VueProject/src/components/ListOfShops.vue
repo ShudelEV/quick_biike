@@ -55,10 +55,10 @@ export default {
     name: 'ListOfShops',
 
     props: {
-        shop: {type: Object, default: null},
-        dt_from: {type: String, default: null},
-        dt_to: {type: String, default: null},
-        bikeTypeQty: {type: Array, default: function () { return [] }}
+        dateTimeFrom: {type: String, default: null},
+        dateTimeTo: {type: String, default: null},
+        bikesTypeQty: {type: Array, default: () => []},
+        shop: {type: Object, default: null}
     },
 
     data: () => ({
@@ -66,7 +66,7 @@ export default {
         show: false
     }),
 
-    created () {
+    mounted () {
         this.getBikes()
     },
 
@@ -74,8 +74,9 @@ export default {
     },
 
     methods: {
+
         getBikes () {
-            readBikes(this.dt_from, this.dt_to, this.bikeTypeQty, [this.shop.id])
+            readBikes(this.dateTimeFrom, this.dateTimeTo, this.bikesTypeQty, [this.shop.id])
                 .then(data => {
                     this.bikes = data.bikes
                 });
@@ -84,9 +85,9 @@ export default {
         createPath () {
             let query = {
                 id: this.shop.id,
-                dt_from: this.dt_from,
-                dt_to: this.dt_to,
-                bikeTypeQty: JSON.stringify(this.bikeTypeQty)
+                dt_from: this.dateTimeFrom,
+                dt_to: this.dateTimeTo,
+                bikesTypeQty: JSON.stringify(this.bikesTypeQty)
             };
 
             return {

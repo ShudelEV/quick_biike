@@ -95,14 +95,14 @@
                             <!--<v-subheader> Bike Type and Quantity </v-subheader>-->
                         <v-layout row align-center justify-space-between wrap>
                             <v-flex xs4
-                                    v-for="(b, i) in bikes"
+                                    v-for="(b, i) in bikesTypeQty"
                                     :key="i"
                             >
                                 <v-layout row align-center>
                                     <v-flex d-flex>
                                         <v-chip color="teal"
                                                 text-color="white"
-                                                close @input="remove(b.type)"
+                                                close @input="REMOVE_TYPE_QTY(b.type)"
                                         >
                                             <!--<v-icon flat> directions_bike </v-icon>-->
                                             {{ getTypeName(b.type) }}
@@ -133,7 +133,7 @@
                                 </v-btn>
                                 <v-list>
                                     <v-list-tile v-for="(item, i) in filterTypeItems()" :key="i"
-                                                 @click="bikes.push({type: item.value, quantity: 1})"
+                                                 @click="PUSH_TYPE_QTY({ type: item.value, quantity: 1 })"
                                     >
                                         <v-list-tile-title>{{ item.text }}</v-list-tile-title>
                                     </v-list-tile>
@@ -159,9 +159,9 @@
                 <list-of-shops
                     v-for="shop in allShops" :key="shop.id"
                     :shop="shop"
-                    :dt_from="dateFrom+'T'+timeFrom"
-                    :dt_to="dateTo+'T'+timeTo"
-                    :bikeTypeQty="bikes"
+                    :dateTimeFrom="dateTimeFrom"
+                    :dateTimeTo="dateTimeTo"
+                    :bikesTypeQty="bikesTypeQty"
                 >
                 </list-of-shops>
             </div>
@@ -173,7 +173,7 @@
 <script>
 import ListOfShops from './ListOfShops.vue'
 
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: 'Order',
@@ -195,10 +195,6 @@ export default {
         },
         allowedDates: null,
             // to:
-        dateTimeToMenu: false,
-        dateTo: null,
-        timeTo: null,
-        // Period in hours
         period: 1,
         timeItems: [
             { text: '1 hour', value: 1 },
@@ -210,11 +206,8 @@ export default {
         // Bike type and quantity
         typeItems: [
             { text: 'man', value: 1 },
-            { text: 'wman', value: 2 },
+            { text: 'woman', value: 2 },
             { text: 'child', value: 3 }
-        ],
-        bikes: [
-            { type: 1, quantity: 1 },
         ],
         // Visibility of add button
         showAddButton: true,
@@ -226,23 +219,42 @@ export default {
     }),
 
     computed: {
-        ...mapGetters([ 'allShops', 'activeShop' ]),
+        ...mapGetters([
+            'allShops', 'activeShop', 'dateTimeFrom', 'dateTimeTo', 'bikesTypeQty'
+        ]),
+    },
+
+    created () {
+        this.SET_DATE_TIME_FROM({ date: this.dateFrom, time: this.timeFrom });
+        this.SET_DATE_TIME_TO(this.period)
     },
 
     watch: {
-       dateFrom: function () { console.log('dateFrom'); this.setDateTimeTo() },
-       timeFrom: function () { console.log('timeFrom'); this.setDateTimeTo() },
-       dateTo: function () { console.log('dateTo'); this.setDateTimeTo() },
-       timeTo: function () { console.log('timeTo'); this.setDateTimeTo() },
+        dateFrom: function () {
+            this.SET_DATE_TIME_FROM({ date: this.dateFrom, time: this.timeFrom });
+            this.SET_DATE_TIME_TO(this.period)
+        },
+        timeFrom: function () {
+            this.SET_DATE_TIME_FROM({ date: this.dateFrom, time: this.timeFrom });
+            this.SET_DATE_TIME_TO(this.period)
+        },
+        period: function () {
+            this.SET_DATE_TIME_TO(this.period)
+        }
+
     },
 
     methods: {
+        ...mapMutations([
+            'SET_DATE_TIME_FROM', 'SET_DATE_TIME_TO', 'PUSH_TYPE_QTY', 'REMOVE_TYPE_QTY'
+        ]),
+
         upShops () {
             // update the list of shops in store
             this.$store.dispatch('getFilteredShops', {
-                dt_from: this.dateFrom + 'T' + this.timeFrom,
-                dt_to: this.dateTo + 'T' + this.timeTo,
-                type_qty: this.bikes
+                dt_from: this.dateTimeFrom,
+                dt_to: this.dateTimeTo,
+                type_qty: this.bikesTypeQty
             })
         },
 
@@ -254,24 +266,10 @@ export default {
         // don't allow to choose a similar type of bikes
         filterTypeItems () {
             let items = this.typeItems.filter(
-                i => !this.bikes.map(i => i.type).includes(i.value)
+                i => !this.bikesTypeQty.map(i => i.type).includes(i.value)
             );
             this.showAddButton = !!items.length;
             return items
-        },
-
-        // remove item from bikes with bike type 'type'
-        remove (type) {
-            let i = this.bikes.findIndex( b => b.type === type);
-            this.bikes.splice(i , 1)
-        },
-
-        setDateTimeTo () {
-            let dtFrom = new Date(this.dateFrom + 'T' + this.timeFrom + ':00');
-            let dtTo = dtFrom.setHours(dtFrom.getHours() + this.period);
-            this.dateTo = (new Date(dtTo)).toISOString().slice(0, 10);
-            this.timeTo = (new Date(dtTo)).toISOString().slice(11, 16);
-
         },
 
         getListOfShops () {
@@ -284,7 +282,3 @@ export default {
     }
 }
 </script>
-
-<style>
-    label {}
-</style>

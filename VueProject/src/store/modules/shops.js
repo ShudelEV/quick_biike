@@ -8,22 +8,20 @@ const state = {
         contact_info: { phone: '', address: ''},
         animation: 0
     },
-    // filter: {
-    //     date_from: null,
-    //     time_from: null,
-    //     date_to: null,
-    //     time_to: null,
-    //     bikes: []
-    // }
+    //Form:
+        dateTimeFrom: null,
+        dateTimeTo: null,
+        bikesTypeQty: [
+            { type: 1, quantity : 1}
+            ]
 };
 
 const getters = {
     allShops: state => state.all,
     activeShop: state => state.active,
-    // date_from: state => state.date_from,
-    // time_from: state => state.time_from,
-    // date_to: state => state.date_to,
-    // time_to: state => state.time_to
+    dateTimeFrom: state => state.dateTimeFrom,
+    dateTimeTo: state => state.dateTimeTo,
+    bikesTypeQty: state => state.bikesTypeQty
 };
 
 const actions = {
@@ -35,7 +33,6 @@ const actions = {
     },
 
     getFilteredShops ({ commit }, filter) {
-        console.log(filter);
         readShops(filter.dt_from, filter.dt_to, filter.type_qty)
             .then(shops => {
                 commit('SET_SHOPS', shops)
@@ -60,9 +57,32 @@ const mutations = {
         state.active = shop
     },
 
-    // SET_DATE_FROM (state, d) {
-    //     state.filter.date_from = d
-    // }
+    SET_DATE_TIME_FROM (state, { date, time }) {
+        let dtNow = (new Date()).toISOString().slice(0, 16);
+        if ( date && time ) {
+            state.dateTimeFrom = date + 'T' + time
+        } else if (date) {
+            state.dateTimeFrom = date + dtNow.slice(10, 16)
+        } else {
+            state.dateTimeFrom = dtNow
+        }
+    },
+
+    SET_DATE_TIME_TO (state, period) {
+        let dtFrom = new Date(state.dateTimeFrom);
+        let dtTo = dtFrom.setHours(dtFrom.getHours() + period);
+        state.dateTimeTo = (new Date(dtTo)).toISOString().slice(0, 16)
+    },
+
+    PUSH_TYPE_QTY (state, { type, quantity }) {
+        state.bikesTypeQty.push({ type: type, quantity: quantity })
+    },
+
+    REMOVE_TYPE_QTY (state, type) {
+        let i = state.bikesTypeQty.findIndex(b => b.type === type);
+        state.bikesTypeQty.splice(i , 1)
+    }
+
 };
 
 export default {
