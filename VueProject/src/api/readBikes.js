@@ -12,7 +12,6 @@
 } */
 
 import axios from 'axios'
-import cookies from 'js-cookie'
 
 
 export default function (dt_from, dt_to='', bikes=[], shop_ids=[]) {

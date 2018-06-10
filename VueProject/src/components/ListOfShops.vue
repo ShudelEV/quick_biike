@@ -9,7 +9,7 @@
         <v-container fill-height fluid>
             <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>
-                    <span class="headline">{{shop.name}}</span>
+                    <span class="headline">{{ shop.name }}</span>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -62,7 +62,7 @@ export default {
     },
 
     data: () => ({
-        bikes: null,
+        bikes: [],
         show: false
     }),
 
@@ -71,9 +71,6 @@ export default {
     },
 
     watch: {
-        shop: function () {
-            this.getBikes()
-        }
     },
 
     methods: {

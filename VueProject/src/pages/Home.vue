@@ -15,18 +15,19 @@
         <!--v-model="rightDrawer"-->
         <!--class="lime accent-1"-->
     <!--&gt;-->
-
-    <div>
-        <content-map></content-map>
-        <v-dialog content-class="order"
-                  v-model="rightDrawer"
-                  hide-overlay persistent
-                  max-width="420px"
-        >
-            <order></order>
-        </v-dialog>
-         <!--Go to the url /order (the pages "Price", "LoginWindow") -->
-        <router-view></router-view>
+<div>
+    <content-map></content-map>
+    <v-container fluid grid-list-md  style="max-height: 100vh; overflow-y: scroll">
+        <v-layout row>
+            <v-flex xs12 md4>
+                <order></order>
+            </v-flex>
+            <v-flex xs12 md8>
+                <!--Go to the url /order (the pages "Price", "LoginWindow") -->
+                <router-view></router-view>
+            </v-flex>
+        </v-layout>
+    </v-container>
     </div>
 </template>
 

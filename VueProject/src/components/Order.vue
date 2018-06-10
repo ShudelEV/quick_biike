@@ -1,166 +1,173 @@
 <template>
-    <!--Create a form-->
-    <!--Evoke getShops() method when a value of order is changed-->
-<v-card>
-    <v-form ref="form" v-model="valid" lazy-validation>
-        <v-container fluid>
-            <v-layout row justify-space-around>
-                <!--DateFrom Picker-->
-                <v-flex xs4>
-                    <v-menu
-                        lazy
-                        :close-on-content-click="true"
-                        v-model="dateFromMenu"
-                        transition="scale-transition"
-                        offset-y
-                        full-width
-                        :nudge-right="40"
-                        max-width="285px"
-                        min-width="285px"
-                    >
-                        <v-text-field
-                            id="date_from"
-                            slot="activator"
-                            label="From Time:"
-                            v-model="dateFrom"
-                            :rules="[v => !!v || 'Date is required']"
-                            prepend-icon="event"
-                            readonly
-                            required
-                        ></v-text-field>
-                        <!--Change action: appear the TimePicker after
-                            and set min, date in DateTimePickerTo (through parent component)-->
-                        <v-date-picker
-                            v-model="dateFrom"
-                            @change="timeFromMenu = !timeFromMenu"
-                            no-title
-                            scrollable
-                            :min="(new Date()).toISOString().slice(0, 10)"
-                            :allowed-dates="allowedDates"
-                        >
-                        </v-date-picker>
-                    </v-menu>
-                </v-flex>
-                <!--TimeFrom Picker-->
-                <v-flex xs2>
-                    <v-menu
-                        ref="timeFromMenu"
-                        lazy
-                        :close-on-content-click="false"
-                        v-model="timeFromMenu"
-                        transition="scale-transition"
-                        offset-y
-                        full-width
-                        :nudge-right="40"
-                        max-width="285px"
-                        min-width="285px"
-                    >
-                        <v-text-field
-                            id="time_from"
-                            slot="activator"
-                            label=""
-                            v-model="timeFrom"
-                            :rules="[v => !!v || 'Time is required']"
-                            readonly
-                            required
-                        ></v-text-field>
-                        <!--Change action: save time in text-field after picking-->
-                        <v-time-picker
-                            v-model="timeFrom"
-                            format="24hr"
-                            :min="(new Date()).toISOString().slice(11, 16)"
-                            :allowed-hours="allowedTimes.hours"
-                            :allowed-minutes="allowedTimes.minutes"
-                            @change="$refs.timeFromMenu.save(timeFrom)"
-                        ></v-time-picker>
-                    </v-menu>
-                </v-flex>
-                <!--Variant #2 for DateTimePickerTo-->
-                <v-flex xs5>
-                    <v-select
-                        :items="timeItems"
-                        v-model="period"
-                        label="Period:"
-                        prepend-icon="timer"
-                    ></v-select>
-                </v-flex>
-            </v-layout>
-
-                <!--<v-subheader> Bike Type and Quantity </v-subheader>-->
-            <v-layout row align-center wrap>
-                <v-flex xs4
-                        v-for="(b, i) in bikes"
-                        :key="i"
-                >
-                    <v-layout row align-center>
-                        <v-flex d-flex>
-                            <v-chip color="teal"
-                                    text-color="white"
-                                    close @input="remove(b.type)"
+<v-container fluid pa-0>
+    <v-layout column>
+        <v-flex d-flex>
+            <!--Create a form-->
+            <!--Evoke getShops() method when a value of order is changed-->
+            <v-card>
+                <v-form ref="form" v-model="valid" lazy-validation>
+                    <v-container fluid pa-2>
+                        <v-layout row justify-space-around>
+                            <!--DateFrom Picker-->
+                            <v-flex xs4>
+                                <v-menu
+                                    lazy
+                                    :close-on-content-click="true"
+                                    v-model="dateFromMenu"
+                                    transition="scale-transition"
+                                    offset-y
+                                    full-width
+                                    :nudge-right="40"
+                                    max-width="285px"
+                                    min-width="285px"
+                                >
+                                    <v-text-field
+                                        id="date_from"
+                                        slot="activator"
+                                        label="From Time:"
+                                        hide-details
+                                        v-model="dateFrom"
+                                        :rules="[v => !!v || 'Date is required']"
+                                        prepend-icon="event"
+                                        readonly
+                                        required
+                                    ></v-text-field>
+                                    <!--Change action: appear the TimePicker after
+                                        and set min, date in DateTimePickerTo (through parent component)-->
+                                    <v-date-picker
+                                        v-model="dateFrom"
+                                        @change="timeFromMenu = !timeFromMenu"
+                                        no-title
+                                        scrollable
+                                        :min="(new Date()).toISOString().slice(0, 10)"
+                                        :allowed-dates="allowedDates"
+                                    >
+                                    </v-date-picker>
+                                </v-menu>
+                            </v-flex>
+                            <!--TimeFrom Picker-->
+                            <v-flex xs2>
+                                <v-menu
+                                    ref="timeFromMenu"
+                                    lazy
+                                    :close-on-content-click="false"
+                                    v-model="timeFromMenu"
+                                    transition="scale-transition"
+                                    offset-y
+                                    full-width
+                                    :nudge-right="40"
+                                    max-width="285px"
+                                    min-width="285px"
+                                >
+                                    <v-text-field
+                                        id="time_from"
+                                        slot="activator"
+                                        autofocus
+                                        hide-details
+                                        label=""
+                                        v-model="timeFrom"
+                                        :rules="[v => !!v || 'Time is required']"
+                                        readonly
+                                        required
+                                    ></v-text-field>
+                                    <!--Change action: save time in text-field after picking-->
+                                    <v-time-picker
+                                        v-model="timeFrom"
+                                        format="24hr"
+                                        :min="(new Date()).toISOString().slice(11, 16)"
+                                        :allowed-hours="allowedTimes.hours"
+                                        :allowed-minutes="allowedTimes.minutes"
+                                        @change="$refs.timeFromMenu.save(timeFrom)"
+                                    ></v-time-picker>
+                                </v-menu>
+                            </v-flex>
+                            <!--Variant #2 for DateTimePickerTo-->
+                            <v-flex xs5>
+                                <v-select
+                                    :items="timeItems"
+                                    v-model="period"
+                                    label="Period:"
+                                    hide-details
+                                    prepend-icon="timer"
+                                ></v-select>
+                            </v-flex>
+                        </v-layout>
+                            <!--<v-subheader> Bike Type and Quantity </v-subheader>-->
+                        <v-layout row align-center justify-space-between wrap>
+                            <v-flex xs4
+                                    v-for="(b, i) in bikes"
+                                    :key="i"
                             >
-                                <!--<v-icon flat> directions_bike </v-icon>-->
-                                {{ getTypeName(b.type) }}
-                            </v-chip>
-                        </v-flex>
-                        <v-flex d-flex>
-                            <v-select v-model="b.quantity" :items="[1,2,3,4,5]"></v-select>
-                        </v-flex>
-                    </v-layout>
-                </v-flex>
-                <!--Add button. To add a type and quantity of bikes from the popup menu-->
-                <v-menu
-                    origin="center center"
-                    transition="scale-transition"
-                    bottom
+                                <v-layout row align-center>
+                                    <v-flex d-flex>
+                                        <v-chip color="teal"
+                                                text-color="white"
+                                                close @input="remove(b.type)"
+                                        >
+                                            <!--<v-icon flat> directions_bike </v-icon>-->
+                                            {{ getTypeName(b.type) }}
+                                        </v-chip>
+                                    </v-flex>
+                                    <v-flex d-flex>
+                                        <!-- No label: padding-top: 0;-->
+                                        <v-select hide-details style="padding-top: 0;"
+                                                  v-model="b.quantity"
+                                                  :items="[1,2,3,4,5]"
+                                        ></v-select>
+                                    </v-flex>
+                                </v-layout>
+                            </v-flex>
+                            <!--Add button. To add a type and quantity of bikes from the popup menu-->
+                            <v-menu
+                                origin="center center"
+                                transition="scale-transition"
+                                bottom
+                            >
+                                <!--don't appear the add button when no type items-->
+                                <v-btn left fab small
+                                       color="primary"
+                                       slot="activator"
+                                       v-show="showAddButton"
+                                >
+                                    <v-icon>add</v-icon>
+                                </v-btn>
+                                <v-list>
+                                    <v-list-tile v-for="(item, i) in filterTypeItems()" :key="i"
+                                                 @click="bikes.push({type: item.value, quantity: 1})"
+                                    >
+                                        <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                            <v-spacer></v-spacer>
+                            <!--the submit button for to take shops using the filter form-->
+                            <v-btn round color="cyan"
+                                   v-show="showSearchButton"
+                                   @click="getListOfShops()"
+                            >
+                                <v-icon>search</v-icon>
+                                GO!
+                            </v-btn>
+                        </v-layout>
+                    </v-container>
+                </v-form>
+            </v-card>
+        </v-flex>
+        <v-flex d-flex>
+            <!--List of Shops appears after clicking the button-->
+            <div v-if="showListOfShops">
+                <list-of-shops
+                    v-for="shop in allShops" :key="shop.id"
+                    :shop="shop"
+                    :dt_from="dateFrom+'T'+timeFrom"
+                    :dt_to="dateTo+'T'+timeTo"
+                    :bikeTypeQty="bikes"
                 >
-                    <!--don't appear the add button when no type items-->
-                    <v-btn left fab small
-                           color="primary"
-                           slot="activator"
-                           v-show="showAddButton"
-                    >
-                        <v-icon>add</v-icon>
-                    </v-btn>
-                    <v-list>
-                        <v-list-tile v-for="(item, i) in filterTypeItems()" :key="i"
-                                     @click="bikes.push({type: item.value, quantity: 1})"
-                        >
-                            <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-                        </v-list-tile>
-                    </v-list>
-                </v-menu>
-            </v-layout>
-        </v-container>
-    </v-form>
-
-    <!--<v-card-actions>-->
-        <!--<v-spacer></v-spacer>-->
-        <!--<v-btn outline color="red" @click="clear">-->
-            <!--<v-icon>delete</v-icon>-->
-            <!--clear-->
-        <!--</v-btn>-->
-        <!--<v-btn outline color="green" -->
-               <!--:disabled="!valid"-->
-               <!--@click="listOfShopsActive = !listOfShopsActive" -->
-        <!--&gt;-->
-            <!--<v-icon>search</v-icon>-->
-            <!--search-->
-        <!--</v-btn>-->
-    <!--</v-card-actions>-->
-
-    <!-- List of Shops appears after clicking the button  -->
-    <!--<v-list :hidden="!listOfShopsActive">-->
-        <!--<list-of-shops-->
-            <!--v-for="shop in allShops"-->
-            <!--:key="shop.id"-->
-            <!--:shop="shop"-->
-            <!--:dt_from="dateFrom+'T'+timeFrom"-->
-            <!--:dt_to="dateTo+'T'+timeTo"-->
-            <!--:bikeTypeQty="bikes"-->
-        <!--&gt;-->
-        <!--</list-of-shops>-->
-    <!--</v-list>-->
-</v-card>
+                </list-of-shops>
+            </div>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
@@ -181,7 +188,7 @@ export default {
         dateFromMenu: false,
         timeFromMenu: false,
         dateFrom: (new Date()).toISOString().slice(0, 10),
-        timeFrom: null,
+        timeFrom: '12:00',
         allowedTimes: {
             hours: null,
             minutes: null
@@ -213,8 +220,9 @@ export default {
         showAddButton: true,
         // Form
         valid: true,
+        showSearchButton: true,
         // The list of shops
-        listOfShopsActive: false
+        showListOfShops: false
     }),
 
     computed: {
@@ -222,10 +230,10 @@ export default {
     },
 
     watch: {
-//        dateFrom: function () { console.log('dateFrom'); this.setDateTimeTo() },
-//        timeFrom: function () { console.log('timeFrom'); this.setDateTimeTo() },
-//        dateTo: function () { console.log('dateTo'); this.setDateTimeTo() },
-//        timeTo: function () { console.log('timeTo'); this.setDateTimeTo() },
+       dateFrom: function () { console.log('dateFrom'); this.setDateTimeTo() },
+       timeFrom: function () { console.log('timeFrom'); this.setDateTimeTo() },
+       dateTo: function () { console.log('dateTo'); this.setDateTimeTo() },
+       timeTo: function () { console.log('timeTo'); this.setDateTimeTo() },
     },
 
     methods: {
@@ -254,7 +262,7 @@ export default {
 
         // remove item from bikes with bike type 'type'
         remove (type) {
-            let i = this.bikes.findIndex( b => b.type == type);
+            let i = this.bikes.findIndex( b => b.type === type);
             this.bikes.splice(i , 1)
         },
 
@@ -263,9 +271,20 @@ export default {
             let dtTo = dtFrom.setHours(dtFrom.getHours() + this.period);
             this.dateTo = (new Date(dtTo)).toISOString().slice(0, 10);
             this.timeTo = (new Date(dtTo)).toISOString().slice(11, 16);
-            // update shops list
-            this.upShops()
+
+        },
+
+        getListOfShops () {
+            if (this.$refs.form.validate()) {
+                // update shops list
+                this.upShops();
+                this.showListOfShops = false ? true : true
+            }
         }
     }
 }
 </script>
+
+<style>
+    label {}
+</style>

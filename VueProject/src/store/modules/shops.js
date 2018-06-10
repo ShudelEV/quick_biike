@@ -55,7 +55,7 @@ const mutations = {
         state.all = shops
     },
 
-    SET_ACTIVE_SHOP (state, shop ) {
+    SET_ACTIVE_SHOP (state, shop) {
         shop.animation = 4;
         state.active = shop
     },
