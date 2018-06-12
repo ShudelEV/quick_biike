@@ -13,12 +13,6 @@
                     @closeclick="infoWinOpen=false"
                 >
                     <v-card>
-                        <!--<v-card-title primary-title>-->
-                            <!--<div>-->
-                                <!--<div class="headline">{{shop.name}}</div>-->
-                                <!--<span class="grey&#45;&#45;text">{{shop.contact_info.phone}}</span>-->
-                            <!--</div>-->
-                        <!--</v-card-title>-->
                         <v-list two-line>
                             <v-list-tile @click="">
                                 <v-list-tile-action>

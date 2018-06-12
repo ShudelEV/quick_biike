@@ -20,7 +20,7 @@
     <v-container fluid grid-list-md  style="max-height: 100vh; overflow-y: scroll">
         <v-layout row>
             <v-flex xs12 md4>
-                <order></order>
+                <search-menu></search-menu>
             </v-flex>
             <v-flex xs12 md8>
                 <!--Go to the url /order (the pages "Price", "LoginWindow") -->
@@ -34,13 +34,13 @@
 <script>
 import ContentMap from '../components/ContentMap.vue'
 import LeftMenu from '../components/LeftMenu.vue'
-import Order from '../components/Order.vue'
+import SearchMenu from '../components/SearchMenu.vue'
 
 export default {
     name: 'Home',
 
     components: {
-        ContentMap, LeftMenu, Order
+        ContentMap, LeftMenu, SearchMenu
     },
 
     props: ['clipped', 'drawer', 'rightDrawer'],

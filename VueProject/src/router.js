@@ -4,7 +4,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // @ is an alias for the /src directory
 import Home from './pages/Home.vue'
-import Price from './pages/Price.vue'
+import Order from './pages/Order.vue'
 import LoginWindow from './pages/LoginWindow.vue'
 import Account from './pages/Account.vue'
 import NotFound from './components/errors/404.vue'
@@ -17,7 +17,7 @@ function dynamicPropsFnOrder(route) {
         id: route.query.id,
         dt_from: route.query.dt_from,
         dt_to: route.query.dt_to,
-        bikeTypeQty: JSON.parse(route.query.bikeTypeQty)
+        bikeTypeQty: JSON.parse(route.query.bikesTypeQty)
     }
 }
 
@@ -33,7 +33,7 @@ export default new Router({
                 {
                     path: 'order',
                     name: 'Order',
-                    component: Price,
+                    component: Order,
                     props: dynamicPropsFnOrder,
                 },
                 {
