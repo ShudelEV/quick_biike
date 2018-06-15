@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from RentBike.models import Shop, Order, Bike
-from .serializers import ShopSerializer, BikeSerializer, OrderSerializer
+from .serializers import ShopSerializer, BikeSerializer, OrderSerializer, ShopWithBikesSerializer
 from django.views.decorators.csrf import csrf_protect
 import logging
 
@@ -98,9 +98,8 @@ def read_shops(request):
 
         # to find out shops that have relevant bikes
         shop_ids = []
-
         if bikes:
-            for shop in Shop.objects.all():
+            for shop in Shop.objects.select_related('bikes'):
                 shop_type_count = order_type_count.copy()
 
                 for bike in shop.bikes.exclude(pk__in=busy_bike_ids):
@@ -118,11 +117,9 @@ def read_shops(request):
         else:
             shop_ids = [shop.id for shop in Shop.objects.all()]
 
-        # logging.debug("REST.readShops: Order.shops.ids: {}".format(shop_ids))
+        shops_qset = Shop.objects.filter(pk__in=shop_ids)
 
-        shops_query = Shop.objects.filter(pk__in=shop_ids)
-
-        return Response({"shops": ShopSerializer(shops_query, many=True).data})
+        return Response({"shops": ShopWithBikesSerializer(shops_qset, many=True).data})
 
 
 @api_view(['POST'])

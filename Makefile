@@ -15,7 +15,7 @@ dev:
 # Runs development server.
 # This step depends on `make dev`, however dependency is excluded to speed up dev server startup.
 run:
-	python manage.py runserver & npm run dev
+	python manage.py runserver --settings=QuickBikeProject.settingsdev
 
 # Creates migrations and migrates database.
 # This step depends on `make dev`, however dependency is excluded to speed up dev server startup.
