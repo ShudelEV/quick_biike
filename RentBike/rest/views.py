@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from RentBike.models import Shop, Order, Bike
 from .serializers import ShopSerializer, BikeSerializer, OrderSerializer, ShopWithBikesSerializer
 from django.views.decorators.csrf import csrf_protect
+from copy import copy
+from collections import OrderedDict
 import logging
 
 logging.basicConfig(
@@ -118,8 +120,16 @@ def read_shops(request):
             shop_ids = [shop.id for shop in Shop.objects.all()]
 
         shops_qset = Shop.objects.filter(pk__in=shop_ids)
+        shop_objects = OrderedDict()
+        for shop in shops_qset:
+            # copy a shop instance, otherwise shop.bikes will be changed in db
+            sh = copy(shop)
+            # add free bikes set to a shop
+            sh.bikes = shop.bikes.exclude(pk__in=busy_bike_ids)
+            shop_objects.move_to_end(sh)
+            # logging.debug("REST.readShops/Type_count: {}".format(sh))
 
-        return Response({"shops": ShopWithBikesSerializer(shops_qset, many=True).data})
+        return Response({"shops": ShopWithBikesSerializer(shop_objects, many=True).data})
 
 
 @api_view(['POST'])
