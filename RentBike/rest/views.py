@@ -119,17 +119,18 @@ def read_shops(request):
         else:
             shop_ids = [shop.id for shop in Shop.objects.all()]
 
+        # create the response "list of shops with a filtered bikes set"
+        # work with serializers that to don't update shop.bikes in db
         shops_qset = Shop.objects.filter(pk__in=shop_ids)
-        shop_objects = OrderedDict()
-        for shop in shops_qset:
-            # copy a shop instance, otherwise shop.bikes will be changed in db
-            sh = copy(shop)
-            # add free bikes set to a shop
-            sh.bikes = shop.bikes.exclude(pk__in=busy_bike_ids)
-            shop_objects.move_to_end(sh)
-            # logging.debug("REST.readShops/Type_count: {}".format(sh))
+        shops_ser = ShopSerializer(shops_qset, many=True)
+        for shop, sh in zip(shops_qset, shops_ser.data):
+            # get free bikes set for a shop
+            bikes = shop.bikes.exclude(pk__in=busy_bike_ids)
+            bikes_ser_data = BikeSerializer(bikes, many=True).data
+            # add a free bikes set to a shop
+            sh.update([('bikes', bikes_ser_data)])
 
-        return Response({"shops": ShopWithBikesSerializer(shop_objects, many=True).data})
+        return Response({"shops": shops_ser.data})
 
 
 @api_view(['POST'])
