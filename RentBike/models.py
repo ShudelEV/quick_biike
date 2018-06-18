@@ -86,7 +86,7 @@ class Bike(models.Model):
     type = models.CharField(max_length=1,
                             choices=(('1', 'male'), ('2', 'female'), ('3', 'kids')),
                             default='1', db_index=True)
-    shop = models.ForeignKey(Shop, related_name='bikes', on_delete=models.CASCADE)
+    shop = models.ForeignKey(Shop, related_name='bikes', on_delete=models.CASCADE, null=True)
     price = models.ForeignKey(Price, related_name='bikes', db_index=True)
     description = models.TextField(blank=True)
 
