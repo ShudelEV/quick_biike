@@ -5,9 +5,8 @@ from rest_framework.response import Response
 from RentBike.models import Shop, Order, Bike
 from .serializers import ShopSerializer, BikeSerializer, OrderSerializer, ShopWithBikesSerializer
 from django.views.decorators.csrf import csrf_protect
-from copy import copy
-from collections import OrderedDict
 import logging
+from silk.profiling.profiler import silk_profile
 
 logging.basicConfig(
     filename="test.log",
@@ -59,8 +58,10 @@ def get_busy_bikes(free_from, free_to):
 
     return busy_bike_ids
 
+
 @api_view(['POST'])
 @permission_classes((AllowAny, ))
+@silk_profile(name='readShops')
 def read_shops(request):
     """
         API endpoint that return set of shops using filter:
@@ -101,7 +102,7 @@ def read_shops(request):
         # to find out shops that have relevant bikes
         shop_ids = []
         if bikes:
-            for shop in Shop.objects.select_related('bikes'):
+            for shop in Shop.objects.all():
                 shop_type_count = order_type_count.copy()
 
                 for bike in shop.bikes.exclude(pk__in=busy_bike_ids):

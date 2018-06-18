@@ -8,7 +8,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework.documentation import include_docs_urls
 
 
-urlpatterns = [
+urlpatterns = []
+
+if settings.DEBUG:
+    urlpatterns += [url(r'^silk/', include('silk.urls', namespace='silk'))]
+
+urlpatterns += [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # automatically generated documentation
@@ -22,6 +27,3 @@ urlpatterns += [url(r'^', include('RentBike.urls', namespace='rent_bike'))]
 
 # urlpatterns += staticfiles_urlpatterns()
 
-# if settings.DEBUG:
-#     import debug_toolbar
-#     urlpatterns.append(url(r'^__debug__/', include(debug_toolbar.urls)))

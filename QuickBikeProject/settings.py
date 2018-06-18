@@ -15,6 +15,23 @@ SECRET_KEY = '77epj25ja4piv8zvl6=nxi2abr53%q2jv3h6e4^&&#r()j2!l9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# show SQL queries in console if DEBUG=True
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         }
+#     },
+# }
+
 ALLOWED_HOSTS = []
 
 
@@ -148,7 +165,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATIC_DIRS = (
 #     os.path.join(BASE_DIR, 'RentBike/static/dist'),
 # )
