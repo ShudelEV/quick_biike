@@ -85,9 +85,9 @@ class Bike(models.Model):
                               max_length=255, upload_to=photo_path_bike)
     type = models.CharField(max_length=1,
                             choices=(('1', 'male'), ('2', 'female'), ('3', 'kids')),
-                            default='1')
+                            default='1', db_index=True)
     shop = models.ForeignKey(Shop, related_name='bikes', on_delete=models.CASCADE)
-    price = models.ForeignKey(Price, related_name='bikes')
+    price = models.ForeignKey(Price, related_name='bikes', db_index=True)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -111,7 +111,7 @@ class Accessory(models.Model):
 
 class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True)
-    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    client = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     bikes = models.ManyToManyField(Bike)
     accessories = models.ManyToManyField(Accessory, blank=True)
     # validation for TimePeriod created in android application

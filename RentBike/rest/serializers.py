@@ -5,7 +5,7 @@ from RentBike.models import Shop, Bike, Order
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
-        fields = '__all__'
+        fields = ('id', 'name', 'photo', 'contact_info', 'company', 'bikes')
         depth = 2
 
 

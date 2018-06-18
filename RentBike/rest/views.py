@@ -43,16 +43,18 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OrderSerializer
 
 
+@silk_profile(name='get_busy_bikes')
 # find out busy bikes
 def get_busy_bikes(free_from, free_to):
     busy_bike_ids = []
+    order_qs = Order.objects.all()
 
     if free_from and free_to:
-        for order in Order.objects.exclude(time_from__gte=free_to).exclude(time_to__lte=free_from):
-            busy_bike_ids += [bike.id for bike in order.bikes.all()]
+        for order in order_qs.exclude(time_from__gte=free_to).exclude(time_to__lte=free_from):
+            busy_bike_ids += [bike.id for bike in order.bikes]
     elif free_from and not free_to:
-        for order in Order.objects.exclude(time_to__lte=free_from):
-            busy_bike_ids += [bike.id for bike in order.bikes.all()]
+        for order in order_qs.exclude(time_to__lte=free_from):
+            busy_bike_ids += [bike.id for bike in order.bikes]
 
     # logging.debug("REST/Busy bike ids: {}".format(busy_bike_ids))
 
