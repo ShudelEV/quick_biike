@@ -143,10 +143,10 @@
                             <!--the submit button for to take shops using the filter form-->
                             <v-btn round color="cyan"
                                    v-show="showSearchButton"
-                                   @click="getListOfShops()"
+                                   @click="getListOfShops(); textSearchButton = 'UPDATE'"
                             >
                                 <v-icon>search</v-icon>
-                                GO!
+                                {{ textSearchButton }}
                             </v-btn>
                         </v-layout>
                     </v-container>
@@ -161,6 +161,7 @@
                     :shop="shop"
                     :dateTimeFrom="dateTimeFrom"
                     :dateTimeTo="dateTimeTo"
+                    :period="period"
                     :bikesTypeQty="bikesTypeQty"
                 >
                 </list-of-shops>
@@ -214,6 +215,7 @@ export default {
         // Form
         valid: true,
         showSearchButton: true,
+        textSearchButton: 'GO!',
         // The list of shops
         showListOfShops: false
     }),

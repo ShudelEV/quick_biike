@@ -14,9 +14,9 @@ Vue.use(Router);
 
 function dynamicPropsFnOrder(route) {
     return {
-        id: route.query.id,
-        dt_from: route.query.dt_from,
-        dt_to: route.query.dt_to,
+        id: Number(route.query.id),
+        from: route.query.from,
+        period: Number(route.query.period),
         bikeTypeQty: JSON.parse(route.query.bikesTypeQty)
     }
 }

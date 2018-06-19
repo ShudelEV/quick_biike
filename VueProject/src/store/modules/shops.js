@@ -1,6 +1,8 @@
 import readShops from '../../api/readShops'
+import bikePrice from '../bikePrice'
 
 const state = {
+    // Shop:
     all: [],
     active: {
         name: '',
@@ -9,11 +11,13 @@ const state = {
         animation: 0
     },
     //Form:
-        dateTimeFrom: null,
-        dateTimeTo: null,
-        bikesTypeQty: [
-            { type: 1, quantity : 1}
-            ]
+    dateTimeFrom: null,
+    dateTimeTo: null,
+    period: 1,
+    bikesTypeQty: [
+        /* default: one man bike*/
+        {type: 1, quantity : 1},
+    ]
 };
 
 const getters = {
@@ -47,8 +51,22 @@ const actions = {
     },
 };
 
+// calculate total order price for a shop
+function eval_total_price (shop) {
+    // get type of price (f.e. 'workday_one_hour')
+    let price = bikePrice(state.period);
+    let amount = 0;
+    for (let bike of shop.bikes) {
+        amount += bike.price[price]
+    }
+    return amount
+}
+
 const mutations = {
     SET_SHOPS (state, { shops }) {
+        for (let shop of shops) {
+            shop.price = eval_total_price(shop)
+        }
         state.all = shops
     },
 
@@ -69,6 +87,7 @@ const mutations = {
     },
 
     SET_DATE_TIME_TO (state, period) {
+        state.period = period;
         let dtFrom = new Date(state.dateTimeFrom);
         let dtTo = dtFrom.setHours(dtFrom.getHours() + period);
         state.dateTimeTo = (new Date(dtTo)).toISOString().slice(0, 16)

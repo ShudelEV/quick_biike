@@ -16,34 +16,34 @@
     </v-card-media>
 
     <!--<v-card-title primary-title>-->
-        <!--<h4>{{shop.contact_info}}</h4>-->
+        <!--<h4>{{ shop.contact_info.address }}, {{ shop.contact_info.phone }}</h4>-->
     <!--</v-card-title>-->
 
     <v-card-actions>
-          <v-btn outline :to="createPath()">price_$</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn flat color="purple"
-                 @click.native="show = !show"
-                 v-show="!show"
-          >Show Bikes</v-btn>
-          <v-btn icon @click.native="show = !show">
-              <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn outline :to="createPath()">{{ shop.price }} BYN</v-btn>
+        <!--<v-btn flat color="purple"-->
+               <!--@click.native="show = !show"-->
+               <!--v-show="!show"-->
+        <!--&gt;Show Bikes</v-btn>-->
+        <!--<v-btn icon @click.native="show = !show">-->
+            <!--<v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>-->
+        <!--</v-btn>-->
     </v-card-actions>
 
-    <v-list two-line v-show="show">
-        <template v-for="bike in bikes">
-            <v-list-tile :key="bike.id" @click="">
-                <v-list-tile-avatar>
-                      <img :src="bike.photo">
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                    <v-list-tile-title>{{bike.name}}</v-list-tile-title>
-                    <v-list-tile-sub-title>Price</v-list-tile-sub-title>
-                </v-list-tile-content>
-            </v-list-tile>
-        </template>
-    </v-list>
+    <!--<v-list two-line v-show="show">-->
+        <!--<template v-for="bike in bikes">-->
+            <!--<v-list-tile :key="bike.id" @click="">-->
+                <!--<v-list-tile-avatar>-->
+                      <!--<img :src="bike.photo">-->
+                <!--</v-list-tile-avatar>-->
+                <!--<v-list-tile-content>-->
+                    <!--<v-list-tile-title>{{bike.name}}</v-list-tile-title>-->
+                    <!--<v-list-tile-sub-title>Price</v-list-tile-sub-title>-->
+                <!--</v-list-tile-content>-->
+            <!--</v-list-tile>-->
+        <!--</template>-->
+    <!--</v-list>-->
     <v-divider></v-divider>
 </v-card>
 </template>
@@ -57,43 +57,31 @@ export default {
     props: {
         dateTimeFrom: {type: String, default: null},
         dateTimeTo: {type: String, default: null},
+        period: {type: Number, default: 1},
         bikesTypeQty: {type: Array, default: () => []},
         shop: {type: Object, default: null}
     },
 
     data: () => ({
-        bikes: [],
         show: false
     }),
 
-    mounted () {
-        this.getBikes()
-    },
-
-    watch: {
-    },
-
     methods: {
-
         getBikes () {
             readBikes(this.dateTimeFrom, this.dateTimeTo, this.bikesTypeQty, [this.shop.id])
                 .then(data => {
-                    this.bikes = data.bikes
+                    this.shop.bikes = data.bikes
                 });
         },
 
         createPath () {
             let query = {
                 id: this.shop.id,
-                dt_from: this.dateTimeFrom,
-                dt_to: this.dateTimeTo,
+                from: this.dateTimeFrom,
+                period: this.period,
                 bikesTypeQty: JSON.stringify(this.bikesTypeQty)
             };
-
-            return {
-                name: 'Order',
-                query: query
-            }
+            return { name: 'Order', query: query }
         },
 
         activateShop () {

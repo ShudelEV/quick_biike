@@ -12,6 +12,6 @@ vuefire
 
 4 Order: min time for case when date_from is not today; change time zone
 
-5 REST: Refactor readBikes
+5 Store/calc_price: calculate for cheaper bikes
 
 6 Shops list: to do height not fixed, scroll bar don't appear
