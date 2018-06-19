@@ -100,18 +100,15 @@
 
             changeStatus (index) {
                 const i = this.selected.indexOf(index);
+                // get bike price to change order price
+                const price = this.free_bikes[index].price[bikePrice(this.period)];
                 if (i > -1) {
-                    this.selected.splice(i, 1)
+                    this.selected.splice(i, 1);
+                    this.price -= price
                 } else {
-                    this.selected.push(index)
+                    this.selected.push(index);
+                    this.price += price
                 }
-            },
-
-            getQty (type) {
-                let b = this.bikeTypeQty.find( t => String(t.type) === type);
-                if (b) { return b.quantity }
-                // default one bike
-                else { return 1 }
             },
 
             // activate default checkbox (suggest cheaper bikes) and calculate price
@@ -129,8 +126,9 @@
                             if (a.price[comp] < b.price[comp]) { return -1; }
                             return 0
                         });
-                    for (let bike of filt_sort_bikes) {
-                        for (let q = 1; q <= tq.quantity; q++) {
+                    if (!!filt_sort_bikes.length) {
+                        for (let q = 0; q < tq.quantity; q++) {
+                            const bike = filt_sort_bikes[q];
                             // add selected bikes for to check default
                             this.selected.push(
                                 this.free_bikes.findIndex(b => b.id === bike.id)
@@ -141,7 +139,7 @@
                     }
                 }
                 this.price = price;
-                }
+            }
         }
     }
 </script>

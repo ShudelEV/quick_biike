@@ -21,7 +21,9 @@
 
     <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn outline :to="createPath()">{{ shop.price }} BYN</v-btn>
+        <v-btn color="green darken-1" outline :to="createPath()">
+            {{ shop.price ? shop.price + ' BYN' : 'order' }}
+        </v-btn>
         <!--<v-btn flat color="purple"-->
                <!--@click.native="show = !show"-->
                <!--v-show="!show"-->

@@ -52,12 +52,26 @@ const actions = {
 };
 
 // calculate total order price for a shop
-function eval_total_price (shop) {
-    // get type of price (f.e. 'workday_one_hour')
-    let price = bikePrice(state.period);
+function eval_total_price (bikes) {
     let amount = 0;
-    for (let bike of shop.bikes) {
-        amount += bike.price[price]
+    for (let tq of state.bikesTypeQty) {
+        // compare by a type price:
+        const comp = 'workday_one_hour';
+        // get bikes of only appropriate type
+        // and sort to choose cheaper at first
+        const filt_sort_bikes = bikes
+            .filter(b => Number(b.type) === tq.type)
+            .sort((a, b) => {
+                if (a.price[comp] > b.price[comp]) { return 1; }
+                if (a.price[comp] < b.price[comp]) { return -1; }
+                return 0
+            });
+        if (!!filt_sort_bikes.length) {
+            for (let q = 0; q < tq.quantity; q++) {
+            // get price of bike
+            amount += filt_sort_bikes[q].price[bikePrice(state.period)]
+            }
+        }
     }
     return amount
 }
@@ -65,7 +79,7 @@ function eval_total_price (shop) {
 const mutations = {
     SET_SHOPS (state, { shops }) {
         for (let shop of shops) {
-            shop.price = eval_total_price(shop)
+            shop.price = eval_total_price(shop.bikes)
         }
         state.all = shops
     },
