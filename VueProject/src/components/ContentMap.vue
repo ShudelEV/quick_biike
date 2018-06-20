@@ -11,6 +11,7 @@
                     :position="infoWindowPos"
                     :opened="infoWinOpen"
                     @closeclick="infoWinOpen=false"
+                    :zIndex="500"
                 >
                     <v-card>
                         <v-list two-line>
@@ -50,7 +51,17 @@
                     :clickable="true"
                     :draggable="false"
                     @click="$store.commit('SET_ACTIVE_SHOP', sh)"
-                ></gmap-marker>
+                >
+                    <!--<div class="">-->
+                        <gmap-info-window
+                            :opened="sh.id != activeShop.id || !infoWinOpen"
+                        >
+                            <v-chip color="orange"
+                                    text-color="white"
+                            >{{ sh.price }} BYN</v-chip>
+                        </gmap-info-window>
+                    <!--</div>-->
+                </gmap-marker>
             </gmap-map>
         <!--</v-layout>-->
     <!--</v-container>-->
@@ -115,3 +126,13 @@ export default {
     }
 }
 </script>
+
+<!---->
+<style>
+.gm-style-iw {
+    /*top: 0 !important;*/
+    text-align: center;
+}
+/*remove a close button from infowindow*/
+.gm-style-iw + div { display: none;}
+</style>
