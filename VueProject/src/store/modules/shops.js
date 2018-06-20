@@ -1,5 +1,5 @@
 import readShops from '../../api/readShops'
-import bikePrice from '../bikePrice'
+import { bikePrice } from '../bikePrice'
 
 const state = {
     // Shop:
@@ -51,35 +51,11 @@ const actions = {
     },
 };
 
-// calculate total order price for a shop
-function eval_total_price (bikes) {
-    let amount = 0;
-    for (let tq of state.bikesTypeQty) {
-        // compare by a type price:
-        const comp = 'workday_one_hour';
-        // get bikes of only appropriate type
-        // and sort to choose cheaper at first
-        const filt_sort_bikes = bikes
-            .filter(b => Number(b.type) === tq.type)
-            .sort((a, b) => {
-                if (a.price[comp] > b.price[comp]) { return 1; }
-                if (a.price[comp] < b.price[comp]) { return -1; }
-                return 0
-            });
-        if (!!filt_sort_bikes.length) {
-            for (let q = 0; q < tq.quantity; q++) {
-            // get price of bike
-            amount += filt_sort_bikes[q].price[bikePrice(state.period)]
-            }
-        }
-    }
-    return amount
-}
-
 const mutations = {
     SET_SHOPS (state, { shops }) {
         for (let shop of shops) {
-            shop.price = eval_total_price(shop.bikes)
+            let res = bikePrice(shop.bikes, state.bikesTypeQty, state.period);
+            shop.price = res.amount
         }
         state.all = shops
     },

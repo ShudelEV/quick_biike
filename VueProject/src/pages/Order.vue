@@ -57,7 +57,7 @@
 
 <script>
     import readBikes from '../api/readBikes';
-    import bikePrice from '../store/bikePrice'
+    import { bikePrice, typePrice } from '../store/bikePrice'
     import axios from 'axios'
 
     export default {
@@ -101,7 +101,7 @@
             changeStatus (index) {
                 const i = this.selected.indexOf(index);
                 // get bike price to change order price
-                const price = this.free_bikes[index].price[bikePrice(this.period)];
+                const price = this.free_bikes[index].price[typePrice(this.period)];
                 if (i > -1) {
                     this.selected.splice(i, 1);
                     this.price -= price
@@ -113,32 +113,9 @@
 
             // activate default checkbox (suggest cheaper bikes) and calculate price
             getPriceAndSelected () {
-                let price = 0;
-                for (let tq of this.bikeTypeQty) {
-                    // compare by a type price:
-                    const comp = 'workday_one_hour';
-                    // get bikes of only appropriate type
-                    // and sort to choose cheaper at first
-                    const filt_sort_bikes = this.free_bikes
-                        .filter(b => Number(b.type) === tq.type)
-                        .sort((a, b) => {
-                            if (a.price[comp] > b.price[comp]) { return 1; }
-                            if (a.price[comp] < b.price[comp]) { return -1; }
-                            return 0
-                        });
-                    if (!!filt_sort_bikes.length) {
-                        for (let q = 0; q < tq.quantity; q++) {
-                            const bike = filt_sort_bikes[q];
-                            // add selected bikes for to check default
-                            this.selected.push(
-                                this.free_bikes.findIndex(b => b.id === bike.id)
-                            );
-                            // get price of bike
-                            price += bike.price[bikePrice(this.period)]
-                        }
-                    }
-                }
-                this.price = price;
+                let { amount, selected } = bikePrice(this.free_bikes, this.bikeTypeQty, this.period);
+                this.price = amount;
+                Array.prototype.push.apply(this.selected, selected)
             }
         }
     }
