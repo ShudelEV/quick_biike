@@ -39,29 +39,30 @@
                         </v-list>
                     </v-card>
                 </gmap-info-window>
-                <gmap-marker
-                    :key="sh.id"
-                    v-for="sh in allShops"
-                    :position="{
-                        lat: sh.contact_info.latitude,
-                        lng: sh.contact_info.longitude
-                    }"
-                    :title="sh.name"
-                    :animation="sh.animation"
-                    :clickable="true"
-                    :draggable="false"
-                    @click="$store.commit('SET_ACTIVE_SHOP', sh)"
-                >
-                    <!--<div class="">-->
-                        <gmap-info-window
-                            :opened="sh.id != activeShop.id || !infoWinOpen"
-                        >
-                            <v-chip color="orange"
-                                    text-color="white"
-                            >{{ sh.price }} BYN</v-chip>
-                        </gmap-info-window>
-                    <!--</div>-->
-                </gmap-marker>
+                <gmap-cluster  :grid-size="50" v-if="clustering">
+                    <gmap-marker
+                        :key="sh.id"
+                        v-for="sh in allShops"
+                        :position="{
+                            lat: sh.contact_info.latitude,
+                            lng: sh.contact_info.longitude
+                        }"
+                        :title="sh.name"
+                        :animation="sh.animation"
+                        :clickable="true"
+                        :draggable="false"
+                        @click="$store.commit('SET_ACTIVE_SHOP', sh)"
+                    >
+                            <gmap-info-window
+                                :opened="sh.id != activeShop.id || !infoWinOpen"
+                            >
+                                <v-chip color="orange"
+                                        text-color="white"
+                                >{{ sh.price }} BYN</v-chip>
+                            </gmap-info-window>
+
+                    </gmap-marker>
+                </gmap-cluster>
             </gmap-map>
         <!--</v-layout>-->
     <!--</v-container>-->
@@ -84,7 +85,7 @@ Vue.use(VueGoogleMaps, {
 export default {
     data () {
         return {
-            infoContent: '',
+            clustering: true,
             infoWindowPos: {
                 lat: 0,
                 lng: 0
@@ -129,10 +130,8 @@ export default {
 
 <!---->
 <style>
-.gm-style-iw {
-    /*top: 0 !important;*/
-    text-align: center;
-}
 /*remove a close button from infowindow*/
-.gm-style-iw + div { display: none;}
+div.gm-style div:first-child div:nth-child(3) div:nth-child(2) div:nth-child(4) div:first-child { overflow: hidden; }
+.gm-style-iw {text-align: center;}
+.gm-style-iw + div {display: none}
 </style>

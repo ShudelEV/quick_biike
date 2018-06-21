@@ -2,9 +2,9 @@ python manage.py runserver --settings=QuickBikeProject.settingsdev
 python manage.py shell --settings=QuickBikeProject.settingsdev
 
 
-1 Admin: to add Bikes in the Shop
+1
 
-2 Login: only phone number, without login
+2
 
 3 Pyrebase, python-firebase,
 https://github.com/kavinsharma/python-django-google-firebase-web-app-project-employee-progress-reporting-system/blob/master/progress%20report/report/report/views.py
