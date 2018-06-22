@@ -132,6 +132,6 @@ export default {
 <style>
 /*remove a close button from infowindow*/
 div.gm-style div:first-child div:nth-child(3) div:nth-child(2) div:nth-child(4) div:first-child { overflow: hidden; }
-.gm-style-iw {text-align: center;}
+.gm-style-iw {text-align: center; }
 .gm-style-iw + div {display: none}
 </style>

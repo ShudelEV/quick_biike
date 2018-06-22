@@ -15,47 +15,83 @@
         <!--v-model="rightDrawer"-->
         <!--class="lime accent-1"-->
     <!--&gt;-->
-<div>
+<v-card flat>
     <content-map></content-map>
-    <v-container fluid grid-list-md  style="max-height: 100vh; overflow-y: scroll">
-        <v-layout row>
-            <v-flex xs12 md4>
-                <search-menu></search-menu>
+    <v-container fluid grid-list-md style="height: 100vh;">
+        <v-layout column fill-height>
+            <v-flex xs2 md2>
+                <v-layout row>
+                    <v-flex xs12 sm6 md4 d-flex>
+                        <search-menu @show-shop-list="showShopList = true"></search-menu>
+                    </v-flex>
+                    <v-flex xs12 sm6 md8 d-flex>
+                        <!--Toolbar-->
+                    </v-flex>
+                </v-layout>
             </v-flex>
-            <v-flex xs12 md8>
-                <!--Go to the url /order (the pages "Price", "LoginWindow") -->
-                <router-view></router-view>
+            <v-flex xs10 md10 wrap>
+                <v-layout row>
+                    <v-flex xs12 sm6 md4>
+                        <!--List of Shops-->
+                        <div v-if="showShopList">
+                            <shop-list
+                                v-for="shop in shops.all" :key="shop.id"
+                                :shop="shop"
+                                :dateTimeFrom="shops.dateTimeFrom"
+                                :dateTimeTo="shops.dateTimeTo"
+                                :period="shops.period"
+                                :bikesTypeQty="shops.bikesTypeQty"
+                            >
+                            </shop-list>
+                        </div>
+                    </v-flex>
+                    <v-flex xs12 sm6 md8 d-flex>
+                        <!--Go to the url /order (the pages "Price", "LoginWindow") -->
+                        <router-view></router-view>
+                    </v-flex>
+                </v-layout>
             </v-flex>
         </v-layout>
     </v-container>
-    </div>
+</v-card>
 </template>
 
 <script>
 import ContentMap from '../components/ContentMap.vue'
 import LeftMenu from '../components/LeftMenu.vue'
 import SearchMenu from '../components/SearchMenu.vue'
+import ShopList from '../components/ShopList.vue'
+
+import { mapState } from 'vuex'
 
 export default {
     name: 'Home',
 
     components: {
-        ContentMap, LeftMenu, SearchMenu
+        ContentMap, LeftMenu, SearchMenu, ShopList
     },
 
     props: ['clipped', 'drawer', 'rightDrawer'],
+
+    created () {
+        // get shops when the index page starts
+        this.$store.dispatch('getAllShops')
+    },
 
     data () {
         return {
             fixed: false,
             miniVariant: false,
             title: 'QuickBike',
+            // The list of shops
+            showShopList: false
         }
     },
 
-    created () {
-        // get shops when the index page starts
-        this.$store.dispatch('getAllShops')
+    computed: {
+        ...mapState({
+            shops: state => state.shops
+        }),
     }
 }
 </script>

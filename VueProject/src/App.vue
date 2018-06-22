@@ -35,14 +35,12 @@
     <!--</v-toolbar>-->
 
     <v-content>
-        <v-container fluid pa-0>
-            <!-- pages/Home -->
-            <router-view
-                :clipped="clipped"
-                :drawer="drawer"
-                :rightDrawer="rightDrawer"
-            ></router-view>
-        </v-container>
+        <!-- pages/Home -->
+        <router-view
+            :clipped="clipped"
+            :drawer="drawer"
+            :rightDrawer="rightDrawer"
+        ></router-view>
     </v-content>
 
     <!--<v-footer app :fixed="true"-->

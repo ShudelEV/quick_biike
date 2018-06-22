@@ -69,13 +69,6 @@ export default {
     }),
 
     methods: {
-        getBikes () {
-            readBikes(this.dateTimeFrom, this.dateTimeTo, this.bikesTypeQty, [this.shop.id])
-                .then(data => {
-                    this.shop.bikes = data.bikes
-                });
-        },
-
         createPath () {
             let query = {
                 id: this.shop.id,
