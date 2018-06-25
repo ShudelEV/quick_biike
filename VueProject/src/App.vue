@@ -6,29 +6,6 @@
             <!--&lt;!&ndash;<v-icon>web</v-icon>&ndash;&gt;-->
         <!--&lt;!&ndash;</v-btn>&ndash;&gt;-->
         <!--<v-toolbar-title v-text="title"></v-toolbar-title>-->
-
-        <!--<v-spacer></v-spacer>-->
-
-        <!--<v-btn flat-->
-               <!--v-if="!user.loggedIn"-->
-               <!--:to="{ name: 'Login' }"-->
-        <!--&gt;-->
-            <!--login-->
-        <!--</v-btn>-->
-        <!--<v-btn flat icon-->
-               <!--v-if="!user.loggedIn"-->
-               <!--@click="signInGoogle"-->
-               <!--title="Sig in with Google"-->
-        <!--&gt;-->
-            <!--<v-icon>public</v-icon>-->
-        <!--</v-btn>-->
-        <!--<div v-if="user.loggedIn">Hello, {{currentUserName || currentUserEmail}}</div>-->
-
-        <!--<v-btn flat-->
-               <!--v-if="user.loggedIn"-->
-               <!--@click="signOut"-->
-               <!--:title="currentUserName"-->
-        <!--&gt; signout </v-btn>-->
         <!--<v-btn icon @click.stop="rightDrawer = !rightDrawer">-->
             <!--<v-icon v-html="rightDrawer ? 'chevron_right' : 'chevron_left'"></v-icon>-->
         <!--</v-btn>-->
@@ -56,8 +33,6 @@
 <script>
 import BaseFooter from './components/Footer.vue'
 
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
     name: 'App',
 
@@ -68,15 +43,8 @@ export default {
             clipped: true,
             drawer: false,
             rightDrawer: true,
-            title: 'QuickBike',
-            name: ''
+            title: 'QuickBike'
         }
-    },
-
-    computed: mapGetters(['user', 'currentUserName', 'currentUserEmail']),
-
-    methods: {
-        ...mapActions(['signInGoogle', 'signOut'])
     }
 }
 </script>

@@ -4,92 +4,97 @@
 <v-card>
     <v-form ref="form" v-model="valid" lazy-validation>
         <v-container fluid pa-2>
-            <v-layout row justify-space-around>
-                <!--DateFrom Picker-->
-                <v-flex xs4>
-                    <v-menu
-                        lazy
-                        :close-on-content-click="true"
-                        v-model="dateFromMenu"
-                        transition="scale-transition"
-                        offset-y
-                        full-width
-                        :nudge-right="40"
-                        max-width="285px"
-                        min-width="285px"
-                    >
-                        <v-text-field
-                            id="date_from"
-                            slot="activator"
-                            label="From Time:"
-                            hide-details
-                            v-model="dateFrom"
-                            :rules="[v => !!v || 'Date is required']"
-                            prepend-icon="event"
-                            readonly
-                            required
-                        ></v-text-field>
-                        <!--Change action: appear the TimePicker after
-                            and set min, date in DateTimePickerTo (through parent component)-->
-                        <v-date-picker
-                            v-model="dateFrom"
-                            @change="timeFromMenu = !timeFromMenu"
-                            no-title
-                            scrollable
-                            :min="(new Date()).toISOString().slice(0, 10)"
-                            :allowed-dates="allowedDates"
+        <v-layout column fill-height>
+            <v-flex xs2 md2 fill-height>
+                <v-layout row justify-space-around>
+                    <!--DateFrom Picker-->
+                    <v-flex xs4>
+                        <v-menu
+                            lazy
+                            :close-on-content-click="true"
+                            v-model="dateFromMenu"
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            :nudge-right="40"
+                            max-width="285px"
+                            min-width="285px"
                         >
-                        </v-date-picker>
-                    </v-menu>
-                </v-flex>
-                <!--TimeFrom Picker-->
-                <v-flex xs2>
-                    <v-menu
-                        ref="timeFromMenu"
-                        lazy
-                        :close-on-content-click="false"
-                        v-model="timeFromMenu"
-                        transition="scale-transition"
-                        offset-y
-                        full-width
-                        :nudge-right="40"
-                        max-width="285px"
-                        min-width="285px"
-                    >
-                        <v-text-field
-                            id="time_from"
-                            slot="activator"
-                            autofocus
+                            <v-text-field
+                                id="date_from"
+                                slot="activator"
+                                label="From Time:"
+                                hide-details
+                                v-model="dateFrom"
+                                :rules="[v => !!v || 'Date is required']"
+                                prepend-icon="event"
+                                readonly
+                                required
+                            ></v-text-field>
+                            <!--Change action: appear the TimePicker after
+                                and set min, date in DateTimePickerTo (through parent component)-->
+                            <v-date-picker
+                                v-model="dateFrom"
+                                @change="timeFromMenu = !timeFromMenu"
+                                no-title
+                                scrollable
+                                :min="(new Date()).toISOString().slice(0, 10)"
+                                :allowed-dates="allowedDates"
+                            >
+                            </v-date-picker>
+                        </v-menu>
+                    </v-flex>
+                    <!--TimeFrom Picker-->
+                    <v-flex xs2>
+                        <v-menu
+                            ref="timeFromMenu"
+                            lazy
+                            :close-on-content-click="false"
+                            v-model="timeFromMenu"
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            :nudge-right="40"
+                            max-width="285px"
+                            min-width="285px"
+                        >
+                            <v-text-field
+                                id="time_from"
+                                slot="activator"
+                                autofocus
+                                hide-details
+                                label=""
+                                v-model="timeFrom"
+                                :rules="[v => !!v || 'Time is required']"
+                                readonly
+                                required
+                            ></v-text-field>
+                            <!--Change action: save time in text-field after picking-->
+                            <v-time-picker
+                                v-model="timeFrom"
+                                format="24hr"
+                                :min="(new Date()).toISOString().slice(11, 16)"
+                                :allowed-hours="allowedTimes.hours"
+                                :allowed-minutes="allowedTimes.minutes"
+                                @change="$refs.timeFromMenu.save(timeFrom)"
+                            ></v-time-picker>
+                        </v-menu>
+                    </v-flex>
+                    <v-spacer></v-spacer>
+                    <!--Variant #2 for DateTimePickerTo-->
+                    <v-flex xs4>
+                        <v-select
+                            :items="timeItems"
+                            v-model="period"
+                            label="Period:"
                             hide-details
-                            label=""
-                            v-model="timeFrom"
-                            :rules="[v => !!v || 'Time is required']"
-                            readonly
-                            required
-                        ></v-text-field>
-                        <!--Change action: save time in text-field after picking-->
-                        <v-time-picker
-                            v-model="timeFrom"
-                            format="24hr"
-                            :min="(new Date()).toISOString().slice(11, 16)"
-                            :allowed-hours="allowedTimes.hours"
-                            :allowed-minutes="allowedTimes.minutes"
-                            @change="$refs.timeFromMenu.save(timeFrom)"
-                        ></v-time-picker>
-                    </v-menu>
-                </v-flex>
-                <!--Variant #2 for DateTimePickerTo-->
-                <v-flex xs5>
-                    <v-select
-                        :items="timeItems"
-                        v-model="period"
-                        label="Period:"
-                        hide-details
-                        prepend-icon="timer"
-                    ></v-select>
-                </v-flex>
-            </v-layout>
+                            prepend-icon="timer"
+                        ></v-select>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
                 <!--<v-subheader> Bike Type and Quantity </v-subheader>-->
+            <v-flex xs1 md1>
             <v-layout row align-center justify-space-between wrap>
                 <v-flex xs4
                         v-for="(b, i) in bikesTypeQty"
@@ -146,6 +151,8 @@
                     {{ textSearchButton }}
                 </v-btn>
             </v-layout>
+            </v-flex>
+        </v-layout>
         </v-container>
     </v-form>
 </v-card>

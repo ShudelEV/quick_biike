@@ -1,8 +1,8 @@
 <template>
 <v-dialog v-model="showDialog"
-              max-width="500px"
-              persistent>
-
+          max-width="500px"
+          persistent
+>
     <v-toolbar color="cyan" dark tabs>
         <v-tabs  color="cyan" v-model="model" slider-color="yellow">
             <v-tab href="#log"> Login </v-tab>
