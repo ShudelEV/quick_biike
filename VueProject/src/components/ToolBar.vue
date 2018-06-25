@@ -30,14 +30,14 @@
                 direction="bottom"
                 open-on-hover
             >
-                <v-btn fab
+                <v-btn fab small
                        color="cyan"
                        slot="activator"
                        v-model="fab"
                        v-if="user.loggedIn"
                        :title="currentUserName || currentUserEmail"
                 >
-                    <v-avatar v-if="user.photoURL" size="56px">
+                    <v-avatar v-if="user.photoURL" size="40px">
                         <img :src="user.photoURL">
                     </v-avatar>
                     <v-icon v-else>account_circle</v-icon>

@@ -2,9 +2,10 @@ python manage.py runserver --settings=QuickBikeProject.settingsdev
 python manage.py shell --settings=QuickBikeProject.settingsdev
 
 
-1
+1 Bike type-qty Selection: chips - text type bike transform to icons in chips
+and may be to add color for chips
 
-2
+2 Add an error handler for Google auth
 
 3 Pyrebase, python-firebase,
 https://github.com/kavinsharma/python-django-google-firebase-web-app-project-employee-progress-reporting-system/blob/master/progress%20report/report/report/views.py
@@ -15,3 +16,5 @@ vuefire
 5 Store/calc_price: calculate for cheaper bikes
 
 6 Shops list: to do height not fixed, scroll bar don't appear
+
+7 Remove info window when map zoom out

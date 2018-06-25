@@ -23,7 +23,9 @@
                                 </v-list-tile-action>
                                 <v-list-tile-content>
                                   <v-list-tile-title>{{activeShop.name}}</v-list-tile-title>
-                                  <v-list-tile-sub-title>{{activeShop.contact_info.phone}}</v-list-tile-sub-title>
+                                  <v-list-tile-sub-title>
+                                      {{activeShop.contact_info.phone}}
+                                  </v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </v-list-tile>
                             <v-divider inset></v-divider>
@@ -32,7 +34,9 @@
                                   <v-icon color="green">location_on</v-icon>
                                 </v-list-tile-action>
                                 <v-list-tile-content>
-                                  <v-list-tile-title>{{activeShop.contact_info.address}}</v-list-tile-title>
+                                  <v-list-tile-title>
+                                      {{activeShop.contact_info.address}}
+                                  </v-list-tile-title>
                                   <!--<v-list-tile-sub-title></v-list-tile-sub-title>-->
                                 </v-list-tile-content>
                             </v-list-tile>
@@ -53,14 +57,11 @@
                         :draggable="false"
                         @click="$store.commit('SET_ACTIVE_SHOP', sh)"
                     >
-                            <gmap-info-window
-                                :opened="sh.id != activeShop.id || !infoWinOpen"
-                            >
+                            <gmap-info-window :opened="sh.id != activeShop.id || !infoWinOpen">
                                 <v-chip color="orange"
                                         text-color="white"
                                 >{{ sh.price }} BYN</v-chip>
                             </gmap-info-window>
-
                     </gmap-marker>
                 </gmap-cluster>
             </gmap-map>

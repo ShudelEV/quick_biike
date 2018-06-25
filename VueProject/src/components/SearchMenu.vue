@@ -5,6 +5,7 @@
     <v-form ref="form" v-model="valid" lazy-validation>
         <v-container fluid pa-2>
         <v-layout column fill-height>
+            <!--Time picker-->
             <v-flex xs2 md2 fill-height>
                 <v-layout row justify-space-around>
                     <!--DateFrom Picker-->
@@ -93,64 +94,68 @@
                     </v-flex>
                 </v-layout>
             </v-flex>
-                <!--<v-subheader> Bike Type and Quantity </v-subheader>-->
+            <!--Choose type and qty-->
             <v-flex xs1 md1>
-            <v-layout row align-center justify-space-between wrap>
-                <v-flex xs4
-                        v-for="(b, i) in bikesTypeQty"
-                        :key="i"
-                >
-                    <v-layout row align-center>
-                        <v-flex d-flex>
-                            <v-chip color="teal"
-                                    text-color="white"
-                                    close @input="REMOVE_TYPE_QTY(b.type)"
-                            >
-                                <!--<v-icon flat> directions_bike </v-icon>-->
-                                {{ getTypeName(b.type) }}
-                            </v-chip>
-                        </v-flex>
-                        <v-flex d-flex>
-                            <!-- No label: padding-top: 0;-->
-                            <v-select hide-details style="padding-top: 0;"
-                                      v-model="b.quantity"
-                                      :items="[1,2,3,4,5]"
-                            ></v-select>
-                        </v-flex>
-                    </v-layout>
-                </v-flex>
-                <!--Add button. To add a type and quantity of bikes from the popup menu-->
-                <v-menu
-                    origin="center center"
-                    transition="scale-transition"
-                    bottom
-                >
-                    <!--don't appear the add button when no type items-->
-                    <v-btn left fab small
-                           color="primary"
-                           slot="activator"
-                           v-show="showAddButton"
+                <v-layout row align-center justify-space-between wrap>
+                    <v-flex xs4
+                            v-for="(b, i) in bikesTypeQty"
+                            :key="i"
                     >
-                        <v-icon>add</v-icon>
-                    </v-btn>
-                    <v-list>
-                        <v-list-tile v-for="(item, i) in filterTypeItems()" :key="i"
-                                     @click="PUSH_TYPE_QTY({ type: item.value, quantity: 1 })"
+                        <v-layout row align-center justify-space-between>
+                            <v-flex xs6>
+                                <v-chip color="teal"
+                                        text-color="white"
+                                        close @input="REMOVE_TYPE_QTY(b.type)"
+                                >
+                                    <!--<v-icon flat> directions_bike </v-icon>-->
+                                    {{ getTypeName(b.type) }}
+                                </v-chip>
+                            </v-flex>
+                            <v-flex xs5>
+                                <!-- No label: padding-top: 0;-->
+                                <v-select hide-details style="padding-top: 0;"
+                                          v-model="b.quantity"
+                                          :items="[1,2,3,4,5]"
+                                ></v-select>
+                            </v-flex>
+                        </v-layout>
+                    </v-flex>
+                    <!--Add button. To add a type and quantity of bikes from the popup menu-->
+                    <v-flex xs4 pa-0>
+                        <v-menu
+                            origin="center center"
+                            transition="scale-transition"
+                            bottom
                         >
-                            <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-                        </v-list-tile>
-                    </v-list>
-                </v-menu>
-                <v-spacer></v-spacer>
-                <!--the submit button for to take shops using the filter form-->
-                <v-btn round color="cyan"
-                       v-show="showSearchButton"
-                       @click="getShopList(); textSearchButton = 'UPDATE'"
-                >
-                    <v-icon>search</v-icon>
-                    {{ textSearchButton }}
-                </v-btn>
-            </v-layout>
+                            <!--don't appear the add button when no type items-->
+                            <v-btn left fab small
+                                   color="primary"
+                                   slot="activator"
+                                   v-show="showAddButton"
+                            >
+                                <v-icon>add</v-icon>
+                            </v-btn>
+                            <v-list>
+                                <v-list-tile v-for="(item, i) in filterTypeItems()" :key="i"
+                                             @click="PUSH_TYPE_QTY({ type: item.value, quantity: 1 })"
+                                >
+                                    <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+                                </v-list-tile>
+                            </v-list>
+                        </v-menu>
+                    </v-flex>
+                    <v-spacer></v-spacer>
+                    <!--Empty flex box that to get the search button to the right when row is filled-->
+                    <v-flex></v-flex>
+                    <!--the submit button for to take shops using the filter form-->
+                    <v-btn round color="cyan"
+                           v-show="showSearchButton"
+                           @click="getShopList(); textSearchButton = 'UPDATE'"
+                    >
+                        <v-icon>search</v-icon>
+                        {{ textSearchButton }}
+                    </v-btn>
+                </v-layout>
             </v-flex>
         </v-layout>
         </v-container>

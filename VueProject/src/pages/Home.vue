@@ -20,7 +20,7 @@
     <v-container fluid grid-list-md style="height: 100vh; overflow-y: scroll">
         <v-layout column fill-height>
             <v-flex xs3 md3>
-                <v-layout row>
+                <v-layout row wrap>
                     <!--Search menu-->
                     <v-flex xs12 sm6 md4>
                         <search-menu @show-shop-list="showShopList = true"></search-menu>
@@ -31,8 +31,8 @@
                     </v-flex>
                 </v-layout>
             </v-flex>
-            <v-flex xs9 md9 wrap>
-                <v-layout row>
+            <v-flex xs9 md9>
+                <v-layout row wrap>
                     <v-flex xs12 sm6 md4>
                         <!--List of Shops-->
                         <div v-if="showShopList">
